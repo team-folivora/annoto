@@ -9,6 +9,7 @@
 Medical annotation tool
 
 # Setup
+
 * Install `python3`, `python3-flask`, `node`, `npm`, `nvm`
 
 * `cd static/annoto; nvm use; npm i; npm run lint`
@@ -25,8 +26,8 @@ Medical annotation tool
 
 * `cd static/annoto; npm run dev`
 
-## For development
+## Testing and Linting
 
-* `pylint .`, `pytest .`
+* `pylint .`, `pytest .`, `pytest --cov .`
 
 * `npm run lint`, `npm run test:e2e`, `npm run test:unit`

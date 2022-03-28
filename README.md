@@ -22,7 +22,7 @@ Medical annotation tool
 
 # Run
 
-* `cd api; FLASK_ENV="development" flask run`
+* `cd api; FLASK_ENV="development" FLASK_APP="." flask run`
 
 * `cd static/annoto; npm run dev`
 

@@ -1,20 +1,21 @@
+import os
 from flask import Response
 import pytest
+import shutil
 
 from app import *
 
 @pytest.fixture()
 def app():
-    app = create_app()
-    app.config.update({
-        "TESTING": True,
-    })
+    app = create_app("config.TestingConfig")
 
-    # other setup can go here
+    dst = app.config["DATA_FOLDER"]
+    src = Path.cwd().joinpath("tests").joinpath("fixtures")
+    shutil.copytree(src, dst, dirs_exist_ok=True)
 
     yield app
 
-    # clean up / reset resources here
+    shutil.rmtree(dst)
 
 
 @pytest.fixture()
@@ -25,6 +26,7 @@ def client(app):
 @pytest.fixture()
 def runner(app):
     return app.test_cli_runner()
+
 
 def test_image(client):
     response:Response = client.get("/image")

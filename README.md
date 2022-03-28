@@ -27,6 +27,6 @@ Medical annotation tool
 
 ## For development
 
-* `pylint .`, `pytest`
+* `pylint .`, `pytest .`
 
 * `npm run lint`, `npm run test:e2e`, `npm run test:unit`

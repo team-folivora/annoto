@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HelloWorld from "./components/HelloWorld.vue";
 import TheWelcome from "./components/TheWelcome.vue";
+import ImageDisplay from "./components/ImageDisplay.vue";
 </script>
 
 <template>
@@ -19,7 +20,7 @@ import TheWelcome from "./components/TheWelcome.vue";
   </header>
 
   <main>
-    <TheWelcome />
+    <ImageDisplay src="http://127.0.0.1:5000/image" />
   </main>
 </template>
 

@@ -1,9 +1,9 @@
-import os
-from flask import Response
-import pytest
+from pathlib import Path
 import shutil
 
-from app import *
+import pytest
+from app import create_app
+from flask import Response
 
 
 @pytest.fixture()

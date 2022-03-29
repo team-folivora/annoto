@@ -5,6 +5,7 @@ import shutil
 
 from app import *
 
+
 @pytest.fixture()
 def app():
     app = create_app("config.TestingConfig")
@@ -29,6 +30,6 @@ def runner(app):
 
 
 def test_image(client):
-    response:Response = client.get("/image")
+    response: Response = client.get("/image")
     assert response.content_type == "image/jpg"
     assert response.status_code == 200

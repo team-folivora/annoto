@@ -10,7 +10,6 @@ defineProps<{
 
 <style scoped>
 img {
-  border: 2px orange dashed;
   width: 70vw;
   margin: 20px auto;
   display: block;

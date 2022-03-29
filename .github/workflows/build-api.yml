@@ -28,7 +28,7 @@ jobs:
     - name: Lint using pylint
       run: |
         pip install pylint
-        pylint .
+        pylint api
     - name: Test with pytest
       run: |
         pip install pytest

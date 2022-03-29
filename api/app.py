@@ -1,8 +1,13 @@
+'''
+This module serves an application factory for a flask application.
+'''
+
 from pathlib import Path
 from flask import Flask, send_file
 
 
 def create_app(config_object: str = None):
+    '''Creates a flask app for annoto'''
     app = Flask(__name__)
     if config_object:
         app.config.from_object(config_object)

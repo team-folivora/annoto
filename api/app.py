@@ -1,16 +1,15 @@
 from pathlib import Path
-from typing import Optional
 from flask import Flask, send_file
 
 
 def create_app(config_object: str = None):
     app = Flask(__name__)
-    if app.config["ENV"] == "development":
-        app.config.from_object("api.config.DevelopmentConfig")
-    elif app.config["ENV"] == "production":
-        app.config.from_object("api.config.ProductionConfig")
-    else:
+    if config_object:
         app.config.from_object(config_object)
+    elif app.config["ENV"] == "development":
+        app.config.from_object("api.config.DevelopmentConfig")
+    else:
+        app.config.from_object("api.config.ProductionConfig")
 
     @app.route('/image')
     def index():

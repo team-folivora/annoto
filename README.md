@@ -28,6 +28,6 @@ Medical annotation tool
 
 ## Testing and Linting
 
-* `pylint .`, `pytest .`, `pytest --cov .`
+* `pylint api`, `python -m pytest .`, `python -m pytest --cov .`
 
 * `npm run lint`, `npm run test:e2e`, `npm run test:unit`

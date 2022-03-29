@@ -10,7 +10,7 @@ Medical annotation tool
 
 * Install `python3`, `python3-flask`, `node`, `npm`, `nvm`
 
-* `cd static/annoto; nvm use; npm i; npm run lint`
+* `cd static; nvm use; npm i; npm run lint`
 
 * `cd api; pip install -r requirements.txt`
 
@@ -22,7 +22,7 @@ Medical annotation tool
 
 * `cd api; FLASK_ENV="development" flask run`
 
-* `cd static/annoto; npm run dev`
+* `cd static; npm run dev`
 
 ## Testing and Linting
 

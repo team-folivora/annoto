@@ -12,19 +12,19 @@ from api.src.settings import SETTINGS
 from api.src.app import APP
 
 
-def pytest_sessionstart() -> None:
-    '''Setup testing session'''
-    SETTINGS.data_loader = Path(tempfile.mkdtemp(prefix="annoto"))
+@pytest.fixture(scope="session", autouse=True)
+def session() -> None:
+    '''Manages testing session'''
+    SETTINGS.data_folder = Path(tempfile.mkdtemp(prefix="annoto"))
     SETTINGS.testing = True
 
-    dst = SETTINGS.data_loader
+    dst = SETTINGS.data_folder
     src = Path.cwd().joinpath("tests").joinpath("fixtures")
     shutil.copytree(src, dst, dirs_exist_ok=True)
 
+    yield SETTINGS
 
-def pytest_sessionend() -> None:
-    '''Teardown testing session'''
-    shutil.rmtree(SETTINGS.data_loader)
+    shutil.rmtree(SETTINGS.data_folder)
 
 
 @pytest.fixture()

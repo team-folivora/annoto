@@ -3,29 +3,12 @@ import ImageDisplay from "./components/ImageDisplay.vue";
 </script>
 
 <template>
-  <main>
-    <header>annoto</header>
-    <ImageDisplay src="http://127.0.0.1:5000/image" />
-  </main>
+  <i-layout>
+    <i-layout-header>
+      <h1 class="_text-align:center">Annoto</h1>
+    </i-layout-header>
+    <i-layout-content>
+      <ImageDisplay src="http://127.0.0.1:5000/image" />
+    </i-layout-content>
+  </i-layout>
 </template>
-
-<style>
-@import "./assets/base.css";
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
-}
-
-header {
-  font-size: xx-large;
-  text-align: center;
-}
-
-main {
-  margin: 0 auto;
-}
-</style>

@@ -1,0 +1,18 @@
+@import "@inkline/inkline/css/variables";
+@import "@inkline/inkline/css/mixins";
+
+:root {
+    --border-top-left-radius: 0.5rem;
+    --border-top-right-radius: 0.5rem;
+    --border-bottom-right-radius: 0.5rem;
+    --border-bottom-left-radius: 0.5rem;
+
+    --color--primary--h: 195deg;
+    --color--primary--s: 77%;
+    --color--primary--l: 39%;
+}
+
+#app {
+    max-width: 1280px;
+    margin: 0 auto;
+}

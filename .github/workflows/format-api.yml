@@ -31,10 +31,12 @@ jobs:
           pip install black
       - name: Black Formatter
         run: black .
+      - name: isort Import Sorting
+        run: isort .
       - name: Commit changes
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Automation : Black Formatter" --all | exit 0
+          git commit -m "Automation: Code Formatter" --all | exit 0
           git push

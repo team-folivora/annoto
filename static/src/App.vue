@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import ImageDisplay from "./components/ImageDisplay.vue";
-import Button from "./components/AnnotationButton.vue";
+import AnnotationButton from "./components/AnnotationButton.vue";
 </script>
 
 <template>
   <main>
     <header>annoto</header>
     <ImageDisplay src="http://127.0.0.1:5000/image" />
-    <Button text="Faultier" />
-    <Button text="Hund" />
-    <Button text="Katze" />
-    <Button text="Maus" />
+    <AnnotationButton text="Faultier" />
+    <AnnotationButton text="Hund" />
+    <AnnotationButton text="Katze" />
+    <AnnotationButton text="Maus" />
   </main>
 </template>
 

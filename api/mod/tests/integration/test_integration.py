@@ -53,7 +53,6 @@ def test_post_image(client: TestClient) -> None:
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
         },
     )
-    print(SETTINGS.data_folder, response.content)
     assert response.status_code == 204
 
     annotation_file = SETTINGS.data_folder.joinpath("sloth.jpg.annotation.json")

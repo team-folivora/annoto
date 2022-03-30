@@ -1,3 +1,5 @@
+'''This file enables quick debug mode execution of the API'''
+
 import uvicorn
 
 if __name__ == '__main__':

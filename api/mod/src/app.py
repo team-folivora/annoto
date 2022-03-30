@@ -31,8 +31,8 @@ class Annotation(BaseModel):
     label: str
 
 
-@APP.post("/images/{src}")
-async def save_annotation(src: str, annotation: Annotation) -> Response:
+@APP.post("/images/{src}", status_code=204)
+async def save_annotation(src: str, annotation: Annotation) -> None:
     """Saves the annotation for the specified image"""
     annotation = {
         "src": src,
@@ -48,5 +48,3 @@ async def save_annotation(src: str, annotation: Annotation) -> Response:
     annotation_file = SETTINGS.data_folder.joinpath(f"{src}.annnotation.json")
     with open(annotation_file, "w", encoding="utf-8") as file:
         file.write(json.dumps(annotation, indent=4))
-
-    return Response(status_code=204)

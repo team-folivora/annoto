@@ -4,7 +4,7 @@ This module defines the FastAPI application server
 
 import hashlib
 import json
-from pathlib import Path
+from pydantic import BaseModel
 
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.responses import FileResponse
@@ -25,23 +25,28 @@ async def get_image() -> FileResponse:
     return FileResponse(str(image_file))
 
 
+class Annotation(BaseModel):
+    """Stores an annotation"""
+
+    label: str
+
+
 @APP.post("/images/{src}")
-async def save_annotation(src: str, data: dict) -> Response:
+async def save_annotation(src: str, annotation: Annotation) -> Response:
     """Saves the annotation for the specified image"""
     annotation = {
         "src": src,
-        "label": data["label"],
+        "label": annotation.label,
     }
 
     image_file = SETTINGS.data_folder.joinpath(src)
     if not image_file.is_file():
         raise HTTPException(status_code=404, detail="File not found")
-    with open(image_file, "rb") as f:
-        r = f.read()
-        annotation["hash"] = hashlib.sha256(r).hexdigest()
+    with open(image_file, "rb") as file:
+        annotation["hash"] = hashlib.sha256(file.read()).hexdigest()
 
     annotation_file = SETTINGS.data_folder.joinpath(f"{src}.annnotation.json")
-    with open(annotation_file, "w") as f:
-        f.write(json.dumps(annotation, indent=4))
+    with open(annotation_file, "w", encoding="utf-8") as file:
+        file.write(json.dumps(annotation, indent=4))
 
     return Response(status_code=204)

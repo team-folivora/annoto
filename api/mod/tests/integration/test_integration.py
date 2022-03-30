@@ -58,8 +58,9 @@ def test_post_image(client: TestClient) -> None:
 
     annotation_file = SETTINGS.data_folder.joinpath("sloth.jpg.annotation.json")
     assert annotation_file.is_file()
-    assert json.loads(open(annotation_file).read()) == {
-        "label": "foo",
-        "src": "sloth.jpg",
-        "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
-    }
+    with open(annotation_file, encoding="utf8") as file:
+        assert json.loads(file.read()) == {
+            "label": "foo",
+            "src": "sloth.jpg",
+            "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
+        }

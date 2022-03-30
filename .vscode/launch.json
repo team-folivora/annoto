@@ -5,12 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "command": "cd static; npm run dev",
+            "name": "Node: Vue",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
             "name": "Python: Flask",
             "type": "python",
             "request": "launch",
             "module": "flask",
             "env": {
-                "FLASK_APP": "api",
+                "FLASK_APP": "api.app",
                 "FLASK_ENV": "development"
             },
             "args": [

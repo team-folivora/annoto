@@ -6,7 +6,7 @@ import hashlib
 import json
 from pydantic import BaseModel
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi_restful import Api
 

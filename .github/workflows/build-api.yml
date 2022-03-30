@@ -28,7 +28,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
     - name: Static type checking using mypy
-      run: mypy -p api 
+      run: mypy -p src
+      run: mypy -p tests
     - name: Lint using pylint
       run: pylint api
     - name: Test with pytest

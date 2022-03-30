@@ -5,6 +5,7 @@ Module for integration tests
 from pathlib import Path
 import shutil
 import tempfile
+from typing import Generator
 import pytest
 from fastapi.testclient import TestClient
 
@@ -13,7 +14,7 @@ from api.src.app import APP
 
 
 @pytest.fixture(scope="session", autouse=True)
-def session() -> None:
+def session() -> Generator:
     '''Manages testing session'''
     SETTINGS.data_folder = Path(tempfile.mkdtemp(prefix="annoto"))
     SETTINGS.testing = True

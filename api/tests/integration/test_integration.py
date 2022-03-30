@@ -8,8 +8,8 @@ import tempfile
 import pytest
 from fastapi.testclient import TestClient
 
-from src.settings import SETTINGS
-from src.app import APP
+from api.src.settings import SETTINGS
+from api.src.app import APP
 
 
 def pytest_sessionstart() -> None:

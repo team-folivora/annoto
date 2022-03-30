@@ -1,3 +1,4 @@
 fastapi_restful==0.4.3
 fastapi==0.75.0
 pydantic==1.9.0
+uvicorn==0.17.6

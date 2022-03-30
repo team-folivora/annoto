@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import ImageDisplay from "./components/ImageDisplay.vue";
-import ButtonCounter from "./components/ButtonCounter.vue";
+import Button from "./components/Button.vue";
 </script>
 
 <template>
   <main>
     <header>annoto</header>
     <ImageDisplay src="http://127.0.0.1:5000/image" />
-    <ButtonCounter text="Faultier"/>
-    <ButtonCounter text="Hund"/>
-    <ButtonCounter text="Katze"/>
-    <ButtonCounter text=""/>
+    <Button text="Faultier" />
+    <Button text="Hund" />
+    <Button text="Katze" />
+    <Button text="Maus" />
   </main>
 </template>
 

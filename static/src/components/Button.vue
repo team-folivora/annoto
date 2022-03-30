@@ -13,7 +13,7 @@ export default defineComponent({
 
   methods: {
     log(text: String): void {
-      console.log("hallo mami" + text);
+      console.log("Hallo Mami" + "-" + text);
     }
   }
 })
@@ -22,3 +22,9 @@ export default defineComponent({
 <template>
   <button @click="log(text)">Label: {{ text }}</button>
 </template>
+
+<style scoped>
+  button{
+    margin: 10px;
+  }
+</style>

@@ -68,6 +68,6 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
         label=annotation.label, hash=annotation.hash, src=src
     )
 
-    annotation_file = SETTINGS.data_folder.joinpath(f"{src}.annnotation.json")
+    annotation_file = SETTINGS.data_folder.joinpath(f"{src}.annotation.json")
     with open(annotation_file, "w", encoding="utf-8") as file:
         file.write(json.dumps(annotation.__dict__, indent=4))

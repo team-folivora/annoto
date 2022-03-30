@@ -2,6 +2,8 @@
 Module for integration tests
 """
 
+import json
+from pathlib import Path
 import shutil
 import tempfile
 from pathlib import Path
@@ -35,8 +37,29 @@ def client() -> TestClient:
     return TestClient(APP)
 
 
-def test_image(client: TestClient) -> None:
+def test_get_image(client: TestClient) -> None:
     """Test GET /image"""
     response = client.get("/image")
     assert response.status_code == 200
     assert response.headers["content-type"] == "image/jpeg"
+
+
+def test_post_image(client: TestClient) -> None:
+    """Test POST /image"""
+    response = client.post(
+        "/images/sloth.jpg",
+        json={
+            "label": "foo",
+            "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
+        },
+    )
+    print(SETTINGS.data_folder, response.content)
+    assert response.status_code == 204
+
+    annotation_file = SETTINGS.data_folder.joinpath("sloth.jpg.annotation.json")
+    assert annotation_file.is_file()
+    assert json.loads(open(annotation_file).read()) == {
+        "label": "foo",
+        "src": "sloth.jpg",
+        "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
+    }

@@ -7,7 +7,7 @@ on:
       - dev
 
 jobs:
-  prettier:
+  format:
     runs-on: ubuntu-latest
 
     steps:

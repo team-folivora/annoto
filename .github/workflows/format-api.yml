@@ -7,8 +7,7 @@ on:
       - dev
 
 jobs:
-  yapf:
-    name: Format api
+  format:
     runs-on: ubuntu-latest
 
     steps:

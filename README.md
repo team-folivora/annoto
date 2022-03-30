@@ -26,6 +26,6 @@ Medical annotation tool
 
 ## Testing and Linting
 
-* `mypy -p src`, `mypy -p tests`, `pylint api`, `python -m pytest .`, `python -m pytest --cov .`
+* `mypy mod`,`pylint mod`, `pytest mod`, `pytest --cov mod`
 
 * `npm run lint`, `npm run test:e2e`, `npm run test:unit`

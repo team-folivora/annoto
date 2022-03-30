@@ -9,8 +9,8 @@ from typing import Generator
 import pytest
 from fastapi.testclient import TestClient
 
-from api.src.settings import SETTINGS
-from api.src.app import APP
+from mod.src.settings import SETTINGS
+from mod.src.app import APP
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -20,7 +20,7 @@ def session() -> Generator:
     SETTINGS.testing = True
 
     dst = SETTINGS.data_folder
-    src = Path.cwd().joinpath("tests").joinpath("fixtures")
+    src = Path.cwd().joinpath("mod").joinpath("tests").joinpath("fixtures")
     shutil.copytree(src, dst, dirs_exist_ok=True)
 
     yield SETTINGS

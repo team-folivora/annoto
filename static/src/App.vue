@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ImageDisplay from "./components/ImageDisplay.vue";
-import Button from "./components/Button.vue";
+import Button from "./components/AnnotationButton.vue";
 </script>
 
 <template>

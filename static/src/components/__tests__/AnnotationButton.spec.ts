@@ -1,24 +1,24 @@
 import { mount } from "@cypress/vue";
-import Button from "../Button.vue";
+import AnnotationButton from "../AnnotationButton.vue";
 
 describe("Button", () => {
   it("exists", () => {
-    mount(Button);
+    mount(AnnotationButton);
   });
 
   it("renders properly", () => {
-    mount(Button);
+    mount(AnnotationButton);
     cy.get("button").should("be.visible");
   });
 
   it("is not disabled", () => {
-    mount(Button);
+    mount(AnnotationButton);
     cy.get("button").should("not.be.disabled");
   });
 
   it("shows specific label", () => {
     const str = "Label: ";
-    mount(Button, { props: {} });
+    mount(AnnotationButton, { props: {} });
     cy.get("button").contains(str);
   });
 });

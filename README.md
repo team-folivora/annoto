@@ -20,7 +20,7 @@ Medical annotation tool
 
 # Run
 
-* `cd api; uvicorn mod.src.app:APP --reload`
+* `cd api; python -m mod`
 
 * `cd static; npm run dev`
 

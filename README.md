@@ -8,7 +8,7 @@ Medical annotation tool
 
 # Setup
 
-* Install `python3`, `python3-flask`, `node`, `npm`, `nvm`
+* Install `python3`, `node`, `npm`, `nvm`
 
 * `cd static; nvm use; npm i; npm run lint`
 
@@ -20,12 +20,12 @@ Medical annotation tool
 
 # Run
 
-* `cd api; FLASK_ENV="development" flask run`
+* `cd api; uvicorn main:app --reload`
 
 * `cd static; npm run dev`
 
 ## Testing and Linting
 
-* `mypy -p api`, `pylint api`, `python -m pytest .`, `python -m pytest --cov .`
+* `mypy -p src`, `mypy -p tests`, `pylint api`, `python -m pytest .`, `python -m pytest --cov .`
 
 * `npm run lint`, `npm run test:e2e`, `npm run test:unit`

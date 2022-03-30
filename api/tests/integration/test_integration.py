@@ -1,30 +1,40 @@
+'''
+Module for integration tests
+'''
+
 from pathlib import Path
 import shutil
-
+import tempfile
 import pytest
-from app import create_app
-from flask import Response
+from fastapi.testclient import TestClient
+
+from src.settings import SETTINGS
+from src.app import APP
 
 
-@pytest.fixture()
-def app():
-    app = create_app("config.TestingConfig")
+def pytest_sessionstart() -> None:
+    '''Setup testing session'''
+    SETTINGS.data_loader = Path(tempfile.mkdtemp(prefix="annoto"))
+    SETTINGS.testing = True
 
-    dst = app.config["DATA_FOLDER"]
+    dst = SETTINGS.data_loader
     src = Path.cwd().joinpath("tests").joinpath("fixtures")
     shutil.copytree(src, dst, dirs_exist_ok=True)
 
-    yield app
 
-    shutil.rmtree(dst)
+def pytest_sessionend() -> None:
+    '''Teardown testing session'''
+    shutil.rmtree(SETTINGS.data_loader)
 
 
 @pytest.fixture()
-def client(app):
-    return app.test_client()
+def client() -> TestClient:
+    '''Get a client for testing the api'''
+    return TestClient(APP)
 
 
-def test_image(client):
-    response: Response = client.get("/image")
-    assert response.content_type == "image/jpg"
+def test_image(client: TestClient) -> None:
+    '''Test GET /image'''
+    response = client.get("/image")
     assert response.status_code == 200
+    assert response.headers['content-type'] == "image/jpeg"

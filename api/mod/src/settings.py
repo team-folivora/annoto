@@ -3,6 +3,7 @@ This module contains the settings
 """
 
 from pathlib import Path
+
 from pydantic import BaseSettings
 
 

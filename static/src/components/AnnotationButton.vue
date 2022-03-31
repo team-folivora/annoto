@@ -20,7 +20,7 @@ export default defineComponent({
      */
     async saveAnnotation(): Promise<void> {
       // somewhere define the current image and pass it into here
-      await axios.post('http://localhost:5000/images/sloth.jpg')
+      await axios.get('http://localhost:5000/images/sloth.jpg')
         .then(function (response) {
           // handle success
           console.log(response);

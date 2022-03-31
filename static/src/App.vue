@@ -6,7 +6,7 @@ import AnnotationButton from "./components/AnnotationButton.vue";
 <template>
   <main>
     <header>annoto</header>
-    <ImageDisplay src="http://127.0.0.1:5000/image" />
+    <ImageDisplay src="http://127.0.0.1:5000/images/sloth.jpg" />
     <AnnotationButton label="Faultier" />
     <AnnotationButton label="Hund" />
     <AnnotationButton label="Katze" />

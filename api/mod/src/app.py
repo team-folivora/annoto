@@ -8,6 +8,7 @@ import json
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi_restful import Api
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from .settings import SETTINGS
@@ -15,15 +16,30 @@ from .settings import SETTINGS
 APP = FastAPI()
 API = Api(APP)
 
+origins = [
+    "http://localhost:5000",
+    "http://localhost:3000/"
+    "http://127.0.0.1:3000/"
+    "http://localhost:5000/image"
+]
+
+APP.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 
 @APP.get(
-    "/image",
+    "/images/{src}",
     response_class=FileResponse,
     responses={404: {"description": "File not found"}},
 )
-async def get_image() -> FileResponse:
+async def get_image(src: str) -> FileResponse:
     """Get the image that should be annotated"""
-    image_file = SETTINGS.data_folder.joinpath("sloth.jpg")
+    image_file = SETTINGS.data_folder.joinpath(src)
     if not image_file.is_file():
         raise HTTPException(status_code=404, detail="File not found")
     return FileResponse(str(image_file))

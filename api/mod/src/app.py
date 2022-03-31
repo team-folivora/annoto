@@ -7,7 +7,6 @@ import json
 
 from fastapi import FastAPI, HTTPException
 
-# from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi_restful import Api
 from pydantic import BaseModel
@@ -16,21 +15,13 @@ from starlette.middleware.cors import CORSMiddleware
 
 from .settings import SETTINGS
 
-origins = [
-    "http://localhost:3000",
-]
-
-middleware = [
-    Middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-]
-
-APP = FastAPI(middleware=middleware)
+APP = FastAPI()
 API = Api(APP)
+
+APP.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+)
 
 
 @APP.get(

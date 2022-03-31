@@ -21,7 +21,7 @@ export default defineComponent({
      * annotates the image with the specified label in `label` by calling the api
      */
     async saveAnnotation(): Promise<void> {
-      let response = await fetch(this.src.replaceAll("images", "imagesx"));
+      let response = await fetch(`${this.src}?`); // FIXME: Hacky solution to ensure that the browser will not use the previously cached response of a img<src> that would lead to CORS errors
       let blob = await response.blob();
       let buffer = await blob.arrayBuffer();
       let hash = sha256(buffer);

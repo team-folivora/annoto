@@ -6,16 +6,15 @@ import hashlib
 import json
 
 from fastapi import FastAPI, HTTPException
+
 # from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-from starlette.middleware import Middleware
-from starlette.middleware.cors import CORSMiddleware
 from fastapi_restful import Api
 from pydantic import BaseModel
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 
 from .settings import SETTINGS
-
-
 
 origins = [
     "http://localhost:3000",

@@ -4,11 +4,11 @@ This module defines the FastAPI application server
 
 import hashlib
 import json
-from pydantic import BaseModel
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi_restful import Api
+from pydantic import BaseModel
 
 from .settings import SETTINGS
 
@@ -16,11 +16,11 @@ APP = FastAPI()
 API = Api(APP)
 
 
-@APP.get("/image",
-         response_class=FileResponse,
-         responses={404: {
-             "description": "File not found"
-         }})
+@APP.get(
+    "/image",
+    response_class=FileResponse,
+    responses={404: {"description": "File not found"}},
+)
 async def get_image() -> FileResponse:
     """Get the image that should be annotated"""
     image_file = SETTINGS.data_folder.joinpath("sloth.jpg")
@@ -42,14 +42,14 @@ class StorableAnnotation(Annotation):
     src: str
 
 
-@APP.post("/images/{src}",
-          status_code=204,
-          responses={
-              404: {
-                  "description": "File not found"
-              },
-              400: {},
-          })
+@APP.post(
+    "/images/{src}",
+    status_code=204,
+    responses={
+        404: {"description": "File not found"},
+        400: {},
+    },
+)
 async def save_annotation(src: str, annotation: Annotation) -> None:
     """Saves the annotation for the specified image"""
     image_file = SETTINGS.data_folder.joinpath(src)

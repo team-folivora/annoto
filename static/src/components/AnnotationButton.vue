@@ -10,7 +10,8 @@ export default defineComponent({
      * The label of the button.
      * Is displayed on the button and passed to the backend to save the annotation.
      */
-    label: { type: String, required: true }
+    label: { type: String, required: true },
+    src: { type: String, required: true }
   },
 
   methods: {
@@ -22,7 +23,7 @@ export default defineComponent({
       // somewhere define the current image and pass it into here
         axios({
           method: 'post',
-          url: 'http://localhost:5000/images/sloth.jpg',
+          url: this.src,
           data: {
             label: this.label,
             hash: "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",

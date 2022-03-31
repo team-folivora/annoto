@@ -6,9 +6,9 @@ import hashlib
 import json
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi_restful import Api
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from .settings import SETTINGS
@@ -18,9 +18,7 @@ API = Api(APP)
 
 origins = [
     "http://localhost:5000",
-    "http://localhost:3000/"
-    "http://127.0.0.1:3000/"
-    "http://localhost:5000/image"
+    "http://localhost:3000/" "http://127.0.0.1:3000/" "http://localhost:5000/image",
 ]
 
 APP.add_middleware(
@@ -28,7 +26,7 @@ APP.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
 

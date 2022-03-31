@@ -2,11 +2,6 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  data() {
-    return {
-    }
-  },
-
   props: {
     text: { type: String, required: true }
   },

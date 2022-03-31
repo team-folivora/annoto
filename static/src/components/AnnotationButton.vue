@@ -1,6 +1,7 @@
 <script lang="ts">
 import axios from 'axios';
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
+import shajs from 'sha.js';
 /**
  * A Button for annotating a datafile
  */
@@ -21,12 +22,15 @@ export default defineComponent({
      */
     async saveAnnotation(): Promise<void> {
       // somewhere define the current image and pass it into here
+        let file = await axios.get(this.src)
+        console.log(file)
+        console.log(shajs('sha256').update(file).digest('hex'))
         axios({
           method: 'post',
           url: this.src,
           data: {
             label: this.label,
-            hash: "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
+            hash: shajs('sha256').update(file).digest('hex'), //"e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
           }
         })  
         .then(function (response) {

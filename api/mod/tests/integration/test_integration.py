@@ -37,14 +37,14 @@ def client() -> TestClient:
 
 
 def test_get_image(client: TestClient) -> None:
-    """Test GET /image"""
-    response = client.get("/image")
+    """Test GET /images/sloth.jpg"""
+    response = client.get("/images/sloth.jpg")
     assert response.status_code == 200
     assert response.headers["content-type"] == "image/jpeg"
 
 
 def test_post_image(client: TestClient) -> None:
-    """Test POST /image"""
+    """Test POST /images/sloth.jpg"""
     response = client.post(
         "/images/sloth.jpg",
         json={

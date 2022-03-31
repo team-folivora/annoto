@@ -17,8 +17,7 @@ APP = FastAPI()
 API = Api(APP)
 
 origins = [
-    "http://localhost:5000",
-    "http://localhost:3000/" "http://127.0.0.1:3000/" "http://localhost:5000/image",
+    "http://localhost:3000",
 ]
 
 APP.add_middleware(

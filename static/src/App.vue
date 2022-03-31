@@ -6,11 +6,11 @@ import AnnotationButton from "./components/AnnotationButton.vue";
 <template>
   <main>
     <header>annoto</header>
-    <ImageDisplay src="http://127.0.0.1:5000/images/sloth.jpg" />
-    <AnnotationButton label="Faultier" src="http://127.0.0.1:5000/images/sloth.jpg" />
-    <AnnotationButton label="Hund" src="http://127.0.0.1:5000/images/sloth.jpg" />
-    <AnnotationButton label="Katze" src="http://127.0.0.1:5000/images/sloth.jpg" />
-    <AnnotationButton label="Maus" src="http://127.0.0.1:5000/images/sloth.jpg" />
+    <ImageDisplay src="http://localhost:5000/images/sloth.jpg" />
+    <AnnotationButton label="Faultier" src="http://localhost:5000/images/sloth.jpg" />
+    <AnnotationButton label="Hund" src="http://localhost:5000/images/sloth.jpg" />
+    <AnnotationButton label="Katze" src="http://localhost:5000/images/sloth.jpg" />
+    <AnnotationButton label="Maus" src="http://localhost:5000/images/sloth.jpg" />
   </main>
 </template>
 

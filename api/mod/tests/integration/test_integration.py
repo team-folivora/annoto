@@ -2,15 +2,16 @@
 Module for integration tests
 """
 
-from pathlib import Path
 import shutil
 import tempfile
+from pathlib import Path
 from typing import Generator
+
 import pytest
 from fastapi.testclient import TestClient
 
-from mod.src.settings import SETTINGS
 from mod.src.app import APP
+from mod.src.settings import SETTINGS
 
 
 @pytest.fixture(scope="session", autouse=True)

@@ -5,20 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Flask",
+            "cwd": "${workspaceFolder}/api",
+            "name": "Python: Api",
             "type": "python",
             "request": "launch",
-            "module": "flask",
-            "env": {
-                "FLASK_APP": "api",
-                "FLASK_ENV": "development"
-            },
-            "args": [
-                "run",
-                "--no-debugger"
-            ],
-            "jinja": true,
-            "justMyCode": true
+            "module": "mod",
         }
     ]
 }

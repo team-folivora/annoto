@@ -1,4 +1,5 @@
 <script lang="ts">
+import axios from 'axios';
 import { defineComponent } from 'vue'
 /**
  * A Button for annotating a datafile
@@ -9,27 +10,32 @@ export default defineComponent({
      * The label of the button.
      * Is displayed on the button and passed to the backend to save the annotation.
      */
-    text: { type: String, required: true }
+    label: { type: String, required: true }
   },
 
   methods: {
     /**
      * Gets executed when the user clicks on the button
-     * @param text printed to the console
+     * annotates the image with the specified label in `label` by calling the api
      */
-    log(text: String): void {
-      console.log("Hallo Mami" + "-" + text);
+    async saveAnnotation(): Promise<void> {
+      // somewhere define the current image and pass it into here
+      await axios.post('http://localhost:5000/images/sloth.jpg')
+        .then(function (response) {
+          // handle success
+          console.log(response);
+        });
     }
   }
 })
 </script>
 
 <template>
-  <button @click="log(text)">Label: {{ text }}</button>
+  <button @click="saveAnnotation">Label: {{ label }}</button>
 </template>
 
 <style scoped>
-  button{
-    margin: 10px;
-  }
+button {
+  margin: 10px;
+}
 </style>

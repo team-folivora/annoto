@@ -3,7 +3,7 @@ FROM debian
 SHELL ["/bin/bash", "--login", "-c"]
 
 RUN apt update && \
-    apt install -y curl sudo
+    apt install -y sudo curl tmux
 
 # Setup user
 RUN useradd -ms /bin/bash a && \

@@ -64,6 +64,8 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
 
     with open(image_file, "rb") as file:
         local_hash = hashlib.sha256(file.read()).hexdigest()
+        print(local_hash)
+        print(annotation.hash)
         if local_hash != annotation.hash:
             raise HTTPException(
                 status_code=400,

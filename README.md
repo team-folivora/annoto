@@ -30,7 +30,7 @@ Medical annotation tool
 
 ## Testing and Linting
 
-* `mypy mod`,`pylint mod`, `pytest mod`, `coverage report`
+* `mypy mod`,`pylint mod`, `pytest mod`, `pytest mod --cov`
 
 * `npm run lint`, `npm run test:e2e`, `npm run test:unit`
 

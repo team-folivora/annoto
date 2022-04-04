@@ -34,6 +34,8 @@ jobs:
     - name: Lint using pylint
       run: pylint mod
     - name: Test with pytest
+      run: pytest mod --cov
+    - name: Report coverage
       run: coverage xml
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2

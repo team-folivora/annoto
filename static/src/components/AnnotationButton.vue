@@ -1,5 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import axios from "axios";
+import { defineComponent } from "vue";
+import { sha256 } from "js-sha256";
 /**
  * A Button for annotating a datafile
  */
@@ -9,27 +11,35 @@ export default defineComponent({
      * The label of the button.
      * Is displayed on the button and passed to the backend to save the annotation.
      */
-    text: { type: String, required: true }
+    label: { type: String, required: true },
+    src: { type: String, required: true },
   },
 
   methods: {
     /**
      * Gets executed when the user clicks on the button
-     * @param text printed to the console
+     * annotates the image with the specified label in `label` by calling the api
      */
-    log(text: String): void {
-      console.log("Hallo Mami" + "-" + text);
-    }
-  }
-})
+    async saveAnnotation(): Promise<void> {
+      let response = await fetch(`${this.src}?`); // FIXME: Hacky solution to ensure that the browser will not use the previously cached response of a img<src> that would lead to CORS errors
+      let blob = await response.blob();
+      let buffer = await blob.arrayBuffer();
+      let hash = sha256(buffer);
+      await axios.post(this.src, {
+        label: this.label,
+        hash: hash,
+      });
+    },
+  },
+});
 </script>
 
 <template>
-  <button @click="log(text)">Label: {{ text }}</button>
+  <button @click="saveAnnotation">Label: {{ label }}</button>
 </template>
 
 <style scoped>
-  button{
-    margin: 10px;
-  }
+button {
+  margin: 10px;
+}
 </style>

@@ -12,14 +12,14 @@ describe("Button", () => {
     mount(AnnotationButton, {
       props: { label: "Test", src: "/images/test.jpg" },
     });
-    cy.get("button").should("be.visible");
+    cy.get("i-button").should("be.visible");
   });
 
   it("is not disabled", () => {
     mount(AnnotationButton, {
       props: { label: "Test", src: "/images/test.jpg" },
     });
-    cy.get("button").should("not.be.disabled");
+    cy.get("i-button").should("not.be.disabled");
   });
 
   it("shows specific label", () => {
@@ -27,6 +27,6 @@ describe("Button", () => {
     mount(AnnotationButton, {
       props: { label: label, src: "/images/test.jpg" },
     });
-    cy.get("button").contains(label);
+    cy.get("i-button").contains(label);
   });
 });

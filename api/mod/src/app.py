@@ -35,14 +35,6 @@ async def get_image(src: str) -> FileResponse:
         raise HTTPException(status_code=404, detail="File not found")
     return FileResponse(str(image_file))
 
-@APP.get(
-    "/test",
-)
-async def test_route() -> int:
-    """Test"""
-    return 5
-
-
 
 class Annotation(BaseModel):
     """An annotation as it is provided by the API"""

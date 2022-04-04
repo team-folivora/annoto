@@ -46,5 +46,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-button @click="saveAnnotation" :loading="isLoading_">Label: {{ label }}</i-button>
+  <i-button :loading="isLoading_" @click="saveAnnotation"
+    >Label: {{ label }}</i-button
+  >
 </template>

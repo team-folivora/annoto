@@ -7,15 +7,15 @@ import { defineComponent } from "vue";
  * The main App component for the website
  */
 export default defineComponent({
+  components: {
+    ImageDisplay,
+    AnnotationButton,
+  },
+
   data() {
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
     };
-  },
-
-  components: {
-    ImageDisplay,
-    AnnotationButton,
   },
 });
 </script>
@@ -30,6 +30,7 @@ export default defineComponent({
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
+          :key="label"
           :label="label"
           src="http://localhost:5000/images/sloth.jpg"
         />

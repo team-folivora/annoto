@@ -25,13 +25,9 @@ export default defineComponent({
       let blob = await response.blob();
       let buffer = await blob.arrayBuffer();
       let hash = sha256(buffer);
-      await axios({
-        method: "post",
-        url: this.src,
-        data: {
-          label: this.label,
-          hash: hash,
-        },
+      await axios.post(this.src, {
+        label: this.label,
+        hash: hash,
       });
     },
   },

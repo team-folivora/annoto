@@ -2,13 +2,23 @@
 ![build static](https://github.com/team-folivora/annoto/actions/workflows/build-static.yml/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/team-folivora/annoto/branch/main/graph/badge.svg?token=8OKTHCXOEA)](https://codecov.io/gh/team-folivora/annoto)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 
 
 # annoto
 
 Medical annotation tool
+
+# Live Demo
+
+## Dev
+
+* [https://annoto-dev.herokuapp.com/](https://annoto-dev.herokuapp.com/) ([Api](https://annoto-api-dev.herokuapp.com/))
+
+## Production
+
+* [https://annoto.herokuapp.com/](https://annoto.herokuapp.com/) ([Api](https://annoto-api.herokuapp.com/))
 
 # Setup
 

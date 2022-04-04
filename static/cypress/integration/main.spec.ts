@@ -3,6 +3,6 @@
 describe("Application", () => {
   it("visits the app root url", () => {
     cy.visit("/");
-    cy.contains("header", "annoto");
+    cy.contains("h1", "Annoto");
   });
 });

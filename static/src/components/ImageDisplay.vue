@@ -19,7 +19,7 @@ export default defineComponent({
 
 <style scoped>
 img {
-  width: 70vw;
+  width: 90vmin;
   margin: 20px auto;
   display: block;
 }

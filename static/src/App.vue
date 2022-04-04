@@ -1,48 +1,40 @@
-<script setup lang="ts">
+<script lang="ts">
 import ImageDisplay from "./components/ImageDisplay.vue";
 import AnnotationButton from "./components/AnnotationButton.vue";
+import { defineComponent } from "vue";
+
+/**
+ * The main App component for the website
+ */
+export default defineComponent({
+  components: {
+    ImageDisplay,
+    AnnotationButton,
+  },
+
+  data() {
+    return {
+      labels: ["Faultier", "Hund", "Katze", "Maus"],
+    };
+  },
+});
 </script>
 
 <template>
-  <main>
-    <header>annoto</header>
-    <ImageDisplay src="http://localhost:5000/images/sloth.jpg" />
-    <AnnotationButton
-      label="Faultier"
-      src="http://localhost:5000/images/sloth.jpg"
-    />
-    <AnnotationButton
-      label="Hund"
-      src="http://localhost:5000/images/sloth.jpg"
-    />
-    <AnnotationButton
-      label="Katze"
-      src="http://localhost:5000/images/sloth.jpg"
-    />
-    <AnnotationButton
-      label="Maus"
-      src="http://localhost:5000/images/sloth.jpg"
-    />
-  </main>
+  <i-layout>
+    <i-layout-header>
+      <h1 class="_text-align:center">Annoto</h1>
+    </i-layout-header>
+    <i-layout-content>
+      <ImageDisplay src="http://localhost:5000/images/sloth.jpg" />
+      <i-button-group block>
+        <AnnotationButton
+          v-for="label in labels"
+          :key="label"
+          :label="label"
+          src="http://localhost:5000/images/sloth.jpg"
+        />
+      </i-button-group>
+    </i-layout-content>
+  </i-layout>
 </template>
-
-<style>
-@import "./assets/base.css";
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
-}
-
-header {
-  font-size: xx-large;
-  text-align: center;
-}
-
-main {
-  margin: 0 auto;
-}
-</style>

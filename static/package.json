@@ -11,9 +11,10 @@
     "test:unit:ci": "cypress run-ct --quiet --reporter spec",
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
-    "format": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "format": "prettier . --write"
   },
   "dependencies": {
+    "@inkline/inkline": "^3.0.8",
     "js-sha256": "^0.9.0",
     "vue": "^3.2.31"
   },
@@ -32,6 +33,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-vue": "^8.2.0",
+    "sass": "^1.49.9",
     "prettier": "2.6.1",
     "start-server-and-test": "^1.14.0",
     "typescript": "~4.5.5",

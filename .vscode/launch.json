@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "command": "cd static; npm run dev",
+            "name": "Node: Vue",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
             "cwd": "${workspaceFolder}/api",
             "name": "Python: Api",
             "type": "python",

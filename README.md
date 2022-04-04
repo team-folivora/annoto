@@ -31,3 +31,7 @@ Medical annotation tool
 * `mypy mod`,`pylint mod`, `pytest mod`, `pytest --cov mod`
 
 * `npm run lint`, `npm run test:e2e`, `npm run test:unit`
+
+# Docker
+
+* Execute `run-dev.sh`to install the dependencies, start the development server and open the bash inside a dedicated container.

@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        lfs: true
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -28,10 +30,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
     - name: Static type checking using mypy
-      run: mypy -p api 
+      run: mypy mod
     - name: Lint using pylint
-      run: pylint api
+      run: pylint mod
     - name: Test with pytest
-      run: python -m pytest --cov --cov-report=xml .
+      run: pytest --cov --cov-report=xml mod
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2

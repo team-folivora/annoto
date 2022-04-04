@@ -1,6 +1,8 @@
 ![build api](https://github.com/team-folivora/annoto/actions/workflows/build-api.yml/badge.svg?branch=main)
 ![build static](https://github.com/team-folivora/annoto/actions/workflows/build-static.yml/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/team-folivora/annoto/branch/main/graph/badge.svg?token=8OKTHCXOEA)](https://codecov.io/gh/team-folivora/annoto)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 
 # annoto
 
@@ -8,7 +10,7 @@ Medical annotation tool
 
 # Setup
 
-* Install `python3`, `python3-flask`, `node`, `npm`, `nvm`
+* Install `python3`, `node`, `npm`, `nvm`
 
 * `cd static; nvm use; npm i; npm run lint`
 
@@ -20,12 +22,16 @@ Medical annotation tool
 
 # Run
 
-* `cd api; FLASK_ENV="development" flask run`
+* `cd api; python -m mod`
 
 * `cd static; npm run dev`
 
 ## Testing and Linting
 
-* `mypy -p api`, `pylint api`, `python -m pytest .`, `python -m pytest --cov .`
+* `mypy mod`,`pylint mod`, `pytest mod`, `pytest --cov mod`
 
 * `npm run lint`, `npm run test:e2e`, `npm run test:unit`
+
+# Docker
+
+* Execute `run-dev.sh` to install the dependencies, start the development server and open the bash inside a dedicated container.

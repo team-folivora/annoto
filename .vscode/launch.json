@@ -11,20 +11,11 @@
             "type": "node-terminal"
         },
         {
-            "name": "Python: Flask",
+            "cwd": "${workspaceFolder}/api",
+            "name": "Python: Api",
             "type": "python",
             "request": "launch",
-            "module": "flask",
-            "env": {
-                "FLASK_APP": "api.app",
-                "FLASK_ENV": "development"
-            },
-            "args": [
-                "run",
-                "--no-debugger"
-            ],
-            "jinja": true,
-            "justMyCode": true
+            "module": "mod",
         }
     ]
 }

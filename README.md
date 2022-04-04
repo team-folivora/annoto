@@ -34,4 +34,4 @@ Medical annotation tool
 
 # Docker
 
-* Execute `run-dev.sh`to install the dependencies, start the development server and open the bash inside a dedicated container.
+* Execute `run-dev.sh` to install the dependencies, start the development server and open the bash inside a dedicated container.

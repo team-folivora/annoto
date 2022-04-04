@@ -1,2 +1,10 @@
 [tool.isort]
 profile = "black"
+
+[tool.mypy]
+disallow_untyped_defs = true
+allow_redefinition = true
+ignore_missing_imports = true
+
+[tool.coverage.report]
+omit = [ "mod/tests/*" ]

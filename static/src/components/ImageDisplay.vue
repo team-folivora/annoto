@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 /**
  * Displays an image specified by `src`
  */
@@ -8,13 +8,13 @@ export default defineComponent({
     /**
      * Source from where the image should be loaded.
      */
-    src: { type: String, required: true }
+    src: { type: String, required: true },
   },
-})
+});
 </script>
 
 <template>
-  <img :src="src"/>
+  <img :src="src" />
 </template>
 
 <style scoped>

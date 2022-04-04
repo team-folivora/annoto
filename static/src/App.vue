@@ -7,10 +7,22 @@ import AnnotationButton from "./components/AnnotationButton.vue";
   <main>
     <header>annoto</header>
     <ImageDisplay src="http://localhost:5000/images/sloth.jpg" />
-    <AnnotationButton label="Faultier" src="http://localhost:5000/images/sloth.jpg" />
-    <AnnotationButton label="Hund" src="http://localhost:5000/images/sloth.jpg" />
-    <AnnotationButton label="Katze" src="http://localhost:5000/images/sloth.jpg" />
-    <AnnotationButton label="Maus" src="http://localhost:5000/images/sloth.jpg" />
+    <AnnotationButton
+      label="Faultier"
+      src="http://localhost:5000/images/sloth.jpg"
+    />
+    <AnnotationButton
+      label="Hund"
+      src="http://localhost:5000/images/sloth.jpg"
+    />
+    <AnnotationButton
+      label="Katze"
+      src="http://localhost:5000/images/sloth.jpg"
+    />
+    <AnnotationButton
+      label="Maus"
+      src="http://localhost:5000/images/sloth.jpg"
+    />
   </main>
 </template>
 

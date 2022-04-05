@@ -18,6 +18,7 @@ export default defineComponent({
   data() {
     return {
       isLoading: false,
+      isAttentive: false,
     };
   },
 
@@ -27,6 +28,11 @@ export default defineComponent({
      * annotates the image with the specified label in `label` by calling the api
      */
     async saveAnnotation(): Promise<void> {
+      console.log(this.isAttentive);
+      // if (!this.isAttentive) {
+      //   console.log("Not attentive!");
+      //   return;
+      // }
       this.isLoading = true;
       try {
         let response = await fetch(`${this.src}?`); // FIXME: Hacky solution to ensure that the browser will not use the previously cached response of a img<src> that would lead to CORS errors
@@ -47,6 +53,6 @@ export default defineComponent({
 
 <template>
   <i-button :loading="isLoading" @click="saveAnnotation">
-    Label: {{ label }}
+    Label: {{ label }}, {{isAttentive}}
   </i-button>
 </template>

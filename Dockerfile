@@ -25,7 +25,8 @@ RUN nvm install && \
 # Create directories
 RUN mkdir /home/a/annoto && \
     mkdir /home/a/annoto/api && \
-    mkdir /home/a/annoto/static
+    mkdir /home/a/annoto/static && \
+    mkdir /home/a/.annoto
 
 # Install dependencies for api
 WORKDIR /home/a/annoto/api
@@ -43,9 +44,14 @@ RUN npm install
 RUN rm -r /home/a/.cache && \
     rm -r /home/a/.npm
 
+# Copy fixtures
+WORKDIR /home/a/.annoto
+COPY --chown=a /api/mod/tests/fixtures /home/a/.annoto
+
 # Prepare for run
+WORKDIR /home/a/annoto
+COPY --chown=a /entrypoint.sh entrypoint.sh
+
 EXPOSE 5000
 EXPOSE 3000
-WORKDIR /home/a/annoto
-COPY --chown=a / .
 ENTRYPOINT "./entrypoint.sh"

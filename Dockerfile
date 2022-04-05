@@ -14,7 +14,8 @@ USER a
 WORKDIR /home/a
 
 # Setup python
-RUN sudo apt install -y python3 python3-pip
+RUN sudo apt install -y python3 python3-pip && \
+    pip install virtualenv
 
 # Setup node
 COPY --chown=a static/.nvmrc .nvmrc
@@ -28,27 +29,11 @@ RUN mkdir /home/a/annoto && \
     mkdir /home/a/annoto/static && \
     mkdir /home/a/.annoto
 
-# Install dependencies for api
-WORKDIR /home/a/annoto/api
-COPY --chown=a /api/requirements.txt requirements.txt
-COPY --chown=a /api/requirements-dev.txt requirements-dev.txt
-RUN pip install -r requirements-dev.txt
-
-# Install dependencies for static
-WORKDIR /home/a/annoto/static
-COPY --chown=a /static/package.json package.json
-COPY --chown=a /static/package-lock.json package-lock.json
-RUN npm install
-
-# Cleanup
-RUN rm -r /home/a/.cache && \
-    rm -r /home/a/.npm
-
 # Copy fixtures
 WORKDIR /home/a/.annoto
 COPY --chown=a /api/mod/tests/fixtures /home/a/.annoto
 
-# Prepare for run
+# Copy entrypoint
 WORKDIR /home/a/annoto
 COPY --chown=a /entrypoint.sh entrypoint.sh
 

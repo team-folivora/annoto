@@ -31,7 +31,7 @@ RUN mkdir /home/a/annoto && \
 
 # Copy fixtures
 WORKDIR /home/a/.annoto
-COPY --chown=a /api/mod/tests/fixtures /home/a/.annoto
+COPY --chown=a /api/mod/fixtures /home/a/.annoto
 
 # Copy entrypoint
 WORKDIR /home/a/annoto

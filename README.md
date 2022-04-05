@@ -43,4 +43,5 @@ Medical annotation tool
 # Docker
 
 * Execute `run-dev.sh` to setup and start a dedicated development container.
+    * Add the `--local-data-dir` argument if you want to mount your local `~/.annoto` folder into the container
 * Execute `connect-dev.sh` to open a new bash inside the (already running) development container.

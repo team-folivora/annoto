@@ -13,23 +13,23 @@ export class DefaultService {
      * Get Image
      * Get the image that should be annotated
      * @param src
-     * @returns any Successful Response
+     * @returns binary Successful Response
      * @throws ApiError
      */
     public static getImageImagesSrcGet(
         src: string,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<Blob> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/images/{src}',
             path: {
                 'src': src,
             },
+            responseType: 'blob',
             errors: {
                 404: `File not found`,
                 422: `Validation Error`,
             },
-            responseType: `blob`
         });
     }
 

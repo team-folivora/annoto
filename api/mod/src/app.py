@@ -26,7 +26,10 @@ APP.add_middleware(
 @APP.get(
     "/images/{src}",
     response_class=FileResponse,
-    responses={404: {"description": "File not found"}},
+    responses={
+        200: {"content": {"image/*": {"schema": {"type": "file", "format": "binary"}}}},
+        404: {"description": "File not found"},
+    },
 )
 async def get_image(src: str) -> FileResponse:
     """Get the image that should be annotated"""

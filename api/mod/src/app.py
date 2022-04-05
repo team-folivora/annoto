@@ -47,6 +47,7 @@ class StorableAnnotation(Annotation):
     """An annotation as it is stored on disk"""
 
     src: str
+    competency: str
 
 
 @APP.post(
@@ -72,7 +73,10 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
             )
 
     annotation = StorableAnnotation(
-        label=annotation.label, hash=annotation.hash, src=src
+        label=annotation.label,
+        hash=annotation.hash,
+        src=src,
+        competency="Prof. Dr. Med",  # e.g. loaded from user database
     )
 
     annotation_file = SETTINGS.data_folder.joinpath(f"{src}.annotation.json")

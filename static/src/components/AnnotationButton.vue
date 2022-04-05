@@ -13,6 +13,7 @@ export default defineComponent({
      */
     label: { type: String, required: true },
     src: { type: String, required: true },
+    username: { type: String, required: true },
   },
 
   data() {
@@ -36,6 +37,7 @@ export default defineComponent({
         await axios.post(this.src, {
           label: this.label,
           hash: hash,
+          username: this.username,
         });
       } finally {
         this.isLoading = false;

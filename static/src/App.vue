@@ -17,6 +17,7 @@ export default defineComponent({
   data() {
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
+      user: "AnnotoUser#1337",
     };
   },
 });
@@ -28,13 +29,14 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <UserInformationLabel />
+      <UserInformationLabel :username="user" />
       <ImageDisplay src="http://localhost:5000/images/sloth.jpg" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
           :key="label"
           :label="label"
+          :username="user"
           src="http://localhost:5000/images/sloth.jpg"
         />
       </i-button-group>

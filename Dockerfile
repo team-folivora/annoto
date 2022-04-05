@@ -29,6 +29,9 @@ RUN mkdir /home/a/annoto && \
     mkdir /home/a/annoto/static && \
     mkdir /home/a/.annoto
 
+# Setup .bashrc
+RUN printf "[ -f ~/annoto/api/venv/bin/activate ] || python3 -m virtualenv ~/annoto/api/venv\nsource ~/annoto/api/venv/bin/activate\n" >> /home/a/.bashrc
+
 # Copy fixtures
 WORKDIR /home/a/.annoto
 COPY --chown=a /api/mod/fixtures /home/a/.annoto

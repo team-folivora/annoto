@@ -76,7 +76,7 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
         label=annotation.label,
         hash=annotation.hash,
         src=src,
-        competency="Prof. Dr. Med",  # TODO e.g. loaded from user database
+        competency="Prof. Dr. Med",  # e.g. loaded from user database
     )
 
     annotation_file = SETTINGS.data_folder.joinpath(f"{src}.annotation.json")

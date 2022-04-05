@@ -16,7 +16,7 @@ export default defineComponent({
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
       apiUrl: import.meta.env.VITE_API_URL?.toString() || "",
-      imageUrl: "images/sloth.jpg"
+      imageUrl: "images/sloth.jpg",
     };
   },
 });

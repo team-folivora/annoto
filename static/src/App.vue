@@ -2,6 +2,9 @@
 import ImageDisplay from "./components/ImageDisplay.vue";
 import AnnotationButton from "./components/AnnotationButton.vue";
 import { defineComponent } from "vue";
+import LoginPane from "./components/LoginPane.vue";
+import UserInformationLabel from "./components/UserInformationLabel.vue";
+//import ProofCheckbox from "./components/ProofCheckbox.vue";
 
 /**
  * The main App component for the website
@@ -10,6 +13,9 @@ export default defineComponent({
   components: {
     ImageDisplay,
     AnnotationButton,
+    LoginPane,
+    UserInformationLabel,
+    // ProofCheckbox,
   },
 
   data() {
@@ -26,6 +32,8 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
+      <LoginPane></LoginPane>
+      <UserInformationLabel></UserInformationLabel>
       <ImageDisplay src="http://localhost:5000/images/sloth.jpg" />
       <i-button-group block>
         <AnnotationButton

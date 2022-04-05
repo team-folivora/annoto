@@ -14,11 +14,7 @@ Medical annotation tool
 
 ## Dev
 
-* [https://annoto-dev.herokuapp.com/](https://annoto-dev.herokuapp.com/) ([Api](https://annoto-api-dev.herokuapp.com/))
-
-## Production
-
-* [https://annoto.herokuapp.com/](https://annoto.herokuapp.com/) ([Api](https://annoto-api.herokuapp.com/))
+* [http://dev.folivora.online/](http://dev.folivora.online/) ([Api](http://api.dev.folivora.online/))
 
 # Setup
 

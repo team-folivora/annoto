@@ -15,6 +15,8 @@ export default defineComponent({
   data() {
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
+      apiUrl: import.meta.env.VITE_API_URL?.toString() || "",
+      imageUrl: "images/sloth.jpg",
     };
   },
 });
@@ -26,13 +28,13 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <ImageDisplay src="http://localhost:5000/images/sloth.jpg" />
+      <ImageDisplay :src="apiUrl + imageUrl" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
           :key="label"
           :label="label"
-          src="http://localhost:5000/images/sloth.jpg"
+          :src="apiUrl + imageUrl"
         />
       </i-button-group>
     </i-layout-content>

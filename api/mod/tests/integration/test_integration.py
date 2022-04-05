@@ -19,10 +19,9 @@ from mod.src.settings import SETTINGS
 def session() -> Generator:
     """Manages testing session"""
     SETTINGS.data_folder = Path(tempfile.mkdtemp(prefix="annoto"))
-    SETTINGS.testing = True
 
     dst = SETTINGS.data_folder
-    src = Path.cwd().joinpath("mod").joinpath("tests").joinpath("fixtures")
+    src = Path.cwd().joinpath("mod").joinpath("fixtures")
     shutil.copytree(src, dst, dirs_exist_ok=True)
 
     yield SETTINGS

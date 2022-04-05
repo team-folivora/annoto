@@ -3,3 +3,5 @@ cd $SCRIPT_DIR
 
 docker build --tag annoto .  
 docker run --rm -it  --mount type=bind,source=$SCRIPT_DIR,target=/home/a/annoto --network host --name annoto annoto
+
+docker container kill annoto

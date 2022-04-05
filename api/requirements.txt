@@ -1,2 +1,2 @@
 fastapi_restful==0.4.3
-fastapi[all]==0.75.0
+fastapi[all]==0.75.1

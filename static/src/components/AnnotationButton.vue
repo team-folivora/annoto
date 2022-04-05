@@ -2,6 +2,7 @@
 import axios from "axios";
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
+import { DefaultService as API } from "../api/services/DefaultService"
 /**
  * A Button for annotating a datafile
  */
@@ -29,11 +30,10 @@ export default defineComponent({
     async saveAnnotation(): Promise<void> {
       this.isLoading = true;
       try {
-        let response = await fetch(`${this.src}?`); // FIXME: Hacky solution to ensure that the browser will not use the previously cached response of a img<src> that would lead to CORS errors
-        let blob = await response.blob();
+        let blob = await API.getImageImagesSrcGet(this.src)
         let buffer = await blob.arrayBuffer();
         let hash = sha256(buffer);
-        await axios.post(this.src, {
+        await API.saveAnnotationImagesSrcPost(this.src, {
           label: this.label,
           hash: hash,
         });
@@ -46,7 +46,5 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-button :loading="isLoading" @click="saveAnnotation">
-    Label: {{ label }}
-  </i-button>
+  <i-button :loading="isLoading" @click="saveAnnotation">Label: {{ label }}</i-button>
 </template>

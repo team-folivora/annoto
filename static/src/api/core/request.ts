@@ -226,7 +226,7 @@ const getResponseHeader = (response: Response, responseHeader?: string): string 
     return;
 };
 
-const getResponseBody = async (response: Response): Promise<any> => {
+const getResponseBody = async (response: Response, options: ApiRequestOptions): Promise<any> => {
     if (response.status !== 204) {
         try {
             const contentType = response.headers.get('Content-Type');
@@ -234,6 +234,8 @@ const getResponseBody = async (response: Response): Promise<any> => {
                 const isJSON = contentType.toLowerCase().startsWith('application/json');
                 if (isJSON) {
                     return await response.json();
+                } else if (options.responseType === 'blob') {
+                    return await response.blob();
                 } else {
                     return await response.text();
                 }
@@ -284,7 +286,7 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
 
             if (!onCancel.isCancelled) {
                 const response = await sendRequest(config, options, url, body, formData, headers, onCancel);
-                const responseBody = await getResponseBody(response);
+                const responseBody = await getResponseBody(response, options);
                 const responseHeader = getResponseHeader(response, options.responseHeader);
 
                 const result: ApiResult = {

@@ -29,6 +29,7 @@ export class DefaultService {
                 404: `File not found`,
                 422: `Validation Error`,
             },
+            responseType: `blob`
         });
     }
 

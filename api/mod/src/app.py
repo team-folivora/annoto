@@ -10,6 +10,11 @@ from fastapi.responses import FileResponse
 from fastapi_restful import Api
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+
+PYTHON_ENV = os.getenv("PYTHON_ENV") or 'development'
+load_dotenv(f".env.{PYTHON_ENV}")
 
 from .settings import SETTINGS
 

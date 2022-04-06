@@ -30,10 +30,10 @@ export default defineComponent({
     async saveAnnotation(): Promise<void> {
       this.isLoading = true;
       try {
-        let blob = await API.getImageImagesSrcGet(this.src)
+        let blob = await API.getImage(this.src)
         let buffer = await blob.arrayBuffer();
         let hash = sha256(buffer);
-        await API.saveAnnotationImagesSrcPost(this.src, {
+        await API.saveAnnotation(this.src, {
           label: this.label,
           hash: hash,
         });

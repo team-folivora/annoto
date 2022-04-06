@@ -30,7 +30,12 @@ export default defineComponent({
     <i-layout-content>
       <ImageDisplay :src="apiUrl + 'images/' + imageSrc + '?'" />
       <i-button-group block>
-        <AnnotationButton v-for="label in labels" :key="label" :label="label" :src="imageSrc" />
+        <AnnotationButton
+          v-for="label in labels"
+          :key="label"
+          :label="label"
+          :src="imageSrc"
+        />
       </i-button-group>
     </i-layout-content>
   </i-layout>

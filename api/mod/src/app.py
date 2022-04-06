@@ -2,9 +2,9 @@
 This module defines the FastAPI application server
 """
 
-from email.mime import image
 import hashlib
 import json
+from email.mime import image
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse

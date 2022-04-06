@@ -1,4 +1,5 @@
 from fastapi.openapi.utils import get_openapi
+
 from mod.src.app import APP
 
 openapi_schema = get_openapi(

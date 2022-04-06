@@ -21,6 +21,7 @@ export default defineComponent({
       imageUrl: "images/sloth.jpg",
       visible: true,
       isAttentive: false,
+      competency: "Prof. Dr. Med.",
     };
   },
 });
@@ -32,7 +33,7 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <ProofOfAttentiveness v-model:isAttentive="isAttentive"/>
+      <ProofOfAttentiveness v-model:isAttentive="isAttentive" />
       <ImageDisplay :src="apiUrl + imageUrl" />
       <i-button-group block>
         <AnnotationButton
@@ -40,7 +41,8 @@ export default defineComponent({
           :key="label"
           :label="label"
           :src="apiUrl + imageUrl"
-          v-model:isAttentive="isAttentive"
+          :isAttentive="isAttentive"
+          :competency="competency"
         />
       </i-button-group>
     </i-layout-content>

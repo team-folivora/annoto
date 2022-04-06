@@ -4,13 +4,27 @@ import { defineComponent } from "vue";
  * A Button for annotating a datafile
  */
 export default defineComponent({
+  props: {
+    /**
+     * Specifies whether the user is attentive
+     */
+    isAttentive: { String, required: true },
+  },
+
   data() {
     return {
+      /**
+       * Sets the visibility of the modal
+       */
       visible: true,
+      /**
+       * Indicates whether the checkbox in the modal is checked
+       */
       checked: false,
-      isAttentive: false,
     };
   },
+
+  emits: ["update:isAttentive"],
 });
 </script>
 
@@ -41,8 +55,7 @@ export default defineComponent({
         <i-button
           @click="
             visible = false;
-            isAttentive = true;
-            // console.log('Test');
+            $emit('update:isAttentive', true);
           "
           color="success"
           :disabled="!checked"

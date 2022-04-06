@@ -13,12 +13,13 @@ export default defineComponent({
      */
     label: { type: String, required: true },
     src: { type: String, required: true },
+    competency: { type: String, requred: true },
+    isAttentive: { type: Boolean, required: true },
   },
 
   data() {
     return {
       isLoading: false,
-      isAttentive: false,
     };
   },
 
@@ -28,11 +29,6 @@ export default defineComponent({
      * annotates the image with the specified label in `label` by calling the api
      */
     async saveAnnotation(): Promise<void> {
-      console.log(this.isAttentive);
-      // if (!this.isAttentive) {
-      //   console.log("Not attentive!");
-      //   return;
-      // }
       this.isLoading = true;
       try {
         let response = await fetch(`${this.src}?`); // FIXME: Hacky solution to ensure that the browser will not use the previously cached response of a img<src> that would lead to CORS errors
@@ -42,6 +38,8 @@ export default defineComponent({
         await axios.post(this.src, {
           label: this.label,
           hash: hash,
+          competency: this.competency,
+          is_attentive: this.isAttentive,
         });
       } finally {
         this.isLoading = false;
@@ -53,6 +51,6 @@ export default defineComponent({
 
 <template>
   <i-button :loading="isLoading" @click="saveAnnotation">
-    Label: {{ label }}, {{isAttentive}}
+    Label: {{ label }}
   </i-button>
 </template>

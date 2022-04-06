@@ -2,9 +2,9 @@
 This module defines the FastAPI application server
 """
 
-from email.mime import image
 import hashlib
 import json
+from typing import Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
@@ -38,17 +38,47 @@ async def get_image(src: str) -> FileResponse:
 
 
 class Annotation(BaseModel):
-    """An annotation as it is provided by the API"""
+    """
+    An annotation of a file
 
+    Attributes
+        src             name of the annotated file
+        label           label the file [src] should be annotated with
+        hash            hash of the file
+        competency      the competencies the annotator has
+        is_attentive    whether the annotator said that he is attentive
+    """
+
+    src: Optional[str]
     label: str
     hash: str
-
-
-class StorableAnnotation(Annotation):
-    """An annotation as it is stored on disk"""
-
-    src: str
     competency: str
+    is_attentive: bool
+
+    @property
+    def absolute_src(self):
+        """Returns the absolute path to the annotated file"""
+        return SETTINGS.data_folder.joinpath(self.src)
+
+    def file_exists(self):
+        """Returns whether the annotated file exists"""
+        return self.absolute_src.is_file()
+
+    def hash_is_valid(self):
+        """Returns whether the hash of the annotated file matches"""
+        with open(self.absolute_src, "rb") as file:
+            local_hash = hashlib.sha256(file.read()).hexdigest()
+        return local_hash == self.hash
+
+    def proofs_are_valid(self):
+        """Checks whether the proofs of the annotator are all valid"""
+        return self.is_attentive
+
+    def save(self):
+        """Saves this annotation to the filesystem"""
+        annotation_file = SETTINGS.data_folder.joinpath(f"{self.src}.annotation.json")
+        with open(annotation_file, "w", encoding="utf-8") as file:
+            file.write(json.dumps(self.__dict__, indent=4))
 
 
 @APP.post(
@@ -61,25 +91,18 @@ class StorableAnnotation(Annotation):
 )
 async def save_annotation(src: str, annotation: Annotation) -> None:
     """Saves the annotation for the specified image"""
-    image_file = SETTINGS.data_folder.joinpath(src)
-    if not image_file.is_file():
-        raise HTTPException(status_code=404, detail="File not found")
+    annotation.src = src
 
-    with open(image_file, "rb") as file:
-        local_hash = hashlib.sha256(file.read()).hexdigest()
-        if local_hash != annotation.hash:
-            raise HTTPException(
-                status_code=400,
-                detail="Hash values of the provided annotation and the local source do not match!",
-            )
+    if not annotation.file_exists():
+        raise HTTPException(status_code=404, detail="File not found!")
 
-    annotation = StorableAnnotation(
-        label=annotation.label,
-        hash=annotation.hash,
-        src=src,
-        competency="Prof. Dr. Med",  # e.g. loaded from user database
-    )
+    if not annotation.hash_is_valid():
+        raise HTTPException(
+            status_code=400,
+            detail="Hash values of the provided annotation and the local source do not match!",
+        )
 
-    annotation_file = SETTINGS.data_folder.joinpath(f"{src}.annotation.json")
-    with open(annotation_file, "w", encoding="utf-8") as file:
-        file.write(json.dumps(annotation.__dict__, indent=4))
+    if not annotation.proofs_are_valid():
+        raise HTTPException(status_code=420, detail="Provided proofs are not valid!")
+
+    annotation.save()

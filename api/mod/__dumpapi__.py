@@ -1,3 +1,5 @@
+"""Use this script to dump the OpenAPI JSON specification of the API"""
+
 import json
 
 from fastapi.openapi.utils import get_openapi

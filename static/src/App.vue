@@ -32,7 +32,7 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <ProofOfAttentiveness v-model:isAttentive="isAttentive"/>
+      <ProofOfAttentiveness v-model:isAttentive="isAttentive" />
       <ImageDisplay :src="apiUrl + imageUrl" />
       <i-button-group block>
         <AnnotationButton

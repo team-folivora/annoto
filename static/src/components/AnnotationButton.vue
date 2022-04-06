@@ -53,6 +53,6 @@ export default defineComponent({
 
 <template>
   <i-button :loading="isLoading" @click="saveAnnotation">
-    Label: {{ label }}, {{isAttentive}}
+    Label: {{ label }}, {{ isAttentive }}
   </i-button>
 </template>

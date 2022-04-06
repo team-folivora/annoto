@@ -4,6 +4,7 @@ This module defines the FastAPI application server
 
 import hashlib
 import json
+from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
@@ -56,25 +57,27 @@ class Annotation(BaseModel):
     is_attentive: bool
 
     @property
-    def absolute_src(self):
+    def absolute_src(self) -> Path:
         """Returns the absolute path to the annotated file"""
+        if not self.src:
+            raise AttributeError("No data file specified")
         return SETTINGS.data_folder.joinpath(self.src)
 
-    def file_exists(self):
+    def file_exists(self) -> bool:
         """Returns whether the annotated file exists"""
         return self.absolute_src.is_file()
 
-    def hash_is_valid(self):
+    def hash_is_valid(self) -> bool:
         """Returns whether the hash of the annotated file matches"""
         with open(self.absolute_src, "rb") as file:
             local_hash = hashlib.sha256(file.read()).hexdigest()
         return local_hash == self.hash
 
-    def proofs_are_valid(self):
+    def proofs_are_valid(self) -> bool:
         """Checks whether the proofs of the annotator are all valid"""
         return self.is_attentive
 
-    def save(self):
+    def save(self) -> None:
         """Saves this annotation to the filesystem"""
         annotation_file = SETTINGS.data_folder.joinpath(f"{self.src}.annotation.json")
         with open(annotation_file, "w", encoding="utf-8") as file:

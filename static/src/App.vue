@@ -29,7 +29,9 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <UserInformationLabel :username="user" />
+      <i-label-group block>
+        <UserInformationLabel :username="user" />
+      </i-label-group>
       <ImageDisplay src="http://localhost:5000/images/sloth.jpg" />
       <i-button-group block>
         <AnnotationButton

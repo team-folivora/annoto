@@ -1,7 +1,7 @@
 <script>
 import { defineComponent } from "vue";
 
-// Displays an mocked username on the mainpage
+// This component outputs a string with user information (username)
 
 export default defineComponent({
   props: {
@@ -12,7 +12,8 @@ export default defineComponent({
 
 <template>
   <div>
-    Current logged in user: <label for="username"> {{ username }} </label>
+    Current logged in user:
+    <label id="userLabel" for="username"> {{ username }} </label>
   </div>
 </template>
 

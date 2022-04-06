@@ -30,6 +30,7 @@ APP.add_middleware(
         200: {"content": {"image/*": {"schema": {"type": "file", "format": "binary"}}}},
         404: {"description": "File not found"},
     },
+    operation_id="get_image",
 )
 async def get_image(src: str) -> FileResponse:
     """Get the image that should be annotated"""
@@ -60,6 +61,7 @@ class StorableAnnotation(Annotation):
         404: {"description": "File not found"},
         400: {},
     },
+    operation_id="save_annotation",
 )
 async def save_annotation(src: str, annotation: Annotation) -> None:
     """Saves the annotation for the specified image"""

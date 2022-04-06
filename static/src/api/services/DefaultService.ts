@@ -16,7 +16,7 @@ export class DefaultService {
      * @returns binary Successful Response
      * @throws ApiError
      */
-    public static getImageImagesSrcGet(
+    public static getImage(
         src: string,
     ): CancelablePromise<Blob> {
         return __request(OpenAPI, {
@@ -41,7 +41,7 @@ export class DefaultService {
      * @returns void
      * @throws ApiError
      */
-    public static saveAnnotationImagesSrcPost(
+    public static saveAnnotation(
         src: string,
         requestBody: Annotation,
     ): CancelablePromise<void> {

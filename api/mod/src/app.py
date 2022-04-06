@@ -3,13 +3,17 @@ This module defines the FastAPI application server
 """
 
 import hashlib
+import os
 import json
+from typing import Union
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.templating import Jinja2Templates
 from fastapi.responses import FileResponse
 from fastapi_restful import Api
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
+from starlette.templating import _TemplateResponse
 
 from .settings import SETTINGS
 
@@ -21,6 +25,11 @@ APP.add_middleware(
     allow_origins=["*"],
     allow_methods=["*"],
 )
+
+TEMPLATE_DIRECTORY = domain_template_directory = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "templates"
+)
+TEMPLATES = Jinja2Templates(TEMPLATE_DIRECTORY)
 
 
 @APP.get(
@@ -82,3 +91,40 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
     annotation_file = SETTINGS.data_folder.joinpath(f"{src}.annotation.json")
     with open(annotation_file, "w", encoding="utf-8") as file:
         file.write(json.dumps(annotation.__dict__, indent=4))
+
+
+if SETTINGS.serve_data_folder:
+
+    @APP.get(
+        "/data/{path:path}",
+        response_class=FileResponse,
+        responses={
+            200: {
+                "content": {
+                    "*": {"schema": {"type": "file", "format": "binary"}},
+                    "text/html": {},
+                },
+            },
+            404: {"description": "File not found"},
+        },
+    )
+    async def serve_data_folder(
+        request: Request, path: str
+    ) -> Union[FileResponse, _TemplateResponse]:
+        """Serves the data folder (~/.annoto)"""
+        path = SETTINGS.data_folder.joinpath(path)
+        if os.path.isfile(path):
+            return FileResponse(path)
+        if os.path.isdir(path):
+            data_path = os.path.relpath(path, SETTINGS.data_folder)
+            back_path = os.path.relpath(path.parent, SETTINGS.data_folder)
+            return TEMPLATES.TemplateResponse(
+                "list_directory.html",
+                {
+                    "request": request,
+                    "entries": os.listdir(path),
+                    "data_path": data_path if data_path != "." else "",
+                    "back_path": back_path if back_path != "." else "",
+                },
+            )
+        raise HTTPException(status_code=404, detail="File not found")

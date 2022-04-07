@@ -123,7 +123,8 @@ if SETTINGS.serve_data_folder:
                 map(
                     lambda e: {
                         "name": os.path.basename(e),
-                        "url": f"/data/{os.path.relpath(os.path.join(path, e), SETTINGS.data_folder)}",
+                        "url": "/data/"
+                        + os.path.relpath(os.path.join(path, e), SETTINGS.data_folder),
                     },
                     os.listdir(path),
                 )

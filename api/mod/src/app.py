@@ -96,6 +96,8 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
 
 
 def serving_data_folder_required(func):
+    """Decorator to serve route only if serve_data_folder setting is True"""
+
     @wraps(func)
     async def wrapper(*args, **kwargs):
         if not SETTINGS.serve_data_folder:
@@ -139,7 +141,7 @@ async def serve_data_folder(
         entries = list(
             map(
                 lambda e: {
-                    "name": e,
+                    "name": f"{e}/" if os.path.isdir(path.joinpath(e)) else e,
                     "url": path_url(path.joinpath(e)),
                 },
                 os.listdir(path),

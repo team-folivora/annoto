@@ -98,6 +98,16 @@ def test_post_image_wrong_hash_returns_400(client: TestClient) -> None:
     assert response.headers["content-type"] == "application/json"
 
 
+def assert_heading(page: BeautifulSoup, index: str) -> None:
+    """Helper method to assert page heading"""
+    assert page.body.find("h1").text == f"Index of {index}"
+
+
+def assert_link(page: BeautifulSoup, href: str, text: str) -> None:
+    """Helper method to assert page link"""
+    assert page.body.find("a", attrs={"href": href}).text.strip() == text
+
+
 def test_get_datafolder(client: TestClient) -> None:
     """Test GET /data"""
     response = client.get(
@@ -106,9 +116,9 @@ def test_get_datafolder(client: TestClient) -> None:
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
-    assert page.body.find("h1").text == "Index of /"
-    assert page.body.find("a", attrs={"href": "/data/subfolder"})
-    assert page.body.find("a", attrs={"href": "/data/sloth.jpg"})
+    assert_heading(page, "/")
+    assert_link(page, "/data/subfolder", "subfolder/")
+    assert_link(page, "/data/sloth.jpg", "sloth.jpg")
 
 
 def test_get_datafolder_sloth(client: TestClient) -> None:
@@ -128,10 +138,10 @@ def test_get_datafolder_subfolder(client: TestClient) -> None:
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
-    assert page.body.find("h1").text == "Index of /subfolder/"
-    assert page.body.find("a", attrs={"href": "/data"})
-    assert page.body.find("a", attrs={"href": "/data/subfolder/subsubfolder"})
-    assert page.body.find("a", attrs={"href": "/data/subfolder/loremipsum.txt"})
+    assert_heading(page, "/subfolder/")
+    assert_link(page, "/data", "..")
+    assert_link(page, "/data/subfolder/subsubfolder", "subsubfolder/")
+    assert_link(page, "/data/subfolder/loremipsum.txt", "loremipsum.txt")
 
 
 def test_get_datafolder_subfolder_loremipsum(client: TestClient) -> None:
@@ -151,5 +161,5 @@ def test_get_datafolder_subfolder_subsubfolder(client: TestClient) -> None:
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
-    assert page.body.find("h1").text == "Index of /subfolder/subsubfolder/"
-    assert page.body.find("a", attrs={"href": "/data/subfolder"})
+    assert_heading(page, "/subfolder/subsubfolder/")
+    assert_link(page, "/data/subfolder", "..")

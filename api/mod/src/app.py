@@ -3,13 +3,13 @@ This module defines the FastAPI application server
 """
 
 import hashlib
-import os
 import json
+import os
 from typing import Union
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.templating import Jinja2Templates
 from fastapi.responses import FileResponse
+from fastapi.templating import Jinja2Templates
 from fastapi_restful import Api
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware

@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 from functools import wraps
+from os import PathLike
 from typing import Union
 
 from fastapi import FastAPI, HTTPException, Request
@@ -104,6 +105,12 @@ def serving_data_folder_required(func):
     return wrapper
 
 
+def path_url(path: PathLike[str]) -> str:
+    """Get the url to a path inside the data folder (~/.annoto)"""
+    url_path = os.path.relpath(path, SETTINGS.data_folder).replace(os.path.sep, "/")
+    return f"/data/{url_path}" if url_path != "." else "/data"
+
+
 @APP.get(
     "/data/{path:path}",
     response_class=FileResponse,
@@ -132,24 +139,21 @@ async def serve_data_folder(
         entries = list(
             map(
                 lambda e: {
-                    "name": os.path.basename(e),
-                    "url": "/data/"
-                    + os.path.relpath(os.path.join(path, e), SETTINGS.data_folder),
+                    "name": e,
+                    "url": path_url(path.joinpath(e)),
                 },
                 os.listdir(path),
             )
         )
 
-        relative_path = os.path.relpath(path, SETTINGS.data_folder)
-        if relative_path != ".":
-            relative_back_path = os.path.relpath(path.parent, SETTINGS.data_folder)
-            entries.append(
+        base = f"{path_url(path)[len('/data') :]}/"
+        if base != "/":
+            entries.insert(
+                0,
                 {
                     "name": "..",
-                    "url": f"/data/{relative_back_path}"
-                    if relative_back_path != "."
-                    else "/data",
-                }
+                    "url": path_url(path.parent),
+                },
             )
 
         return TEMPLATES.TemplateResponse(
@@ -157,7 +161,7 @@ async def serve_data_folder(
             {
                 "request": request,
                 "entries": entries,
-                "path": relative_path if relative_path != "." else "",
+                "base": base,
             },
         )
 

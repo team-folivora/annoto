@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import PurePath
 from typing import Union
+import shutil
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
@@ -162,3 +163,24 @@ if SETTINGS.debug_routes:
             )
 
         raise HTTPException(status_code=404, detail="File not found")
+
+    @APP.delete(
+        "/debug/data/{path:path}",
+        status_code=204,
+        responses={
+            404: {"description": "File not found"},
+            400: {},
+        },
+    )
+    async def delete_from_data_folder(path: str) -> None:
+        """Delete from the data folder (~/.annoto)"""
+
+        path = SETTINGS.data_folder.joinpath(path)
+        if path == SETTINGS.data_folder:
+            raise HTTPException(status_code=400)
+        if os.path.isfile(path):
+            os.remove(path)
+        elif os.path.isdir(path):
+            shutil.rmtree(path)
+        else:
+            raise HTTPException(status_code=404, detail="File not found")

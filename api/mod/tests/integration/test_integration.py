@@ -2,6 +2,7 @@
 Module for integration tests
 """
 
+import os
 import json
 import shutil
 import tempfile
@@ -16,7 +17,7 @@ from mod.src.app import APP
 from mod.src.settings import SETTINGS
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def session() -> Generator:
     """Manages testing session"""
     SETTINGS.data_folder = Path(tempfile.mkdtemp(prefix="annoto"))
@@ -103,8 +104,8 @@ def assert_heading(page: BeautifulSoup, index: str) -> None:
     assert page.body.find("h1").text == f"Index of {index}"
 
 
-def assert_link(page: BeautifulSoup, href: str, text: str) -> None:
-    """Helper method to assert page link"""
+def assert_entry(page: BeautifulSoup, href: str, text: str) -> None:
+    """Helper method to assert the page has a link to an entry"""
     assert page.body.find("a", attrs={"href": href}).text.strip() == text
 
 
@@ -117,8 +118,8 @@ def test_get_datafolder(client: TestClient) -> None:
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
     assert_heading(page, "/")
-    assert_link(page, "/debug/data/subfolder", "subfolder/")
-    assert_link(page, "/debug/data/sloth.jpg", "sloth.jpg")
+    assert_entry(page, "/debug/data/subfolder", "subfolder/")
+    assert_entry(page, "/debug/data/sloth.jpg", "sloth.jpg")
 
 
 def test_get_datafolder_sloth(client: TestClient) -> None:
@@ -139,9 +140,9 @@ def test_get_datafolder_subfolder(client: TestClient) -> None:
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
     assert_heading(page, "/subfolder/")
-    assert_link(page, "/debug/data", "..")
-    assert_link(page, "/debug/data/subfolder/subsubfolder", "subsubfolder/")
-    assert_link(page, "/debug/data/subfolder/loremipsum.txt", "loremipsum.txt")
+    assert_entry(page, "/debug/data", "..")
+    assert_entry(page, "/debug/data/subfolder/subsubfolder", "subsubfolder/")
+    assert_entry(page, "/debug/data/subfolder/loremipsum.txt", "loremipsum.txt")
 
 
 def test_get_datafolder_subfolder_loremipsum(client: TestClient) -> None:
@@ -162,4 +163,24 @@ def test_get_datafolder_subfolder_subsubfolder(client: TestClient) -> None:
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
     assert_heading(page, "/subfolder/subsubfolder/")
-    assert_link(page, "/debug/data/subfolder", "..")
+    assert_entry(page, "/debug/data/subfolder", "..")
+
+
+def test_delete_datafolder_file(client: TestClient) -> None:
+    """Test DELETE /debug/data/sloth.jpg"""
+    response = client.delete(
+        "/debug/data/sloth.jpg",
+    )
+    assert response.status_code == 204
+    assert not os.path.exists(SETTINGS.data_folder.joinpath("sloth.jpg"))
+    assert os.path.exists(SETTINGS.data_folder.joinpath("subfolder"))
+
+
+def test_delete_datafolder_directory(client: TestClient) -> None:
+    """Test DELETE /debug/data/subfolder"""
+    response = client.delete(
+        "/debug/data/subfolder",
+    )
+    assert response.status_code == 204
+    assert not os.path.exists(SETTINGS.data_folder.joinpath("subfolder"))
+    assert os.path.exists(SETTINGS.data_folder.joinpath("sloth.jpg"))

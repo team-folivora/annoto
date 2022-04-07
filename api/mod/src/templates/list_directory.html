@@ -7,6 +7,16 @@
                     <a href="{{ entry["url"] }}">
                         {{ entry["name"] }}
                     </a>
+                    {% if entry["name"] != ".." %}
+                        <button onclick="
+                            fetch(
+                                '{{ entry["url"] }}',
+                                {method: 'DELETE'}
+                            ).then(function(){
+                                window.location.reload()
+                            })
+                        ">DELETE</button>
+                    {% endif%}
                 </li>
             {% endfor %}
         </ul>

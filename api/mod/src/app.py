@@ -112,19 +112,42 @@ if SETTINGS.serve_data_folder:
         request: Request, path: str
     ) -> Union[FileResponse, _TemplateResponse]:
         """Serves the data folder (~/.annoto)"""
+
         path = SETTINGS.data_folder.joinpath(path)
+
         if os.path.isfile(path):
             return FileResponse(path)
+
         if os.path.isdir(path):
-            data_path = os.path.relpath(path, SETTINGS.data_folder)
-            back_path = os.path.relpath(path.parent, SETTINGS.data_folder)
+            entries = list(
+                map(
+                    lambda e: {
+                        "name": os.path.basename(e),
+                        "url": f"/data/{os.path.relpath(os.path.join(path, e), SETTINGS.data_folder)}",
+                    },
+                    os.listdir(path),
+                )
+            )
+
+            relative_path = os.path.relpath(path, SETTINGS.data_folder)
+            if relative_path != ".":
+                relative_back_path = os.path.relpath(path.parent, SETTINGS.data_folder)
+                entries.append(
+                    {
+                        "name": "..",
+                        "url": f"/data/{relative_back_path}"
+                        if relative_back_path != "."
+                        else "/data",
+                    }
+                )
+
             return TEMPLATES.TemplateResponse(
                 "list_directory.html",
                 {
                     "request": request,
-                    "entries": os.listdir(path),
-                    "data_path": data_path if data_path != "." else "",
-                    "back_path": back_path if back_path != "." else "",
+                    "entries": entries,
+                    "path": relative_path if relative_path != "." else "",
                 },
             )
+
         raise HTTPException(status_code=404, detail="File not found")

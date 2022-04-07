@@ -1,16 +1,11 @@
 <html>
     <body>
-        <h1>Index of /{{data_path}}</h1>
+        <h1>Index of /{{ path }}</h1>
         <ul>
-            {% if back_path != ".." %}
-                <li>
-                    <a href="/data/{{back_path}}">..</a>
-                </li>
-            {% endif %}
             {% for entry in entries %}
                 <li>
-                    <a href="/data/{{data_path+"/" if data_path else ""}}{{entry}}">
-                        {{entry}}
+                    <a href="{{ entry["url"] }}">
+                        {{ entry["name"] }}
                     </a>
                 </li>
             {% endfor %}

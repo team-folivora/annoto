@@ -7,13 +7,13 @@ import json
 import os
 from functools import wraps
 from os import PathLike
-from typing import Union, Callable, Coroutine, Any
-from mypy_extensions import VarArg, KwArg
+from typing import Any, Callable, Coroutine, Union
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_restful import Api
+from mypy_extensions import KwArg, VarArg
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from starlette.templating import _TemplateResponse

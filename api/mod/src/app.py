@@ -2,10 +2,10 @@
 This module defines the FastAPI application server
 """
 
-from functools import wraps
 import hashlib
 import json
 import os
+from functools import wraps
 from typing import Union
 
 from fastapi import FastAPI, HTTPException, Request

@@ -19,10 +19,9 @@ from mod.src.settings import SETTINGS
 def session() -> Generator:
     """Manages testing session"""
     SETTINGS.data_folder = Path(tempfile.mkdtemp(prefix="annoto"))
-    SETTINGS.testing = True
 
     dst = SETTINGS.data_folder
-    src = Path.cwd().joinpath("mod").joinpath("tests").joinpath("fixtures")
+    src = Path.cwd().joinpath("mod").joinpath("fixtures")
     shutil.copytree(src, dst, dirs_exist_ok=True)
 
     yield SETTINGS
@@ -68,6 +67,7 @@ def test_post_image(client: TestClient) -> None:
             "label": "foo",
             "src": "sloth.jpg",
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
+            "competency": "Prof. Dr. Med",
         }
 
 

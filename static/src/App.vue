@@ -18,6 +18,8 @@ export default defineComponent({
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
       user: "AnnotoUser#1337",
+      apiUrl: import.meta.env.VITE_API_URL?.toString() || "",
+      imageUrl: "images/sloth.jpg",
     };
   },
 });
@@ -32,14 +34,14 @@ export default defineComponent({
       <i-label-group block>
         <UserInformationLabel :username="user" />
       </i-label-group>
-      <ImageDisplay src="http://localhost:5000/images/sloth.jpg" />
+      <ImageDisplay :src="apiUrl + imageUrl" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
           :key="label"
           :label="label"
           :username="user"
-          src="http://localhost:5000/images/sloth.jpg"
+          :src="apiUrl + imageUrl"
         />
       </i-button-group>
     </i-layout-content>

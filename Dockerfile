@@ -14,7 +14,8 @@ USER a
 WORKDIR /home/a
 
 # Setup python
-RUN sudo apt install -y python3 python3-pip
+RUN sudo apt install -y python3 python3-pip && \
+    pip install virtualenv
 
 # Setup node
 COPY --chown=a static/.nvmrc .nvmrc
@@ -25,27 +26,20 @@ RUN nvm install && \
 # Create directories
 RUN mkdir /home/a/annoto && \
     mkdir /home/a/annoto/api && \
-    mkdir /home/a/annoto/static
+    mkdir /home/a/annoto/static && \
+    mkdir /home/a/.annoto
 
-# Install dependencies for api
-WORKDIR /home/a/annoto/api
-COPY --chown=a /api/requirements.txt requirements.txt
-COPY --chown=a /api/requirements-dev.txt requirements-dev.txt
-RUN pip install -r requirements-dev.txt
+# Setup .bashrc
+RUN printf "[ -f ~/annoto/api/venv/bin/activate ] || python3 -m virtualenv ~/annoto/api/venv\nsource ~/annoto/api/venv/bin/activate\n" >> /home/a/.bashrc
 
-# Install dependencies for static
-WORKDIR /home/a/annoto/static
-COPY --chown=a /static/package.json package.json
-COPY --chown=a /static/package-lock.json package-lock.json
-RUN npm install
+# Copy fixtures
+WORKDIR /home/a/.annoto
+COPY --chown=a /api/mod/fixtures /home/a/.annoto
 
-# Cleanup
-RUN rm -r /home/a/.cache && \
-    rm -r /home/a/.npm
+# Copy entrypoint
+WORKDIR /home/a/annoto
+COPY --chown=a /entrypoint.sh entrypoint.sh
 
-# Prepare for run
 EXPOSE 5000
 EXPOSE 3000
-WORKDIR /home/a/annoto
-COPY --chown=a / .
 ENTRYPOINT "./entrypoint.sh"

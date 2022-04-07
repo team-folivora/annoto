@@ -2,6 +2,7 @@
 import ImageDisplay from "./components/ImageDisplay.vue";
 import AnnotationButton from "./components/AnnotationButton.vue";
 import { defineComponent } from "vue";
+import { getUrl } from "./utils/helpers";
 
 /**
  * The main App component for the website
@@ -13,10 +14,11 @@ export default defineComponent({
   },
 
   data() {
+    let imageId = "sloth.jpg";
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
-      apiUrl: import.meta.env.VITE_API_URL?.toString() || "",
-      imageSrc: "sloth.jpg",
+      imageId,
+      imageSrc: getUrl("images/" + imageId),
     };
   },
 });
@@ -28,13 +30,13 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <ImageDisplay :src="apiUrl + 'images/' + imageSrc + '?'" />
+      <ImageDisplay :src="imageSrc" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
           :key="label"
           :label="label"
-          :src="imageSrc"
+          :src="imageId"
         />
       </i-button-group>
     </i-layout-content>

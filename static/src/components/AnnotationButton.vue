@@ -1,5 +1,4 @@
 <script lang="ts">
-import axios from "axios";
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
 import { DefaultService as API } from "../api/services/DefaultService";

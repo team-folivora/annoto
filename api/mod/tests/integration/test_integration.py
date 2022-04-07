@@ -106,6 +106,7 @@ def test_get_datafolder(client: TestClient) -> None:
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
+    assert page.body.find("h1").text == "Index of /"
     assert page.body.find("a", attrs={"href": "/data/subfolder"})
     assert page.body.find("a", attrs={"href": "/data/sloth.jpg"})
 
@@ -127,7 +128,7 @@ def test_get_datafolder_subfolder(client: TestClient) -> None:
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
-    print(page)
+    assert page.body.find("h1").text == "Index of /subfolder/"
     assert page.body.find("a", attrs={"href": "/data"})
     assert page.body.find("a", attrs={"href": "/data/subfolder/subsubfolder"})
     assert page.body.find("a", attrs={"href": "/data/subfolder/loremipsum.txt"})
@@ -150,5 +151,5 @@ def test_get_datafolder_subfolder_subsubfolder(client: TestClient) -> None:
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
-    print(page)
+    assert page.body.find("h1").text == "Index of /subfolder/subsubfolder/"
     assert page.body.find("a", attrs={"href": "/data/subfolder"})

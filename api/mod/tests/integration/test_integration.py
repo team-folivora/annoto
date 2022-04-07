@@ -2,8 +2,8 @@
 Module for integration tests
 """
 
-import os
 import json
+import os
 import shutil
 import tempfile
 from pathlib import Path

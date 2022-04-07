@@ -5,9 +5,9 @@ This module defines the FastAPI application server
 import hashlib
 import json
 import os
+import shutil
 from pathlib import PurePath
 from typing import Union
-import shutil
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse

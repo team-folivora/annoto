@@ -166,6 +166,14 @@ def test_get_datafolder_subfolder_subsubfolder(client: TestClient) -> None:
     assert_entry(page, "/debug/data/subfolder", "..")
 
 
+def test_get_datafolder_unknown_file_returns_404(client: TestClient) -> None:
+    """Test GET /debug/data/unknown_file.txt"""
+    response = client.delete(
+        "/debug/data/unknown_file.txt",
+    )
+    assert response.status_code == 404
+
+
 def test_delete_datafolder_file(client: TestClient) -> None:
     """Test DELETE /debug/data/sloth.jpg"""
     response = client.delete(
@@ -184,3 +192,19 @@ def test_delete_datafolder_directory(client: TestClient) -> None:
     assert response.status_code == 204
     assert not os.path.exists(SETTINGS.data_folder.joinpath("subfolder"))
     assert os.path.exists(SETTINGS.data_folder.joinpath("sloth.jpg"))
+
+
+def test_delete_datafolder_unknown_file_returns_404(client: TestClient) -> None:
+    """Test DELETE /debug/data/unknown_file.txt"""
+    response = client.delete(
+        "/debug/data/unknown_file.txt",
+    )
+    assert response.status_code == 404
+
+
+def test_delete_datafolder_root_fails(client: TestClient) -> None:
+    """Test DELETE /debug/data/"""
+    response = client.delete(
+        "/debug/data/",
+    )
+    assert response.status_code == 400

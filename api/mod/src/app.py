@@ -7,7 +7,8 @@ import json
 import os
 from functools import wraps
 from os import PathLike
-from typing import Union
+from typing import Union, Callable, Coroutine, Any
+from mypy_extensions import VarArg, KwArg
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
@@ -95,11 +96,13 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
         file.write(json.dumps(annotation.__dict__, indent=4))
 
 
-def serving_data_folder_required(func):
+def serving_data_folder_required(
+    func: Callable[..., Any]
+) -> Callable[[VarArg(Any), KwArg(Any)], Coroutine[Any, Any, Callable[..., Any]]]:
     """Decorator to serve route only if serve_data_folder setting is True"""
 
     @wraps(func)
-    async def wrapper(*args, **kwargs):
+    async def wrapper(*args: Any, **kwargs: Any) -> Callable[..., Any]:
         if not SETTINGS.serve_data_folder:
             raise HTTPException(status_code=405)
         return await func(*args, **kwargs)

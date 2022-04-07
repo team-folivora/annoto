@@ -26,11 +26,11 @@ def annotation() -> Annotation:
 
 
 class TestAnnotation:
-    def test_absolute_src(self, annotation, mocker: MockerFixture) -> None:
+    def test_absolute_src(self, annotation: Annotation, mocker: MockerFixture) -> None:
         mocker.patch("mod.src.settings.SETTINGS.data_folder", Path("mock_folder"))
         assert Path("mock_folder/test.jpg") == annotation.absolute_src
 
-    def test_file_exists(self, annotation) -> None:
+    def test_file_exists(self, annotation: Annotation) -> None:
         with Patcher(modules_to_reload=[mod.src.settings, mod.src.app]) as patcher:
             assert not annotation.file_exists()
             patcher.fs.create_file(
@@ -38,13 +38,15 @@ class TestAnnotation:
             )
             assert annotation.file_exists()
 
-    def test_raises_when_missing_src(self, annotation) -> None:
+    def test_raises_when_missing_src(self, annotation: Annotation) -> None:
         """If src is not set, absolute_src should throw an error"""
         annotation.src = None
         with pytest.raises(AttributeError):
             annotation.absolute_src
 
-    def test_hash_is_valid_returns_true_if_hash_is_valid(self, annotation) -> None:
+    def test_hash_is_valid_returns_true_if_hash_is_valid(
+        self, annotation: Annotation
+    ) -> None:
         with Patcher(modules_to_reload=[mod.src.settings, mod.src.app]) as patcher:
             patcher.fs.create_file(
                 mod.src.settings.SETTINGS.data_folder.joinpath("test.jpg"),
@@ -55,7 +57,7 @@ class TestAnnotation:
             )
             assert annotation.hash_is_valid()
 
-    def test_save_annotation_saves_annotation(self, annotation) -> None:
+    def test_save_annotation_saves_annotation(self, annotation: Annotation) -> None:
         with Patcher(modules_to_reload=[mod.src.settings, mod.src.app]) as patcher:
             assert not mod.src.settings.SETTINGS.data_folder.joinpath(
                 "test.jpg.annotation.json"

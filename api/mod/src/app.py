@@ -2,6 +2,7 @@
 This module defines the FastAPI application server
 """
 
+from functools import wraps
 import hashlib
 import json
 import os
@@ -93,61 +94,70 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
         file.write(json.dumps(annotation.__dict__, indent=4))
 
 
-if SETTINGS.serve_data_folder:
+def serving_data_folder_required(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        if not SETTINGS.serve_data_folder:
+            raise HTTPException(status_code=405)
+        return await func(*args, **kwargs)
 
-    @APP.get(
-        "/data/{path:path}",
-        response_class=FileResponse,
-        responses={
-            200: {
-                "content": {
-                    "*": {"schema": {"type": "file", "format": "binary"}},
-                    "text/html": {},
-                },
+    return wrapper
+
+
+@APP.get(
+    "/data/{path:path}",
+    response_class=FileResponse,
+    responses={
+        200: {
+            "content": {
+                "*": {"schema": {"type": "file", "format": "binary"}},
+                "text/html": {},
             },
-            404: {"description": "File not found"},
         },
-    )
-    async def serve_data_folder(
-        request: Request, path: str
-    ) -> Union[FileResponse, _TemplateResponse]:
-        """Serves the data folder (~/.annoto)"""
+        404: {"description": "File not found"},
+    },
+)
+@serving_data_folder_required
+async def serve_data_folder(
+    request: Request, path: str
+) -> Union[FileResponse, _TemplateResponse]:
+    """Serves the data folder (~/.annoto)"""
 
-        path = SETTINGS.data_folder.joinpath(path)
+    path = SETTINGS.data_folder.joinpath(path)
 
-        if os.path.isfile(path):
-            return FileResponse(path)
+    if os.path.isfile(path):
+        return FileResponse(path)
 
-        if os.path.isdir(path):
-            entries = list(
-                map(
-                    lambda e: {
-                        "name": os.path.basename(e),
-                        "url": f"/data/{os.path.relpath(os.path.join(path, e), SETTINGS.data_folder)}",
-                    },
-                    os.listdir(path),
-                )
-            )
-
-            relative_path = os.path.relpath(path, SETTINGS.data_folder)
-            if relative_path != ".":
-                relative_back_path = os.path.relpath(path.parent, SETTINGS.data_folder)
-                entries.append(
-                    {
-                        "name": "..",
-                        "url": f"/data/{relative_back_path}"
-                        if relative_back_path != "."
-                        else "/data",
-                    }
-                )
-
-            return TEMPLATES.TemplateResponse(
-                "list_directory.html",
-                {
-                    "request": request,
-                    "entries": entries,
-                    "path": relative_path if relative_path != "." else "",
+    if os.path.isdir(path):
+        entries = list(
+            map(
+                lambda e: {
+                    "name": os.path.basename(e),
+                    "url": f"/data/{os.path.relpath(os.path.join(path, e), SETTINGS.data_folder)}",
                 },
+                os.listdir(path),
+            )
+        )
+
+        relative_path = os.path.relpath(path, SETTINGS.data_folder)
+        if relative_path != ".":
+            relative_back_path = os.path.relpath(path.parent, SETTINGS.data_folder)
+            entries.append(
+                {
+                    "name": "..",
+                    "url": f"/data/{relative_back_path}"
+                    if relative_back_path != "."
+                    else "/data",
+                }
             )
 
-        raise HTTPException(status_code=404, detail="File not found")
+        return TEMPLATES.TemplateResponse(
+            "list_directory.html",
+            {
+                "request": request,
+                "entries": entries,
+                "path": relative_path if relative_path != "." else "",
+            },
+        )
+
+    raise HTTPException(status_code=404, detail="File not found")

@@ -7,9 +7,9 @@ import shutil
 import tempfile
 from pathlib import Path
 from typing import Generator
-from bs4 import BeautifulSoup
 
 import pytest
+from bs4 import BeautifulSoup
 from fastapi.testclient import TestClient
 
 from mod.src.app import APP

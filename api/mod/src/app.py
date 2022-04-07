@@ -5,15 +5,13 @@ This module defines the FastAPI application server
 import hashlib
 import json
 import os
-from functools import wraps
 from os import PathLike
-from typing import Any, Callable, Coroutine, Union
+from typing import Union
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_restful import Api
-from mypy_extensions import KwArg, VarArg
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from starlette.templating import _TemplateResponse
@@ -101,78 +99,65 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
         file.write(json.dumps(annotation.__dict__, indent=4))
 
 
-def debug_route(
-    func: Callable[..., Any]
-) -> Callable[[VarArg(Any), KwArg(Any)], Coroutine[Any, Any, Callable[..., Any]]]:
-    """Decorator to serve route only if debug_routes setting is True"""
-
-    @wraps(func)
-    async def wrapper(*args: Any, **kwargs: Any) -> Callable[..., Any]:
-        if not SETTINGS.debug_routes:
-            raise HTTPException(status_code=405)
-        return await func(*args, **kwargs)
-
-    return wrapper
-
-
 def path_url(path: PathLike[str]) -> str:
     """Get the url to a path inside the data folder (~/.annoto)"""
     url_path = os.path.relpath(path, SETTINGS.data_folder).replace(os.path.sep, "/")
     return f"/debug/data/{url_path}" if url_path != "." else "/debug/data"
 
 
-@APP.get(
-    "/debug/data/{path:path}",
-    response_class=FileResponse,
-    responses={
-        200: {
-            "content": {
-                "*": {"schema": {"type": "file", "format": "binary"}},
-                "text/html": {},
+if SETTINGS.debug_routes:
+
+    @APP.get(
+        "/debug/data/{path:path}",
+        response_class=FileResponse,
+        responses={
+            200: {
+                "content": {
+                    "*": {"schema": {"type": "file", "format": "binary"}},
+                    "text/html": {},
+                },
             },
+            404: {"description": "File not found"},
         },
-        404: {"description": "File not found"},
-    },
-)
-@debug_route
-async def serve_data_folder(
-    request: Request, path: str
-) -> Union[FileResponse, _TemplateResponse]:
-    """Serves the data folder (~/.annoto)"""
+    )
+    async def serve_data_folder(
+        request: Request, path: str
+    ) -> Union[FileResponse, _TemplateResponse]:
+        """Serves the data folder (~/.annoto)"""
 
-    path = SETTINGS.data_folder.joinpath(path)
+        path = SETTINGS.data_folder.joinpath(path)
 
-    if os.path.isfile(path):
-        return FileResponse(path)
+        if os.path.isfile(path):
+            return FileResponse(path)
 
-    if os.path.isdir(path):
-        entries = list(
-            map(
-                lambda e: {
-                    "name": f"{e}/" if os.path.isdir(path.joinpath(e)) else e,
-                    "url": path_url(path.joinpath(e)),
-                },
-                os.listdir(path),
+        if os.path.isdir(path):
+            entries = list(
+                map(
+                    lambda e: {
+                        "name": f"{e}/" if os.path.isdir(path.joinpath(e)) else e,
+                        "url": path_url(path.joinpath(e)),
+                    },
+                    os.listdir(path),
+                )
             )
-        )
 
-        base = f"{path_url(path)[len('/debug/data') :]}/"
-        if base != "/":
-            entries.insert(
-                0,
+            base = f"{path_url(path)[len('/debug/data') :]}/"
+            if base != "/":
+                entries.insert(
+                    0,
+                    {
+                        "name": "..",
+                        "url": path_url(path.parent),
+                    },
+                )
+
+            return TEMPLATES.TemplateResponse(
+                "list_directory.html",
                 {
-                    "name": "..",
-                    "url": path_url(path.parent),
+                    "request": request,
+                    "entries": entries,
+                    "base": base,
                 },
             )
 
-        return TEMPLATES.TemplateResponse(
-            "list_directory.html",
-            {
-                "request": request,
-                "entries": entries,
-                "base": base,
-            },
-        )
-
-    raise HTTPException(status_code=404, detail="File not found")
+        raise HTTPException(status_code=404, detail="File not found")

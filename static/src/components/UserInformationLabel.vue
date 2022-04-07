@@ -13,7 +13,7 @@ export default defineComponent({
 <template>
   <div>
     Current logged in user:
-    <label id="userLabel" for="username"> {{ username }} </label>
+    <label id="userLabel" for="username">{{ username }}</label>
   </div>
 </template>
 

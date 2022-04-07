@@ -7,6 +7,7 @@ import shutil
 import tempfile
 from pathlib import Path
 from typing import Generator
+from bs4 import BeautifulSoup
 
 import pytest
 from fastapi.testclient import TestClient
@@ -95,3 +96,59 @@ def test_post_image_wrong_hash_returns_400(client: TestClient) -> None:
     )
     assert response.status_code == 400
     assert response.headers["content-type"] == "application/json"
+
+
+def test_get_datafolder(client: TestClient) -> None:
+    """Test GET /data"""
+    response = client.get(
+        "/data",
+    )
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "text/html; charset=utf-8"
+    page = BeautifulSoup(response.text, features="html.parser")
+    assert page.body.find("a", attrs={"href": "/data/subfolder"})
+    assert page.body.find("a", attrs={"href": "/data/sloth.jpg"})
+
+
+def test_get_datafolder_sloth(client: TestClient) -> None:
+    """Test GET /data/sloth.jpg"""
+    response = client.get(
+        "/data/sloth.jpg",
+    )
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "image/jpeg"
+
+
+def test_get_datafolder_subfolder(client: TestClient) -> None:
+    """Test GET /data/subfolder"""
+    response = client.get(
+        "/data/subfolder",
+    )
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "text/html; charset=utf-8"
+    page = BeautifulSoup(response.text, features="html.parser")
+    print(page)
+    assert page.body.find("a", attrs={"href": "/data"})
+    assert page.body.find("a", attrs={"href": "/data/subfolder/subsubfolder"})
+    assert page.body.find("a", attrs={"href": "/data/subfolder/loremipsum.txt"})
+
+
+def test_get_datafolder_subfolder_loremipsum(client: TestClient) -> None:
+    """Test GET /data/subfolder/loremipsum.txt"""
+    response = client.get(
+        "/data/subfolder/loremipsum.txt",
+    )
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "text/plain; charset=utf-8"
+
+
+def test_get_datafolder_subfolder_subsubfolder(client: TestClient) -> None:
+    """Test GET /data/subfolder/subsubfolder"""
+    response = client.get(
+        "/data/subfolder/subsubfolder",
+    )
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "text/html; charset=utf-8"
+    page = BeautifulSoup(response.text, features="html.parser")
+    print(page)
+    assert page.body.find("a", attrs={"href": "/data/subfolder"})

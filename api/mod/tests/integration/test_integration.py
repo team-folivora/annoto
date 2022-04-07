@@ -109,57 +109,57 @@ def assert_link(page: BeautifulSoup, href: str, text: str) -> None:
 
 
 def test_get_datafolder(client: TestClient) -> None:
-    """Test GET /data"""
+    """Test GET /debug/data"""
     response = client.get(
-        "/data",
+        "/debug/data",
     )
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
     assert_heading(page, "/")
-    assert_link(page, "/data/subfolder", "subfolder/")
-    assert_link(page, "/data/sloth.jpg", "sloth.jpg")
+    assert_link(page, "/debug/data/subfolder", "subfolder/")
+    assert_link(page, "/debug/data/sloth.jpg", "sloth.jpg")
 
 
 def test_get_datafolder_sloth(client: TestClient) -> None:
-    """Test GET /data/sloth.jpg"""
+    """Test GET /debug/data/sloth.jpg"""
     response = client.get(
-        "/data/sloth.jpg",
+        "/debug/data/sloth.jpg",
     )
     assert response.status_code == 200
     assert response.headers["content-type"] == "image/jpeg"
 
 
 def test_get_datafolder_subfolder(client: TestClient) -> None:
-    """Test GET /data/subfolder"""
+    """Test GET /debug/data/subfolder"""
     response = client.get(
-        "/data/subfolder",
+        "/debug/data/subfolder",
     )
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
     assert_heading(page, "/subfolder/")
-    assert_link(page, "/data", "..")
-    assert_link(page, "/data/subfolder/subsubfolder", "subsubfolder/")
-    assert_link(page, "/data/subfolder/loremipsum.txt", "loremipsum.txt")
+    assert_link(page, "/debug/data", "..")
+    assert_link(page, "/debug/data/subfolder/subsubfolder", "subsubfolder/")
+    assert_link(page, "/debug/data/subfolder/loremipsum.txt", "loremipsum.txt")
 
 
 def test_get_datafolder_subfolder_loremipsum(client: TestClient) -> None:
-    """Test GET /data/subfolder/loremipsum.txt"""
+    """Test GET /debug/data/subfolder/loremipsum.txt"""
     response = client.get(
-        "/data/subfolder/loremipsum.txt",
+        "/debug/data/subfolder/loremipsum.txt",
     )
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/plain; charset=utf-8"
 
 
 def test_get_datafolder_subfolder_subsubfolder(client: TestClient) -> None:
-    """Test GET /data/subfolder/subsubfolder"""
+    """Test GET /debug/data/subfolder/subsubfolder"""
     response = client.get(
-        "/data/subfolder/subsubfolder",
+        "/debug/data/subfolder/subsubfolder",
     )
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
     assert_heading(page, "/subfolder/subsubfolder/")
-    assert_link(page, "/data/subfolder", "..")
+    assert_link(page, "/debug/data/subfolder", "..")

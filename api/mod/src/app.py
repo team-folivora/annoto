@@ -101,14 +101,14 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
         file.write(json.dumps(annotation.__dict__, indent=4))
 
 
-def serving_data_folder_required(
+def debug_route(
     func: Callable[..., Any]
 ) -> Callable[[VarArg(Any), KwArg(Any)], Coroutine[Any, Any, Callable[..., Any]]]:
-    """Decorator to serve route only if serve_data_folder setting is True"""
+    """Decorator to serve route only if debug_routes setting is True"""
 
     @wraps(func)
     async def wrapper(*args: Any, **kwargs: Any) -> Callable[..., Any]:
-        if not SETTINGS.serve_data_folder:
+        if not SETTINGS.debug_routes:
             raise HTTPException(status_code=405)
         return await func(*args, **kwargs)
 
@@ -118,11 +118,11 @@ def serving_data_folder_required(
 def path_url(path: PathLike[str]) -> str:
     """Get the url to a path inside the data folder (~/.annoto)"""
     url_path = os.path.relpath(path, SETTINGS.data_folder).replace(os.path.sep, "/")
-    return f"/data/{url_path}" if url_path != "." else "/data"
+    return f"/debug/data/{url_path}" if url_path != "." else "/debug/data"
 
 
 @APP.get(
-    "/data/{path:path}",
+    "/debug/data/{path:path}",
     response_class=FileResponse,
     responses={
         200: {
@@ -134,7 +134,7 @@ def path_url(path: PathLike[str]) -> str:
         404: {"description": "File not found"},
     },
 )
-@serving_data_folder_required
+@debug_route
 async def serve_data_folder(
     request: Request, path: str
 ) -> Union[FileResponse, _TemplateResponse]:
@@ -156,7 +156,7 @@ async def serve_data_folder(
             )
         )
 
-        base = f"{path_url(path)[len('/data') :]}/"
+        base = f"{path_url(path)[len('/debug/data') :]}/"
         if base != "/":
             entries.insert(
                 0,

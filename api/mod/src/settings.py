@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     """
 
     data_folder: Path = Path.home().joinpath(".annoto")
-    serve_data_folder: bool = True
+    debug_routes: bool = True
 
     class Config:
         """Reads the dotenv file"""

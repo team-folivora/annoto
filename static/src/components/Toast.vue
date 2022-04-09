@@ -1,12 +1,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-    props: {
-        visible: {
-            type: Boolean,
-            required: true,
-        },
-    }
+  props: {
+    visible: {
+      type: Boolean,
+      required: true,
+    },
+  },
 });
 </script>
 

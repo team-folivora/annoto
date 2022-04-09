@@ -34,8 +34,6 @@ class DataPoint(BaseModel):
     @property
     def absolute_src(self) -> Path:
         """Returns the absolute path to the data file"""
-        if not self.src:
-            raise AttributeError("No data file specified")
         return SETTINGS.data_folder.joinpath(self.src)
 
     def file_exists(self) -> bool:

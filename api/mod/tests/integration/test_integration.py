@@ -82,7 +82,7 @@ def test_post_unknown_image_returns_404(client: TestClient) -> None:
         json={
             "src": "unknown_image.jpg",
             "label": "foo",
-            "hash": "wrong",
+            "hash": "unknown",
             "competency": "Dr. Dr. med",
             "is_attentive": True,
         },
@@ -108,7 +108,7 @@ def test_post_image_wrong_hash_returns_400(client: TestClient) -> None:
 
 
 def test_post_image_with_invalid_proof_return_420(client: TestClient) -> None:
-    """Test POST /images/sloth.jpg raises HttpExeption 420"""
+    """Test POST /images/sloth.jpg raises HttpException 420"""
     response = client.post(
         "/images/sloth.jpg",
         json={

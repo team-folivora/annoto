@@ -94,6 +94,7 @@ class Annotation(BaseModel):
     responses={
         404: {"description": "File not found"},
         400: {},
+        420: {"Provided proofs are not valid"},
     },
     operation_id="save_annotation",
 )
@@ -111,6 +112,6 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
         )
 
     if not annotation.proofs_are_valid():
-        raise HTTPException(status_code=420, detail="Provided proofs are not valid!")
+        raise HTTPException(status_code=420, detail="Provided proofs are not valid")
 
     annotation.save()

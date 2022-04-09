@@ -1,11 +1,16 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
+import Toast from "./Toast.vue";
 import { DefaultService as API } from "../api/services/DefaultService";
 /**
  * A Button for annotating a datafile
  */
 export default defineComponent({
+  components: {
+    Toast,
+  },
+
   props: {
     /**
      * The label of the button.
@@ -18,6 +23,7 @@ export default defineComponent({
   data() {
     return {
       isLoading: false,
+      showToast: false,
     };
   },
 
@@ -38,6 +44,10 @@ export default defineComponent({
         });
       } finally {
         this.isLoading = false;
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+        }, 3000);
       }
     },
   },
@@ -45,7 +55,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-button :loading="isLoading" @click="saveAnnotation">
+  <i-button :loading="isLoading" :disabled="isLoading" @click="saveAnnotation">
+    <Toast :visible="showToast" style="text-align: left" />
     Label: {{ label }}
   </i-button>
 </template>

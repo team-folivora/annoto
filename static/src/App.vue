@@ -3,6 +3,7 @@ import ImageDisplay from "./components/ImageDisplay.vue";
 import AnnotationButton from "./components/AnnotationButton.vue";
 import ProofOfAttentiveness from "./components/ProofOfAttentiveness.vue";
 import { defineComponent } from "vue";
+import { getUrl } from "./utils/helpers";
 
 /**
  * The main App component for the website
@@ -15,13 +16,14 @@ export default defineComponent({
   },
 
   data() {
+    let imageId = "sloth.jpg";
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
-      apiUrl: import.meta.env.VITE_API_URL?.toString() || "",
-      imageUrl: "images/sloth.jpg",
       visible: true,
       isAttentive: false,
       competency: "Prof. Dr. Med.",
+      imageId,
+      imageSrc: getUrl("images/" + imageId),
     };
   },
 });
@@ -34,13 +36,13 @@ export default defineComponent({
     </i-layout-header>
     <i-layout-content>
       <ProofOfAttentiveness v-model:isAttentive="isAttentive" />
-      <ImageDisplay :src="apiUrl + imageUrl" />
+      <ImageDisplay :src="imageSrc" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
           :key="label"
           :label="label"
-          :src="apiUrl + imageUrl"
+          :src="imageId"
           :isAttentive="isAttentive"
           :competency="competency"
         />

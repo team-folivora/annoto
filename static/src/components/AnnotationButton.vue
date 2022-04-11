@@ -13,7 +13,7 @@ export default defineComponent({
      */
     label: { type: String, required: true },
     src: { type: String, required: true },
-    competency: { type: String, requred: true },
+    competency: { type: String, required: true },
     isAttentive: { type: Boolean, required: true },
     username: { type: String, required: true },
   },

@@ -8,8 +8,10 @@ export default defineComponent({
     /**
      * Specifies whether the user is attentive
      */
-    isAttentive: { String, required: true },
+    isAttentive: { type: Boolean, required: true },
   },
+
+  emits: ["update:isAttentive"],
 
   data() {
     return {
@@ -30,8 +32,6 @@ export default defineComponent({
       this.$emit("update:isAttentive", true);
     },
   },
-
-  emits: ["update:isAttentive"],
 });
 </script>
 
@@ -40,9 +40,9 @@ export default defineComponent({
     v-model="visible"
     size="lg"
     color="warning"
-    :closeOnPressEscape="false"
-    :hideOnClickOutside="false"
-    :showClose="false"
+    :close-on-press-escape="false"
+    :hide-on-click-outside="false"
+    :show-close="false"
   >
     <template #header>
       <p class="h4 _margin:0 _text:center _width:100%">
@@ -59,7 +59,7 @@ export default defineComponent({
             I am attentive and capable of labeling the data.
           </span>
         </i-checkbox>
-        <i-button @click="onSubmit()" color="success" :disabled="!checked">
+        <i-button color="success" :disabled="!checked" @click="onSubmit()">
           Confirm
         </i-button>
       </div>

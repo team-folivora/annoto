@@ -51,7 +51,7 @@ export default defineComponent({
           :label="label"
           :username="user"
           :src="imageId"
-          :isAttentive="isAttentive"
+          :is-attentive="isAttentive"
           :competency="competency"
         />
       </i-button-group>

@@ -40,9 +40,9 @@ export default defineComponent({
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
+          :id="'annotation-button-' + label"
           :key="label"
           :label="label"
-          :id="'annotation-button-' + label"
           :username="user"
           :src="imageId"
         />

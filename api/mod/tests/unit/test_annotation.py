@@ -62,7 +62,8 @@ class TestAnnotation:
         assert SETTINGS.data_folder.joinpath("test.jpg.annotation.json").is_file()
         with open(
             mod.src.settings.SETTINGS.data_folder.joinpath("test.jpg.annotation.json"),
-            "r", encoding="utf-8"
+            "r",
+            encoding="utf-8",
         ) as file:
             data = json.loads(file.read())
             assert data == annotation.__dict__

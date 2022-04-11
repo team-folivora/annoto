@@ -192,8 +192,8 @@ def test_delete_datafolder_file(client: TestClient) -> None:
         "/debug/data/sloth.jpg",
     )
     assert response.status_code == 204
-    assert not os.path.exists(SETTINGS.data_folder.joinpath("sloth.jpg"))
-    assert os.path.exists(SETTINGS.data_folder.joinpath("subfolder"))
+    assert not SETTINGS.data_folder.joinpath("sloth.jpg").exists()
+    assert SETTINGS.data_folder.joinpath("subfolder").exists()
 
 
 def test_delete_datafolder_directory(client: TestClient) -> None:
@@ -202,8 +202,8 @@ def test_delete_datafolder_directory(client: TestClient) -> None:
         "/debug/data/subfolder",
     )
     assert response.status_code == 204
-    assert not os.path.exists(SETTINGS.data_folder.joinpath("subfolder"))
-    assert os.path.exists(SETTINGS.data_folder.joinpath("sloth.jpg"))
+    assert not SETTINGS.data_folder.joinpath("subfolder").exists()
+    assert SETTINGS.data_folder.joinpath("sloth.jpg").exists()
 
 
 def test_delete_datafolder_unknown_file_returns_404(client: TestClient) -> None:

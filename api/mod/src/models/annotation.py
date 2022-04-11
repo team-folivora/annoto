@@ -15,10 +15,20 @@ class AnnotationData(BaseModel):
     The basic Annotation Data for a data file
     """
 
-    label: str = Field(..., description="The label the file should be annotated with", example="Sloth")
-    hash: str = Field(..., description="The hash of the file", example="e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d")
-    competency: str = Field(..., description="The competencies the annotator has", example="Prof. Dr. Med")
-    is_attentive: bool = Field(..., description="Whether the annotator said that he is attentive", example=True)
+    label: str = Field(
+        ..., description="The label the file should be annotated with", example="Sloth"
+    )
+    hash: str = Field(
+        ...,
+        description="The hash of the file",
+        example="e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
+    )
+    competency: str = Field(
+        ..., description="The competencies the annotator has", example="Prof. Dr. Med"
+    )
+    is_attentive: bool = Field(
+        ..., description="Whether the annotator said that he is attentive", example=True
+    )
 
 
 class Annotation(AnnotationData):

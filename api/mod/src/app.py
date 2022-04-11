@@ -2,14 +2,12 @@
 This module defines the FastAPI application server
 """
 
-import hashlib
-import json
 import os
 import shutil
 from pathlib import PurePath
 from typing import Union
 
-from fastapi import Body, FastAPI, HTTPException, Path, Request
+from fastapi import FastAPI, HTTPException, Path, Request
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_restful import Api
@@ -173,9 +171,9 @@ if SETTINGS.debug_routes:
         path = SETTINGS.data_folder.joinpath(path)
         if path == SETTINGS.data_folder:
             raise HTTPException(status_code=400)
-        if os.path.isfile(path):
+        if path.is_file():
             os.remove(path)
-        elif os.path.isdir(path):
+        elif path.is_dir():
             shutil.rmtree(path)
         else:
             raise HTTPException(status_code=404, detail="File not found")

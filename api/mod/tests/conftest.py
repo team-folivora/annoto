@@ -10,7 +10,7 @@ import pytest
 from mod.src.settings import SETTINGS
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def session() -> Generator:
     """Manages testing session"""
     SETTINGS.data_folder = Path(tempfile.mkdtemp(prefix="annoto"))

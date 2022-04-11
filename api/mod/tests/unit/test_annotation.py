@@ -53,6 +53,16 @@ class TestAnnotation:
         )
         assert annotation.hash_is_valid()
 
+    def test_hash_is_valid_returns_false_if_hash_is_not_valid(
+        self, annotation: Annotation
+    ) -> None:
+        """Tests if the hash-test function returns False
+        if the hash provided with the AnnotationData is not valid"""
+        with open(annotation.absolute_src, "w", encoding="utf-8") as file:
+            file.write("Dummy Content")
+        annotation.hash = "wrong"
+        assert not annotation.hash_is_valid()
+
     def test_save_annotation_saves_annotation(self, annotation: Annotation) -> None:
         """Tests whether the Annotation is correctly saved"""
         assert not SETTINGS.data_folder.joinpath("test.jpg.annotation.json").is_file()

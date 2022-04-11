@@ -91,7 +91,7 @@ def test_post_image_wrong_hash_returns_400(client: TestClient) -> None:
 
 
 def test_post_image_with_invalid_proof_return_428(client: TestClient) -> None:
-    """Test POST /images/sloth.jpg raises HttpException 420"""
+    """Test POST /images/sloth.jpg raises HttpException 428"""
     response = client.post(
         "/images/sloth.jpg",
         json={

@@ -9,6 +9,7 @@ import pytest
 
 from mod.src.settings import SETTINGS
 
+
 @pytest.fixture(scope="session", autouse=True)
 def session() -> Generator:
     """Manages testing session"""

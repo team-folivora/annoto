@@ -13,6 +13,7 @@ import mod.src.app
 from mod.src.models.annotation import Annotation
 from mod.src.settings import SETTINGS
 
+
 @pytest.fixture
 def annotation() -> Annotation:
     """Creates a basic Annotation"""
@@ -43,7 +44,7 @@ class TestAnnotation:
     def test_hash_is_valid_returns_true_if_hash_is_valid(
         self, annotation: Annotation
     ) -> None:
-        """"Tests if the hash-test function returns True if the hash provided with the AnnotationData is valid"""
+        """ "Tests if the hash-test function returns True if the hash provided with the AnnotationData is valid"""
         with open(annotation.absolute_src, "w") as f:
             f.write("Dummy Content")
         annotation.hash = (
@@ -52,19 +53,13 @@ class TestAnnotation:
         assert annotation.hash_is_valid()
 
     def test_save_annotation_saves_annotation(self, annotation: Annotation) -> None:
-        assert not SETTINGS.data_folder.joinpath(
-            "test.jpg.annotation.json"
-        ).is_file()
+        assert not SETTINGS.data_folder.joinpath("test.jpg.annotation.json").is_file()
         with open(annotation.absolute_src, "w") as f:
             f.write("Dummy Content")
         annotation.save()
-        assert SETTINGS.data_folder.joinpath(
-            "test.jpg.annotation.json"
-        ).is_file()
+        assert SETTINGS.data_folder.joinpath("test.jpg.annotation.json").is_file()
         with open(
-            mod.src.settings.SETTINGS.data_folder.joinpath(
-                "test.jpg.annotation.json"
-            ),
+            mod.src.settings.SETTINGS.data_folder.joinpath("test.jpg.annotation.json"),
             "r",
         ) as file:
             data = json.loads(file.read())

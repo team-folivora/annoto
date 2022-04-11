@@ -26,7 +26,6 @@ class AnnotationData(BaseModel):
     is_attentive: bool
 
 
-
 class Annotation(AnnotationData):
     """
     The Annotation of a data file
@@ -34,10 +33,11 @@ class Annotation(AnnotationData):
     Attributes
         src             name of the data file
     """
+
     src: str
 
     @classmethod
-    def from_data(cls, annotation_data: AnnotationData, **kwargs : Dict) -> Annotation:
+    def from_data(cls, annotation_data: AnnotationData, **kwargs: Dict) -> Annotation:
         """Creates an Annotation from AnnotationData and additional attributes"""
         return Annotation(**{**annotation_data.__dict__, **kwargs})
 
@@ -59,7 +59,7 @@ class Annotation(AnnotationData):
     def proofs_are_valid(self) -> bool:
         """Checks whether the proofs of the annotator are all valid"""
         return self.is_attentive and self.competency != ""
-        
+
     def save(self) -> None:
         """
         Annotates the data file.

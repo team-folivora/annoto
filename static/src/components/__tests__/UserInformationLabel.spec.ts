@@ -6,12 +6,12 @@ describe("UserInformationLabel", () => {
   it("exists", () => {
     mount(UserInformationLabel, { props: { username: "" } });
   });
-});
 
-describe("UserInformationLabel", () => {
-  it("label text printed correctly", () => {
-    mount(UserInformationLabel, { props: { username: "" } });
+  it("prints label text correctly", () => {
+    const name = "Annoto#1337";
+    mount(UserInformationLabel, { props: { username: name } });
     const text = "Current logged in user:";
-    cy.get('[data-v-app=""] > div').contains(text);
+    cy.get('div').contains(text);
+    cy.get('#userLabel').contains(name);
   });
 });

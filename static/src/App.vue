@@ -34,12 +34,13 @@ export default defineComponent({
       <i-label-group block>
         <UserInformationLabel :username="user" />
       </i-label-group>
-      <ImageDisplay :src="apiUrl + imageUrl" />
+      <ImageDisplay id="image-display" :src="apiUrl + imageUrl" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
           :key="label"
           :label="label"
+          :id="'annotation-button-' + label"
           :username="user"
           :src="apiUrl + imageUrl"
         />

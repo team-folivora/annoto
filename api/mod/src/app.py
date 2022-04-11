@@ -2,7 +2,6 @@
 This module defines the FastAPI application server
 """
 
-from fastapi import FastAPI, HTTPException
 import hashlib
 import json
 import os
@@ -17,8 +16,8 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.templating import _TemplateResponse
 
 from mod.src.models.annotation import (
-    AnnotationData,
     Annotation,
+    AnnotationData,
     HashMismatch,
     InvalidProof,
 )

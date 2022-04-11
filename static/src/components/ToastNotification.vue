@@ -29,7 +29,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div id="container" :class="{ animate: visible, '_position:fixed': true }">
+  <div id="container" :class="[{ animate: visible }, '_position:fixed']">
     <i-alert dismissible :color="color" size="md">
       <template #icon>
         <i-icon :name="icon" />

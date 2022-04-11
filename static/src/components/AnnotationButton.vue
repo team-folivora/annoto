@@ -18,6 +18,7 @@ export default defineComponent({
      */
     label: { type: String, required: true },
     src: { type: String, required: true },
+    username: { type: String, required: true },
   },
 
   data() {

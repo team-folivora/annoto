@@ -10,6 +10,9 @@ module.exports = {
     "@vue/eslint-config-prettier",
     "prettier",
   ],
+  rules: {
+    "vue/attributes-order": "error",
+  },
   env: {
     "vue/setup-compiler-macros": true,
   },

@@ -9,6 +9,7 @@ describe("Button", () => {
         src: "/images/test.jpg",
         competency: "Dr.",
         isAttentive: true,
+        username: "",
       },
     });
   });
@@ -20,6 +21,7 @@ describe("Button", () => {
         src: "/images/test.jpg",
         competency: "Dr.",
         isAttentive: true,
+        username: "",
       },
     });
     cy.get("i-button").should("be.visible");
@@ -32,6 +34,7 @@ describe("Button", () => {
         src: "/images/test.jpg",
         competency: "Dr.",
         isAttentive: true,
+        username: "",
       },
     });
     cy.get("i-button").should("not.be.disabled");
@@ -45,6 +48,7 @@ describe("Button", () => {
         src: "/images/test.jpg",
         competency: "Dr.",
         isAttentive: true,
+        username: "",
       },
     });
     cy.get("i-button").contains(label);

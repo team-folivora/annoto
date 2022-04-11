@@ -2,6 +2,7 @@
 import ImageDisplay from "./components/ImageDisplay.vue";
 import AnnotationButton from "./components/AnnotationButton.vue";
 import ProofOfAttentiveness from "./components/ProofOfAttentiveness.vue";
+import UserInformationLabel from "./components/UserInformationLabel.vue";
 import { defineComponent } from "vue";
 import { getUrl } from "./utils/helpers";
 
@@ -13,6 +14,7 @@ export default defineComponent({
     ImageDisplay,
     AnnotationButton,
     ProofOfAttentiveness,
+    UserInformationLabel,
   },
 
   data() {
@@ -22,6 +24,7 @@ export default defineComponent({
       visible: true,
       isAttentive: false,
       competency: "Prof. Dr. Med.",
+      user: "AnnotoUser#1337",
       imageId,
       imageSrc: getUrl("images/" + imageId),
     };
@@ -36,12 +39,17 @@ export default defineComponent({
     </i-layout-header>
     <i-layout-content>
       <ProofOfAttentiveness v-model:isAttentive="isAttentive" />
-      <ImageDisplay :src="imageSrc" />
+      <i-label-group block>
+        <UserInformationLabel :username="user" />
+      </i-label-group>
+      <ImageDisplay id="image-display" :src="imageSrc" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
+          :id="'annotation-button-' + label"
           :key="label"
           :label="label"
+          :username="user"
           :src="imageId"
           :isAttentive="isAttentive"
           :competency="competency"

@@ -15,6 +15,7 @@ export default defineComponent({
     src: { type: String, required: true },
     competency: { type: String, requred: true },
     isAttentive: { type: Boolean, required: true },
+    username: { type: String, required: true },
   },
 
   data() {

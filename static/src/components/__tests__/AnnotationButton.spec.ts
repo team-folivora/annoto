@@ -4,20 +4,38 @@ import AnnotationButton from "../AnnotationButton.vue";
 describe("Button", () => {
   it("exists", () => {
     mount(AnnotationButton, {
-      props: { label: "Test", src: "/images/test.jpg", username: "" },
+      props: {
+        label: "Test",
+        src: "/images/test.jpg",
+        competency: "Dr.",
+        isAttentive: true,
+        username: "",
+      },
     });
   });
 
   it("renders properly", () => {
     mount(AnnotationButton, {
-      props: { label: "Test", src: "/images/test.jpg", username: "" },
+      props: {
+        label: "Test",
+        src: "/images/test.jpg",
+        competency: "Dr.",
+        isAttentive: true,
+        username: "",
+      },
     });
     cy.get("i-button").should("be.visible");
   });
 
   it("is not disabled", () => {
     mount(AnnotationButton, {
-      props: { label: "Test", src: "/images/test.jpg", username: "" },
+      props: {
+        label: "Test",
+        src: "/images/test.jpg",
+        competency: "Dr.",
+        isAttentive: true,
+        username: "",
+      },
     });
     cy.get("i-button").should("not.be.disabled");
   });
@@ -25,7 +43,13 @@ describe("Button", () => {
   it("shows specific label", () => {
     const label = "Cypress";
     mount(AnnotationButton, {
-      props: { label: label, src: "/images/test.jpg", username: "" },
+      props: {
+        label: label,
+        src: "/images/test.jpg",
+        competency: "Dr.",
+        isAttentive: true,
+        username: "",
+      },
     });
     cy.get("i-button").contains(label);
   });

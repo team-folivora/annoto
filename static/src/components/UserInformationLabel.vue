@@ -13,12 +13,12 @@ export default defineComponent({
 <template>
   <div>
     Current logged in user:
-    <label id="userLabel" for="username">{{ username }}</label>
+    <label id="userLabel">{{ username }}</label>
   </div>
 </template>
 
 <style>
-label[for="username"] {
+#userLabel {
   color: gray;
 }
 </style>

@@ -3,7 +3,8 @@ FROM debian
 SHELL ["/bin/bash", "--login", "-c"]
 
 RUN apt update && \
-    apt install -y sudo curl tmux
+    apt install -y sudo curl tmux && \
+    apt install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
 
 # Setup user
 RUN useradd -ms /bin/bash a && \
@@ -21,7 +22,8 @@ RUN sudo apt install -y python3 python3-pip && \
 COPY --chown=a static/.nvmrc .nvmrc
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
 RUN nvm install && \
-    nvm use
+    nvm use && \
+    npm install -g cypress@9.5.2
 
 # Create directories
 RUN mkdir /home/a/annoto && \

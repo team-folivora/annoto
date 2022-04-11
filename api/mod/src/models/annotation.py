@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Dict
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from mod.src.settings import SETTINGS
 
@@ -13,29 +13,20 @@ from mod.src.settings import SETTINGS
 class AnnotationData(BaseModel):
     """
     The basic Annotation Data for a data file
-
-    Attributes
-        label           label the file [src] should be annotated with
-        hash            hash of the file
-        competency      the competencies the annotator has
-        is_attentive    whether the annotator said that he is attentive
     """
 
-    label: str
-    hash: str
-    competency: str
-    is_attentive: bool
+    label: str = Field(..., description="The label the file should be annotated with", example="Sloth")
+    hash: str = Field(..., description="The hash of the file", example="e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d")
+    competency: str = Field(..., description="The competencies the annotator has", example="Prof. Dr. Med")
+    is_attentive: bool = Field(..., description="Whether the annotator said that he is attentive", example=True)
 
 
 class Annotation(AnnotationData):
     """
     The Annotation of a data file
-
-    Attributes
-        src             name of the data file
     """
 
-    src: str
+    src: str = Field(..., description="The name of the data file", example="sloth.jpg")
 
     @classmethod
     def from_data(cls, annotation_data: AnnotationData, **kwargs: Dict) -> Annotation:

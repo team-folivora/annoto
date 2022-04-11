@@ -8,7 +8,7 @@ import os
 from pathlib import PurePath
 from typing import Union
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Body, FastAPI, HTTPException, Path, Request
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_restful import Api
@@ -48,7 +48,9 @@ TEMPLATES = Jinja2Templates(TEMPLATE_DIRECTORY)
     },
     operation_id="get_image",
 )
-async def get_image(src: str) -> FileResponse:
+async def get_image(
+    src: str = Path(..., example="sloth.jpg"),
+) -> FileResponse:
     """Get the image that should be annotated"""
     image_file = SETTINGS.data_folder.joinpath(src)
     if not image_file.is_file():
@@ -68,7 +70,10 @@ async def get_image(src: str) -> FileResponse:
     },
     operation_id="save_annotation",
 )
-async def save_annotation(src: str, annotation_data: AnnotationData) -> None:
+async def save_annotation(
+    annotation_data: AnnotationData,
+    src: str = Path(..., example="sloth.jpg"),
+) -> None:
     """Saves the annotation for the specified image"""
 
     annotation = Annotation.from_data(annotation_data=annotation_data, src=src)

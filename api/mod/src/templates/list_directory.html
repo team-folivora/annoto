@@ -1,14 +1,28 @@
 <html>
     <body>
         <h1>Index of {{ base }}</h1>
-        <ul>
+        <table>
             {% for entry in entries %}
-                <li>
-                    <a href="{{ entry["url"] }}">
-                        {{ entry["name"] }}
-                    </a>
-                </li>
+                <tr>
+                    <td>
+                        <a href="{{ entry["url"] }}">
+                            {{ entry["name"] }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if entry["name"] != ".." %}
+                            <button onclick="
+                                fetch(
+                                    '{{ entry["url"] }}',
+                                    {method: 'DELETE'}
+                                ).then(function(){
+                                    window.location.reload()
+                                })
+                            ">DELETE</button>
+                        {% endif%}
+                    </td>
+                </tr>
             {% endfor %}
-        </ul>
+        </table>
     </body>
 </html>

@@ -37,31 +37,32 @@ class TestAnnotation:
     def test_file_exists(self, annotation: Annotation) -> None:
         """Tests if the file exists"""
         assert not annotation.file_exists()
-        with open(annotation.absolute_src, "w") as f:
-            f.write("Test File")
+        with open(annotation.absolute_src, "w", encoding="utf-8") as file:
+            file.write("Test File")
         assert annotation.file_exists()
 
     def test_hash_is_valid_returns_true_if_hash_is_valid(
         self, annotation: Annotation
     ) -> None:
-        """ "Tests if the hash-test function returns True if the hash provided with the AnnotationData is valid"""
-        with open(annotation.absolute_src, "w") as f:
-            f.write("Dummy Content")
+        """Tests if the hash-test function returns True
+        if the hash provided with the AnnotationData is valid"""
+        with open(annotation.absolute_src, "w", encoding="utf-8") as file:
+            file.write("Dummy Content")
         annotation.hash = (
             "a59ce92485a863931af21370b5082eb8a0c258c1cd74ae068db0ad47aeac1344"
         )
         assert annotation.hash_is_valid()
 
     def test_save_annotation_saves_annotation(self, annotation: Annotation) -> None:
+        """Tests whether the Annotation is correctly saved"""
         assert not SETTINGS.data_folder.joinpath("test.jpg.annotation.json").is_file()
-        with open(annotation.absolute_src, "w") as f:
-            f.write("Dummy Content")
+        with open(annotation.absolute_src, "w", encoding="utf-8") as file:
+            file.write("Dummy Content")
         annotation.save()
         assert SETTINGS.data_folder.joinpath("test.jpg.annotation.json").is_file()
         with open(
             mod.src.settings.SETTINGS.data_folder.joinpath("test.jpg.annotation.json"),
-            "r",
+            "r", encoding="utf-8"
         ) as file:
             data = json.loads(file.read())
-            assert data["src"] == "test.jpg"
-            assert data["label"] == "Label"
+            assert data == annotation.__dict__

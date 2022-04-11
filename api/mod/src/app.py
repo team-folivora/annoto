@@ -49,7 +49,8 @@ async def get_image(src: str) -> FileResponse:
     responses={
         404: {"description": "File not found!"},
         400: {
-            "description": "Hash values of the provided annotation and the local source do not match!"
+            "description":
+            "Hash values of the provided annotation and the local source do not match!"
         },
         420: {"description": "Provided proofs are not valid!"},
     },

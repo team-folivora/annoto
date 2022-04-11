@@ -25,6 +25,7 @@ export default defineComponent({
     return {
       isLoading: false,
       showToast: false,
+      toastType: "success",
     };
   },
 
@@ -43,13 +44,21 @@ export default defineComponent({
           label: this.label,
           hash: hash,
         });
+        this.animateToast(false);
+      } catch (e) {
+        this.animateToast(true);
+        throw(e);
       } finally {
         this.isLoading = false;
-        this.showToast = true;
-        setTimeout(() => {
-          this.showToast = false;
-        }, 3000);
       }
+    },
+
+    animateToast(isError: Boolean) {
+      this.toastType = isError ? "error" : "success";
+      this.showToast = true;
+      setTimeout(() => {
+        this.showToast = false;
+      }, 3000);
     },
   },
 });
@@ -57,7 +66,7 @@ export default defineComponent({
 
 <template>
   <i-button :loading="isLoading" :disabled="isLoading" @click="saveAnnotation">
-    <ToastNotification :visible="showToast" style="text-align: left" />
+    <ToastNotification :visible="showToast" style="text-align: left" :type="toastType" />
     Label: {{ label }}
   </i-button>
 </template>

@@ -6,17 +6,35 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    type: {
+      type: String,
+      required: true,
+    },
+  },
+
+  computed: {
+    content() {
+      return this.type === "success"
+        ? "Annotation successfully saved"
+        : "An error occured. Annotation failed.";
+    },
+    color() {
+      return this.type === "success" ? "success" : "danger";
+    },
+    icon() {
+      return this.type === "success" ? "ink-check" : "ink-danger";
+    },
   },
 });
 </script>
 
 <template>
   <div id="container" :class="{ animate: visible, '_position:fixed': true }">
-    <i-alert dismissible color="success" size="md">
+    <i-alert dismissible :color="color" size="md">
       <template #icon>
-        <i-icon name="ink-check" />
+        <i-icon :name="icon" />
       </template>
-      <p>Annotation successfully saved</p>
+      <p>{{ content }}</p>
     </i-alert>
   </div>
 </template>

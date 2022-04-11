@@ -6,8 +6,16 @@ from pathlib import Path
 from typing import Generator
 
 import pytest
+from fastapi.testclient import TestClient
 
+from mod.src.app import APP
 from mod.src.settings import SETTINGS
+
+
+@pytest.fixture()
+def client() -> TestClient:
+    """Get a client for testing the api"""
+    return TestClient(APP)
 
 
 @pytest.fixture(scope="function", autouse=True)

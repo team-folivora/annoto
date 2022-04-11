@@ -47,7 +47,7 @@ export default defineComponent({
         this.animateToast(false);
       } catch (e) {
         this.animateToast(true);
-        throw(e);
+        throw e;
       } finally {
         this.isLoading = false;
       }
@@ -66,7 +66,11 @@ export default defineComponent({
 
 <template>
   <i-button :loading="isLoading" :disabled="isLoading" @click="saveAnnotation">
-    <ToastNotification :visible="showToast" style="text-align: left" :type="toastType" />
+    <ToastNotification
+      :visible="showToast"
+      style="text-align: left"
+      :type="toastType"
+    />
     Label: {{ label }}
   </i-button>
 </template>

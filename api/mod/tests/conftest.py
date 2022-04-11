@@ -4,10 +4,18 @@ import shutil
 import tempfile
 from pathlib import Path
 from typing import Generator
+from fastapi.testclient import TestClient
 
 import pytest
+from mod.src.app import APP
 
 from mod.src.settings import SETTINGS
+
+
+@pytest.fixture()
+def client() -> TestClient:
+    """Get a client for testing the api"""
+    return TestClient(APP)
 
 
 @pytest.fixture(scope="function", autouse=True)

@@ -3,11 +3,6 @@ Module for integration tests
 """
 
 import json
-import os
-import shutil
-import tempfile
-from pathlib import Path
-from typing import Generator
 
 import pytest
 from bs4 import BeautifulSoup

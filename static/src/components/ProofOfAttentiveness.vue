@@ -24,6 +24,13 @@ export default defineComponent({
     };
   },
 
+  methods: {
+    onSubmit() {
+      this.visible = false;
+      this.$emit("update:isAttentive", true);
+    },
+  },
+
   emits: ["update:isAttentive"],
 });
 </script>
@@ -52,14 +59,7 @@ export default defineComponent({
             I am attentive and capable of labeling the data.
           </span>
         </i-checkbox>
-        <i-button
-          @click="
-            visible = false;
-            $emit('update:isAttentive', true);
-          "
-          color="success"
-          :disabled="!checked"
-        >
+        <i-button @click="onSubmit()" color="success" :disabled="!checked">
           Confirm
         </i-button>
       </div>

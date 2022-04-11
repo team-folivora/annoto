@@ -1,8 +1,9 @@
 <script lang="ts">
-import { defineComponent } from "vue";
 import ImageDisplay from "./components/ImageDisplay.vue";
 import AnnotationButton from "./components/AnnotationButton.vue";
 import UserInformationLabel from "./components/UserInformationLabel.vue";
+import { defineComponent } from "vue";
+import { getUrl } from "./utils/helpers";
 
 /**
  * The main App component for the website
@@ -15,11 +16,12 @@ export default defineComponent({
   },
 
   data() {
+    let imageId = "sloth.jpg";
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
       user: "AnnotoUser#1337",
-      apiUrl: import.meta.env.VITE_API_URL?.toString() || "",
-      imageUrl: "images/sloth.jpg",
+      imageId,
+      imageSrc: getUrl("images/" + imageId),
     };
   },
 });
@@ -34,7 +36,7 @@ export default defineComponent({
       <i-label-group block>
         <UserInformationLabel :username="user" />
       </i-label-group>
-      <ImageDisplay id="image-display" :src="apiUrl + imageUrl" />
+      <ImageDisplay id="image-display" :src="imageSrc" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
@@ -42,7 +44,7 @@ export default defineComponent({
           :label="label"
           :id="'annotation-button-' + label"
           :username="user"
-          :src="apiUrl + imageUrl"
+          :src="imageId"
         />
       </i-button-group>
     </i-layout-content>

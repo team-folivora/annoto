@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
-import Toast from "./Toast.vue";
+import ToastNotification from "./ToastNotification.vue";
 import { DefaultService as API } from "../api/services/DefaultService";
 /**
  * A Button for annotating a datafile
  */
 export default defineComponent({
   components: {
-    Toast,
+    ToastNotification,
   },
 
   props: {
@@ -57,7 +57,7 @@ export default defineComponent({
 
 <template>
   <i-button :loading="isLoading" :disabled="isLoading" @click="saveAnnotation">
-    <Toast :visible="showToast" style="text-align: left" />
+    <ToastNotification :visible="showToast" style="text-align: left" />
     Label: {{ label }}
   </i-button>
 </template>

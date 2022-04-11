@@ -12,13 +12,13 @@ from mod.src.models.annotation import (
 from mod.src.settings import SETTINGS
 
 ROUTER = APIRouter(
-    prefix="/images",
+    prefix="/tasks",
     tags=["images"],
 )
 
 
 @ROUTER.get(
-    "/{src}",
+    "/{task_id}/{src}",
     response_class=FileResponse,
     responses={
         200: {"content": {"image/*": {"schema": {"type": "file", "format": "binary"}}}},
@@ -27,17 +27,18 @@ ROUTER = APIRouter(
     operation_id="get_image",
 )
 async def get_image(
+    task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
     src: str = Path(..., example="sloth.jpg"),
 ) -> FileResponse:
     """Get the image that should be annotated"""
-    image_file = SETTINGS.data_folder.joinpath(src)
+    image_file = SETTINGS.data_folder.joinpath(task_id).joinpath(src)
     if not image_file.is_file():
         raise HTTPException(status_code=404, detail="File not found")
     return FileResponse(str(image_file))
 
 
 @ROUTER.post(
-    "/{src}",
+    "/{task_id}/{src}",
     status_code=204,
     responses={
         404: {"description": "File not found!"},
@@ -50,11 +51,14 @@ async def get_image(
 )
 async def save_annotation(
     annotation_data: AnnotationData,
+    task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
     src: str = Path(..., example="sloth.jpg"),
 ) -> None:
     """Saves the annotation for the specified image"""
 
-    annotation = Annotation.from_data(annotation_data=annotation_data, src=src)
+    annotation = Annotation.from_data(
+        annotation_data=annotation_data, src=f"{task_id}/{src}"
+    )
 
     try:
         annotation.save()

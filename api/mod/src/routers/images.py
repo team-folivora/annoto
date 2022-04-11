@@ -1,8 +1,5 @@
-from fastapi import APIRouter, Path
-
-from fastapi import HTTPException
+from fastapi import APIRouter, HTTPException, Path
 from fastapi.responses import FileResponse
-from mod.src.settings import SETTINGS
 
 from mod.src.models.annotation import (
     Annotation,
@@ -10,7 +7,7 @@ from mod.src.models.annotation import (
     HashMismatch,
     InvalidProof,
 )
-
+from mod.src.settings import SETTINGS
 
 ROUTER = APIRouter(
     prefix="/images",

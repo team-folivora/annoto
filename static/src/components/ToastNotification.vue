@@ -11,7 +11,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div :class="{ animate: visible, '_position:fixed': true }" id="container">
+  <div id="container" :class="{ animate: visible, '_position:fixed': true }">
     <i-alert dismissible color="success" size="md">
       <template #icon>
         <i-icon name="ink-check" />

@@ -57,7 +57,7 @@ export default defineComponent({
       }
     },
 
-    animateToast(isError: Boolean) {
+    animateToast(isError: boolean) {
       this.toastType = isError ? "error" : "success";
       this.showToast = true;
       setTimeout(() => {

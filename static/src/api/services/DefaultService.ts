@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Annotation } from '../models/Annotation';
+import type { AnnotationData } from '../models/AnnotationData';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -43,7 +43,7 @@ export class DefaultService {
      */
     public static saveAnnotation(
         src: string,
-        requestBody: Annotation,
+        requestBody: AnnotationData,
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'POST',
@@ -54,8 +54,9 @@ export class DefaultService {
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-                404: `File not found`,
+                400: `Hash values of the annotation and the local source do not match!`,
+                404: `File not found!`,
+                420: `Provided proofs are not valid!`,
                 422: `Validation Error`,
             },
         });

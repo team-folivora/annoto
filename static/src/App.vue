@@ -1,6 +1,7 @@
 <script lang="ts">
 import ImageDisplay from "./components/ImageDisplay.vue";
 import AnnotationButton from "./components/AnnotationButton.vue";
+import ProofOfAttentiveness from "./components/ProofOfAttentiveness.vue";
 import UserInformationLabel from "./components/UserInformationLabel.vue";
 import { defineComponent } from "vue";
 import { getUrl } from "./utils/helpers";
@@ -12,6 +13,7 @@ export default defineComponent({
   components: {
     ImageDisplay,
     AnnotationButton,
+    ProofOfAttentiveness,
     UserInformationLabel,
   },
 
@@ -19,6 +21,9 @@ export default defineComponent({
     let imageId = "sloth.jpg";
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
+      visible: true,
+      isAttentive: false,
+      competency: "Prof. Dr. Med.",
       user: "AnnotoUser#1337",
       imageId,
       imageSrc: getUrl("images/" + imageId),
@@ -33,6 +38,7 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
+      <ProofOfAttentiveness v-model:isAttentive="isAttentive" />
       <i-label-group block>
         <UserInformationLabel :username="user" />
       </i-label-group>
@@ -45,6 +51,8 @@ export default defineComponent({
           :label="label"
           :username="user"
           :src="imageId"
+          :is-attentive="isAttentive"
+          :competency="competency"
         />
       </i-button-group>
     </i-layout-content>

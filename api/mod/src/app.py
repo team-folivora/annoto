@@ -2,20 +2,24 @@
 This module defines the FastAPI application server
 """
 
-import hashlib
-import json
 import os
 import shutil
 from pathlib import PurePath
 from typing import Union
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Path, Request
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_restful import Api
-from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from starlette.templating import _TemplateResponse
+
+from mod.src.models.annotation import (
+    Annotation,
+    AnnotationData,
+    HashMismatch,
+    InvalidProof,
+)
 
 from .settings import SETTINGS
 
@@ -43,7 +47,9 @@ TEMPLATES = Jinja2Templates(TEMPLATE_DIRECTORY)
     },
     operation_id="get_image",
 )
-async def get_image(src: str) -> FileResponse:
+async def get_image(
+    src: str = Path(..., example="sloth.jpg"),
+) -> FileResponse:
     """Get the image that should be annotated"""
     image_file = SETTINGS.data_folder.joinpath(src)
     if not image_file.is_file():
@@ -51,53 +57,40 @@ async def get_image(src: str) -> FileResponse:
     return FileResponse(str(image_file))
 
 
-class Annotation(BaseModel):
-    """An annotation as it is provided by the API"""
-
-    label: str
-    hash: str
-
-
-class StorableAnnotation(Annotation):
-    """An annotation as it is stored on disk"""
-
-    src: str
-    competency: str
-
-
 @APP.post(
     "/images/{src}",
     status_code=204,
     responses={
-        404: {"description": "File not found"},
-        400: {},
+        404: {"description": "File not found!"},
+        400: {
+            "description": "Hash values of the annotation and the local source do not match!"
+        },
+        420: {"description": "Provided proofs are not valid!"},
     },
     operation_id="save_annotation",
 )
-async def save_annotation(src: str, annotation: Annotation) -> None:
+async def save_annotation(
+    annotation_data: AnnotationData,
+    src: str = Path(..., example="sloth.jpg"),
+) -> None:
     """Saves the annotation for the specified image"""
-    image_file = SETTINGS.data_folder.joinpath(src)
-    if not image_file.is_file():
-        raise HTTPException(status_code=404, detail="File not found")
 
-    with open(image_file, "rb") as file:
-        local_hash = hashlib.sha256(file.read()).hexdigest()
-        if local_hash != annotation.hash:
-            raise HTTPException(
-                status_code=400,
-                detail="Hash values of the provided annotation and the local source do not match!",
-            )
+    annotation = Annotation.from_data(annotation_data=annotation_data, src=src)
 
-    annotation = StorableAnnotation(
-        label=annotation.label,
-        hash=annotation.hash,
-        src=src,
-        competency="Prof. Dr. Med",  # e.g. loaded from user database
-    )
-
-    annotation_file = SETTINGS.data_folder.joinpath(f"{src}.annotation.json")
-    with open(annotation_file, "w", encoding="utf-8") as file:
-        file.write(json.dumps(annotation.__dict__, indent=4))
+    try:
+        annotation.save()
+    except HashMismatch:
+        raise HTTPException(
+            status_code=400,
+            detail="Hash values of the provided annotation and the local source do not match!",
+        ) from None
+    except InvalidProof:
+        raise HTTPException(
+            status_code=428,
+            detail="Provided proofs are not valid!",
+        ) from None
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="File Not Found!") from None
 
 
 def path_url(path: PurePath) -> str:
@@ -178,9 +171,9 @@ if SETTINGS.debug_routes:
         path = SETTINGS.data_folder.joinpath(path)
         if path == SETTINGS.data_folder:
             raise HTTPException(status_code=400)
-        if os.path.isfile(path):
+        if path.is_file():
             os.remove(path)
-        elif os.path.isdir(path):
+        elif path.is_dir():
             shutil.rmtree(path)
         else:
             raise HTTPException(status_code=404, detail="File not found")

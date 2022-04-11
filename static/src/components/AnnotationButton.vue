@@ -18,6 +18,8 @@ export default defineComponent({
      */
     label: { type: String, required: true },
     src: { type: String, required: true },
+    competency: { type: String, required: true },
+    isAttentive: { type: Boolean, required: true },
     username: { type: String, required: true },
   },
 
@@ -43,6 +45,8 @@ export default defineComponent({
         await API.saveAnnotation(this.src, {
           label: this.label,
           hash: hash,
+          competency: this.competency,
+          is_attentive: this.isAttentive,
         });
         this.animateToast(false);
       } catch (e) {

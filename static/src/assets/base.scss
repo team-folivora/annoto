@@ -2,14 +2,23 @@
 @import "@inkline/inkline/css/mixins";
 
 :root {
-  --border-top-left-radius: 0.5rem;
-  --border-top-right-radius: 0.5rem;
-  --border-bottom-right-radius: 0.5rem;
-  --border-bottom-left-radius: 0.5rem;
-
   --color--primary--h: 195deg;
   --color--primary--s: 77%;
   --color--primary--l: 39%;
+}
+
+.button {
+  ----border-top-left-radius: 0.5rem;
+  ----border-top-right-radius: 0.5rem;
+  ----border-bottom-right-radius: 0.5rem;
+  ----border-bottom-left-radius: 0.5rem;
+}
+
+.modal {
+  ----border-top-left-radius: 0.5rem;
+  ----border-top-right-radius: 0.5rem;
+  ----border-bottom-right-radius: 0.5rem;
+  ----border-bottom-left-radius: 0.5rem;
 }
 
 #app {

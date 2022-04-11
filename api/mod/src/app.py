@@ -5,7 +5,7 @@ This module defines the FastAPI application server
 import hashlib
 import json
 import os
-from os import PathLike
+from pathlib import PurePath
 from typing import Union
 
 from fastapi import FastAPI, HTTPException, Request
@@ -99,7 +99,7 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
         file.write(json.dumps(annotation.__dict__, indent=4))
 
 
-def path_url(path: PathLike[str]) -> str:
+def path_url(path: PurePath) -> str:
     """Get the url to a path inside the data folder (~/.annoto)"""
 
     url_path = str(path.relative_to(SETTINGS.data_folder)).replace(os.path.sep, "/")

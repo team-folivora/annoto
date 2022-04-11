@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse
 from fastapi_restful import Api
 from starlette.middleware.cors import CORSMiddleware
 
-from mod.src.models.data_point import Annotation, DataPoint, HashMismatch
+from mod.src.models.annotation import AnnotationData, Annotation, HashMismatch, InvalidProof
 
 from .settings import SETTINGS
 
@@ -42,26 +42,31 @@ async def get_image(src: str) -> FileResponse:
     "/images/{src}",
     status_code=204,
     responses={
-        404: {"description": "File not found"},
-        400: {},
-        420: {"description": "Provided proofs are not valid"},
+        404: {"description": "File not found!"},
+        400: {"description": "Hash values of the provided annotation and the local source do not match!"},
+        420: {"description": "Provided proofs are not valid!"},
     },
     operation_id="save_annotation",
 )
-async def save_annotation(src: str, annotation: Annotation) -> None:
+async def save_annotation(src: str, annotation_data: AnnotationData) -> None:
     """Saves the annotation for the specified image"""
-    data_point = DataPoint(src=src)
 
-    if not data_point.file_exists():
-        raise HTTPException(status_code=404, detail="File not found!")
-
-    if not annotation.proofs_are_valid():
-        raise HTTPException(status_code=420, detail="Provided proofs are not valid")
+    annotation = Annotation.from_data(annotation_data=annotation_data, src=src)
 
     try:
-        data_point.annotate(annotation)
+        annotation.save()
     except HashMismatch:
         raise HTTPException(
             status_code=400,
             detail="Hash values of the provided annotation and the local source do not match!",
+        ) from None
+    except InvalidProof:
+        raise HTTPException(
+            status_code=428,
+            detail="Provided proofs are not valid!",
+        ) from None
+    except FileNotFoundError:
+        raise HTTPException(
+            status_code=404,
+            detail="File Not Found!"
         ) from None

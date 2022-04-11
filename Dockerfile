@@ -44,4 +44,5 @@ COPY --chown=a /entrypoint.sh entrypoint.sh
 
 EXPOSE 5000
 EXPOSE 3000
+EXPOSE 5050
 ENTRYPOINT "./entrypoint.sh"

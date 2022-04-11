@@ -4,11 +4,11 @@ import shutil
 import tempfile
 from pathlib import Path
 from typing import Generator
-from fastapi.testclient import TestClient
 
 import pytest
-from mod.src.app import APP
+from fastapi.testclient import TestClient
 
+from mod.src.app import APP
 from mod.src.settings import SETTINGS
 
 

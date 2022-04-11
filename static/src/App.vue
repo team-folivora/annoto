@@ -1,6 +1,7 @@
 <script lang="ts">
 import ImageDisplay from "./components/ImageDisplay.vue";
 import AnnotationButton from "./components/AnnotationButton.vue";
+import UserInformationLabel from "./components/UserInformationLabel.vue";
 import { defineComponent } from "vue";
 import { getUrl } from "./utils/helpers";
 
@@ -11,12 +12,14 @@ export default defineComponent({
   components: {
     ImageDisplay,
     AnnotationButton,
+    UserInformationLabel,
   },
 
   data() {
     let imageId = "sloth.jpg";
     return {
       labels: ["Faultier", "Hund", "Katze", "Maus"],
+      user: "AnnotoUser#1337",
       imageId,
       imageSrc: getUrl("images/" + imageId),
     };
@@ -30,12 +33,17 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <ImageDisplay :src="imageSrc" />
+      <i-label-group block>
+        <UserInformationLabel :username="user" />
+      </i-label-group>
+      <ImageDisplay id="image-display" :src="imageSrc" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
+          :id="'annotation-button-' + label"
           :key="label"
           :label="label"
+          :username="user"
           :src="imageId"
         />
       </i-button-group>

@@ -101,7 +101,8 @@ async def save_annotation(src: str, annotation: Annotation) -> None:
 
 def path_url(path: PathLike[str]) -> str:
     """Get the url to a path inside the data folder (~/.annoto)"""
-    url_path = os.path.relpath(path, SETTINGS.data_folder).replace(os.path.sep, "/")
+
+    url_path = str(path.relative_to(SETTINGS.data_folder)).replace(os.path.sep, "/")
     return f"/debug/data/{url_path}" if url_path != "." else "/debug/data"
 
 
@@ -127,14 +128,14 @@ if SETTINGS.debug_routes:
 
         path = SETTINGS.data_folder.joinpath(path)
 
-        if os.path.isfile(path):
+        if path.is_file():
             return FileResponse(path)
 
-        if os.path.isdir(path):
+        if path.is_dir():
             entries = list(
                 map(
                     lambda e: {
-                        "name": f"{e}/" if os.path.isdir(path.joinpath(e)) else e,
+                        "name": f"{e}/" if path.joinpath(e).is_dir() else e,
                         "url": path_url(path.joinpath(e)),
                     },
                     os.listdir(path),

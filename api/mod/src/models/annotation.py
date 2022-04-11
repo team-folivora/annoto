@@ -1,9 +1,10 @@
+"""Provides classes for Annotations"""
+
 from __future__ import annotations
 
 import hashlib
 import json
 from pathlib import Path
-from typing import Dict
 
 from pydantic import BaseModel, Field
 
@@ -39,9 +40,9 @@ class Annotation(AnnotationData):
     src: str = Field(..., description="The name of the data file", example="sloth.jpg")
 
     @classmethod
-    def from_data(cls, annotation_data: AnnotationData, **kwargs: Dict) -> Annotation:
+    def from_data(cls, annotation_data: AnnotationData, src: str) -> Annotation:
         """Creates an Annotation from AnnotationData and additional attributes"""
-        return Annotation(**{**annotation_data.__dict__, **kwargs})
+        return Annotation(**{**annotation_data.__dict__, **{"src": src}})
 
     @property
     def absolute_src(self) -> Path:
@@ -79,12 +80,11 @@ class Annotation(AnnotationData):
 
 
 class HashMismatch(Exception):
-    """Raised when the given hash of the annotation data doesn't match the generated hash of the data file"""
-
-    pass
+    """
+    Raised when the given hash of the annotation data
+    doesn't match the generated hash of the data file
+    """
 
 
 class InvalidProof(Exception):
     """Raised when proofs are invalid"""
-
-    pass

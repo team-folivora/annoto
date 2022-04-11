@@ -1,3 +1,5 @@
+"""Routes for images and annotations"""
+
 from fastapi import APIRouter, HTTPException, Path
 from fastapi.responses import FileResponse
 

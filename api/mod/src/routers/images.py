@@ -10,15 +10,16 @@ from mod.src.models.annotation import (
     InvalidProof,
 )
 from mod.src.settings import SETTINGS
+from mod.src.routers import tasks
 
 ROUTER = APIRouter(
-    prefix="/tasks",
-    tags=["images"],
+    prefix="/tasks/{task_id}",
+    tags=["tasks"],
 )
 
 
 @ROUTER.get(
-    "/{task_id}/{src}",
+    "/{src}",
     response_class=FileResponse,
     responses={
         200: {"content": {"image/*": {"schema": {"type": "file", "format": "binary"}}}},
@@ -38,7 +39,7 @@ async def get_image(
 
 
 @ROUTER.post(
-    "/{task_id}/{src}",
+    "/{src}",
     status_code=204,
     responses={
         404: {"description": "File not found!"},

@@ -74,7 +74,7 @@
         "/tasks/{task_id}/{src}": {
             "get": {
                 "tags": [
-                    "images"
+                    "tasks"
                 ],
                 "summary": "Get Image",
                 "description": "Get the image that should be annotated",
@@ -130,7 +130,7 @@
             },
             "post": {
                 "tags": [
-                    "images"
+                    "tasks"
                 ],
                 "summary": "Save Annotation",
                 "description": "Saves the annotation for the specified image",

@@ -56,7 +56,7 @@ export default defineComponent({
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
-          :id="'annotation-button-' + label"
+          :id="'annotation-button-' + label.toLowerCase().replace(/\s+/g, '-')"
           :key="label"
           :label="label"
           :username="user"

@@ -1,16 +1,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
-import ToastNotification from "./ToastNotification.vue";
 import { DefaultService as API } from "../api/services/DefaultService";
 /**
  * A Button for annotating a datafile
  */
 export default defineComponent({
-  components: {
-    ToastNotification,
-  },
-
   props: {
     /**
      * The label of the button.
@@ -26,8 +21,6 @@ export default defineComponent({
   data() {
     return {
       isLoading: false,
-      showToast: false,
-      toastType: "success",
     };
   },
 
@@ -48,21 +41,13 @@ export default defineComponent({
           competency: this.competency,
           is_attentive: this.isAttentive,
         });
-        this.animateToast(false);
+        this.$toast?.success("Annotation successfully saved.");
       } catch (e) {
-        this.animateToast(true);
+        this.$toast?.danger("Something went wrong. Annotation not saved.");
         throw e;
       } finally {
         this.isLoading = false;
       }
-    },
-
-    animateToast(isError: boolean) {
-      this.toastType = isError ? "error" : "success";
-      this.showToast = true;
-      setTimeout(() => {
-        this.showToast = false;
-      }, 3000);
     },
   },
 });
@@ -70,11 +55,6 @@ export default defineComponent({
 
 <template>
   <i-button :loading="isLoading" :disabled="isLoading" @click="saveAnnotation">
-    <ToastNotification
-      :visible="showToast"
-      style="text-align: left"
-      :type="toastType"
-    />
     Label: {{ label }}
   </i-button>
 </template>

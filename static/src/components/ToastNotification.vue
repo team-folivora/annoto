@@ -2,100 +2,97 @@
 import { defineComponent } from "vue";
 export default defineComponent({
   props: {
-    visible: {
-      type: Boolean,
-      required: true,
-    },
+    /**
+     * The message that is displayed in the ToastNotification
+     */
+    message: { type: String, required: true },
+    /**
+     * The type of appearance the ToastNotification should have
+     */
     type: {
       type: String,
-      required: true,
+      default: "info",
+    },
+    /**
+     * The duration of the ToastNotification in milliseconds
+     */
+    duration: {
+      type: Number,
+      default: 3000,
+    },
+    /**
+     * Whether the ToastNotification can be manually closed
+     */
+    dismissible: {
+      type: Boolean,
+      default: true,
     },
   },
 
+  data() {
+    return {
+      isActive: true,
+      typeIcon: new Map([
+        ["info", "ink-info"],
+        ["success", "ink-check"],
+        ["warning", "ink-warning"],
+        ["danger", "ink-danger"],
+      ]),
+    };
+  },
+
   computed: {
-    content() {
-      return this.type === "success"
-        ? "Annotation successfully saved"
-        : "An error occured. Annotation failed.";
-    },
-    color() {
-      return this.type === "success" ? "success" : "danger";
-    },
     icon() {
-      return this.type === "success" ? "ink-check" : "ink-danger";
+      return this.typeIcon.get(this.type);
     },
+  },
+
+  mounted() {
+    // This hides the toast after the specified duration. It gets removed from the DOM by the Toaster Plugin afterwards
+    setTimeout(() => {
+      this.isActive = false;
+    }, this.duration);
   },
 });
 </script>
 
 <template>
-  <div id="container" :class="[{ animate: visible }, '_position:fixed']">
-    <i-alert dismissible :color="color" size="md">
-      <template #icon>
-        <i-icon :name="icon" />
-      </template>
-      <p>{{ content }}</p>
-    </i-alert>
-  </div>
+  <Transition appear>
+    <div v-show="isActive" id="container" class="_position:fixed">
+      <i-alert :dismissible="dismissible" :color="type" size="md">
+        <template #icon>
+          <i-icon :name="icon" />
+        </template>
+        <p>{{ message }}</p>
+      </i-alert>
+    </div>
+  </Transition>
 </template>
 
 <style scoped>
 div#container {
-  visibility: hidden;
   top: 30px;
   min-width: 40%;
   left: 50%;
-  transform: translate(-50%, 0px);
+  transform: translateX(-50%);
   z-index: 9999;
 }
 
-div.animate {
-  visibility: visible !important;
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+.v-enter-active {
+  animation: fadein 0.5s ease-in-out;
 }
-
-@-webkit-keyframes fadein {
-  from {
-    top: 0;
-    opacity: 0;
-  }
-  to {
-    top: 30px;
-    opacity: 1;
-  }
+.v-leave-active {
+  animation: fadein 0.5s ease-in-out reverse;
 }
 
 @keyframes fadein {
   from {
-    top: 0;
+    top: 0px;
     opacity: 0;
   }
   to {
     top: 30px;
     opacity: 1;
-  }
-}
-
-@-webkit-keyframes fadeout {
-  from {
-    top: 30px;
-    opacity: 1;
-  }
-  to {
-    top: 0;
-    opacity: 0;
-  }
-}
-
-@keyframes fadeout {
-  from {
-    top: 30px;
-    opacity: 1;
-  }
-  to {
-    top: 0;
-    opacity: 0;
   }
 }
 </style>

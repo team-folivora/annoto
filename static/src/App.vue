@@ -39,9 +39,7 @@ export default defineComponent({
     </i-layout-header>
     <i-layout-content>
       <ProofOfAttentiveness v-model:isAttentive="isAttentive" />
-      <i-label-group block>
-        <UserInformationLabel :username="user" />
-      </i-label-group>
+      <UserInformationLabel :username="user" />
       <ImageDisplay id="image-display" :src="imageSrc" />
       <i-button-group block>
         <AnnotationButton

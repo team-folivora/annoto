@@ -18,13 +18,6 @@ export default defineComponent({
     UserInformationLabel,
   },
 
-  methods: {
-    async fetch_labels() {
-      let task = await API.getTask("ecg-qrs-classification-physiodb");
-      this.labels = task.labels;
-    },
-  },
-
   data() {
     let imageId = "sloth.jpg";
     let labels: string[] = [];
@@ -39,6 +32,13 @@ export default defineComponent({
       imageId,
       imageSrc: getUrl("tasks/ecg-qrs-classification-physiodb/" + imageId),
     };
+  },
+
+  methods: {
+    async fetch_labels() {
+      let task = await API.getTask("ecg-qrs-classification-physiodb");
+      this.labels = task.labels;
+    },
   },
 });
 </script>

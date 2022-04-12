@@ -109,9 +109,9 @@ def test_post_image_with_invalid_proof_returns_428(client: TestClient) -> None:
 
 
 def test_post_image_with_invalid_username_returns_406(client: TestClient) -> None:
-    """Test POST /images/sloth.jpg raises HttpException 406"""
+    """Test POST /tasks/ecg-qrs-classification-physiodb/sloth.jpg raises HttpException 406"""
     response = client.post(
-        "/images/sloth.jpg",
+        "/tasks/ecg-qrs-classification-physiodb/sloth.jpg",
         json={
             "label": "foo",
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",

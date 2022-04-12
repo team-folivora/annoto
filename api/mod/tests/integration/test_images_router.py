@@ -28,7 +28,6 @@ def test_post_image(client: TestClient) -> None:
     response = client.post(
         "/images/sloth.jpg",
         json={
-            "src": "sloth.jpg",
             "label": "foo",
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
             "competency": "Prof. Dr. Med",

@@ -25,6 +25,7 @@ export class ImagesService {
             path: {
                 'src': src,
             },
+            responseType: 'blob',
             errors: {
                 404: `File not found`,
                 422: `Validation Error`,

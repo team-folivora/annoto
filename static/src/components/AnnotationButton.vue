@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
-import { DefaultService as API } from "../api/services/DefaultService";
+import { ImagesService as API } from "../api/services/ImagesService";
 /**
  * A Button for annotating a datafile
  */

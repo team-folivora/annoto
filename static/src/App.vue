@@ -6,6 +6,7 @@ import UserInformationLabel from "./components/UserInformationLabel.vue";
 import { defineComponent } from "vue";
 import { getUrl } from "./utils/helpers";
 import { TasksService as API } from "./api/services/TasksService";
+import { paramCase } from "change-case";
 
 /**
  * The main App component for the website
@@ -39,6 +40,7 @@ export default defineComponent({
       let task = await API.getTask("ecg-qrs-classification-physiodb");
       this.labels = task.labels;
     },
+    paramCase,
   },
 });
 </script>
@@ -60,7 +62,7 @@ export default defineComponent({
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
-          :id="'annotation-button-' + label.toLowerCase().replace(/\s+/g, '-')"
+          :id="'annotation-button-' + paramCase(label)"
           :key="label"
           :label="label"
           :username="user"

@@ -42,7 +42,7 @@ export default defineComponent({
 
     async next_image() {
       this.imageId = await API.getNextImage(
-        "ecg-qrs-classification-physiodb",
+        "ecg-qrs-classification-physiodb"
       ).catch((e) => {
         console.log(e);
         this.imageId = "null";

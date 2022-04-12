@@ -7,7 +7,7 @@ import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class DefaultService {
+export class ImagesService {
 
     /**
      * Get Image
@@ -56,8 +56,9 @@ export class DefaultService {
             errors: {
                 400: `Hash values of the annotation and the local source do not match!`,
                 404: `File not found!`,
-                420: `Provided proofs are not valid!`,
+                406: `Provided username is not valid!`,
                 422: `Validation Error`,
+                428: `Provided proofs are not valid!`,
             },
         });
     }

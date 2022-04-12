@@ -5,6 +5,7 @@ import ProofOfAttentiveness from "./components/ProofOfAttentiveness.vue";
 import UserInformationLabel from "./components/UserInformationLabel.vue";
 import { defineComponent } from "vue";
 import { getUrl } from "./utils/helpers";
+import { TasksService as API } from "./api/services/TasksService";
 
 /**
  * The main App component for the website
@@ -17,10 +18,19 @@ export default defineComponent({
     UserInformationLabel,
   },
 
+  methods: {
+    async fetch_labels() {
+      let task = await API.getTask('ecg-qrs-classification-physiodb');
+      this.labels = task.labels;
+    }
+  },
+
   data() {
     let imageId = "sloth.jpg";
+    let labels: string[] = []
+    this.fetch_labels();
     return {
-      labels: ["Faultier", "Hund", "Katze", "Maus"],
+      labels: labels,
       visible: true,
       isAttentive: false,
       competency: "Prof. Dr. Med.",

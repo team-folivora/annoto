@@ -28,7 +28,7 @@ ROUTER = APIRouter(
 async def get_tasks() -> List[str]:
     """Get a list of the IDs of all available labelling tasks"""
     tasks_file = SETTINGS.data_folder.joinpath("tasks.json")
-    with open(tasks_file, encoding="utf-8") as file:
+    with open(tasks_file, "r", encoding="utf-8") as file:
         return json.load(file)
 
 
@@ -40,5 +40,5 @@ async def get_tasks() -> List[str]:
 async def get_task(task_id: str) -> Task:
     """Get all information about a labelling task"""
     task_file = SETTINGS.data_folder.joinpath(task_id).joinpath("task.json")
-    with open(task_file, encoding="uft-8") as file:
+    with open(task_file, "r", encoding="utf-8") as file:
         return json.load(file)

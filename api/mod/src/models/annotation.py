@@ -25,13 +25,17 @@ class AnnotationData(BaseModel):
         example="e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
     )
     username: str = Field(
-        ..., description="The name of the current user", example="AnnotoUser#1337",
+        ...,
+        description="The name of the current user",
+        example="AnnotoUser#1337",
     )
     competency: str = Field(
         ..., description="The competencies the annotator has", example="Prof. Dr. Med"
     )
     is_trained: bool = Field(
-        ..., description="Whether the annotator said he finished the training", example=True,
+        ...,
+        description="Whether the annotator said he finished the training",
+        example=True,
     )
     is_attentive: bool = Field(
         ..., description="Whether the annotator said that he is attentive", example=True

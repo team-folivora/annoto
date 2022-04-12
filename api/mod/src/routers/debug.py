@@ -17,7 +17,6 @@ ROUTER = APIRouter(
     tags=["debug"],
 )
 
-print(Path.cwd().joinpath("mod").joinpath("src").joinpath("templates"))
 TEMPLATE_DIRECTORY = Path.cwd().joinpath("mod").joinpath("src").joinpath("templates")
 TEMPLATES = Jinja2Templates(TEMPLATE_DIRECTORY)
 

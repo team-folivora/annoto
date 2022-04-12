@@ -1,9 +1,9 @@
 """Routes for images and annotations"""
 
-from datetime import datetime
 import os
 import random
 import re
+from datetime import datetime
 
 from fastapi import APIRouter, HTTPException, Path
 from fastapi.responses import FileResponse

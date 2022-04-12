@@ -24,6 +24,11 @@ class AnnotationData(BaseModel):
         description="The hash of the file",
         example="e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
     )
+    username: str = Field(
+        ...,
+        description="The name of the current user",
+        example="AnnotUser#1237",
+    )
     competency: str = Field(
         ..., description="The competencies the annotator has", example="Prof. Dr. Med"
     )

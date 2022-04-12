@@ -38,6 +38,7 @@ export default defineComponent({
         await API.saveAnnotation(this.src, {
           label: this.label,
           hash: hash,
+          username: this.username,
           competency: this.competency,
           is_attentive: this.isAttentive,
         });

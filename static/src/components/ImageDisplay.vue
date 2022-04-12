@@ -14,7 +14,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <img :src="src" />
+  <img v-if="src.endsWith('null')" :src="src" />
+  <i-card v-else class="margin-y:20px">No more Images to label</i-card>
 </template>
 
 <style scoped>

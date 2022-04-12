@@ -34,20 +34,25 @@ export default defineComponent({
     };
   },
 
-  computed: {
-    imageSrc() {
-      return getUrl("tasks/ecg-qrs-classification-physiodb/" + this.imageId);
-    },
-  },
-
   methods: {
     async fetch_labels() {
       let task = await API.getTask("ecg-qrs-classification-physiodb");
       this.labels = task.labels;
     },
+
     async next_image() {
-      this.imageId = await API.getNextImage("ecg-qrs-classification-physiodb");
+      this.imageId = await API.getNextImage(
+        "ecg-qrs-classification-physiodb",
+      ).catch((e) => {
+        console.log(e);
+        this.imageId = "null";
+      });
     },
+
+    imageSrc(imageId: string) {
+      return getUrl("tasks/ecg-qrs-classification-physiodb/" + imageId);
+    },
+
     paramCase,
   },
 });
@@ -66,7 +71,7 @@ export default defineComponent({
       <i-label-group block>
         <UserInformationLabel :username="user" />
       </i-label-group>
-      <ImageDisplay id="image-display" :src="imageSrc" />
+      <ImageDisplay id="image-display" :src="imageSrc(imageId)" />
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"

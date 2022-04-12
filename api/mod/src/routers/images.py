@@ -1,6 +1,8 @@
 """Routes for images and annotations"""
 
+from datetime import datetime
 import os
+import random
 import re
 
 from fastapi import APIRouter, HTTPException, Path
@@ -35,7 +37,7 @@ async def get_next_image(
     """Get the image that should be annotated"""
     task_folder = SETTINGS.data_folder.joinpath(task_id)
     images = list(
-        filter(lambda f: re.match(".*\\.(png|jpg|jpeg)", f), os.listdir(task_folder))
+        filter(lambda f: re.match(".*\\.(png|jpg|jpeg)$", f), os.listdir(task_folder))
     )
     images = list(
         filter(
@@ -44,7 +46,8 @@ async def get_next_image(
     )
     if not images:
         raise HTTPException(status_code=404, detail="No more images to annotate")
-    return next(iter(images))
+    random.seed(datetime.now())
+    return random.choice(images)
 
 
 @ROUTER.get(

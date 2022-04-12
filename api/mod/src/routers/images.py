@@ -10,7 +10,6 @@ from mod.src.models.annotation import (
     InvalidProof,
 )
 from mod.src.settings import SETTINGS
-from mod.src.routers import tasks
 
 ROUTER = APIRouter(
     prefix="/tasks/{task_id}",

@@ -3,7 +3,7 @@
 import json
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from mod.src.models.task import Task
 from mod.src.settings import SETTINGS
@@ -35,10 +35,19 @@ async def get_tasks() -> List[str]:
 @ROUTER.get(
     "/{task_id}",
     response_model=Task,
+    responses={
+        404: {"description": "Task not found!"},
+    },
     operation_id="get_task",
 )
 async def get_task(task_id: str) -> Task:
     """Get all information about a labelling task"""
-    task_file = SETTINGS.data_folder.joinpath(task_id).joinpath("task.json")
+    task_folder = SETTINGS.data_folder.joinpath(task_id)
+    task_file = task_folder.joinpath("task.json")
+    if not (task_folder.exists() and task_file.exists()):
+        raise HTTPException(
+            status_code=404,
+            detail="Task not found!",
+        )
     with open(task_file, "r", encoding="utf-8") as file:
         return json.load(file)

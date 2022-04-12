@@ -40,6 +40,7 @@ export class TasksService {
                 'task_id': taskId,
             },
             errors: {
+                404: `Task not found!`,
                 422: `Validation Error`,
             },
         });
@@ -98,6 +99,7 @@ export class TasksService {
             errors: {
                 400: `Hash values of the annotation and the local source do not match!`,
                 404: `File not found!`,
+                406: `Provided username is not valid!`,
                 422: `Validation Error`,
                 428: `Provided proofs are not valid!`,
             },

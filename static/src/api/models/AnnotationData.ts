@@ -15,9 +15,17 @@ export type AnnotationData = {
      */
     hash: string;
     /**
+     * The name of the current user
+     */
+    username: string;
+    /**
      * The competencies the annotator has
      */
     competency: string;
+    /**
+     * Whether the annotator said he finished the training
+     */
+    is_trained: boolean;
     /**
      * Whether the annotator said that he is attentive
      */

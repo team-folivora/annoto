@@ -28,11 +28,12 @@ def test_post_image(client: TestClient) -> None:
     response = client.post(
         "/tasks/ecg-qrs-classification-physiodb/sloth.jpg",
         json={
-            "src": "ecg-qrs-classification-physiodb/sloth.jpg",
             "label": "foo",
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
             "competency": "Prof. Dr. Med",
             "is_attentive": True,
+            "username": "AnnotoUser#1337",
+            "is_trained": True,
         },
     )
     assert response.status_code == 204
@@ -48,6 +49,8 @@ def test_post_image(client: TestClient) -> None:
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
             "competency": "Prof. Dr. Med",
             "is_attentive": True,
+            "username": "AnnotoUser#1337",
+            "is_trained": True,
         }
 
 
@@ -59,11 +62,12 @@ def test_post_unknown_image_returns_404(client: TestClient) -> None:
     response = client.post(
         "/tasks/ecg-qrs-classification-physiodb/unknown_image.jpg",
         json={
-            "src": "unknown_image.jpg",
             "label": "foo",
             "hash": "unknown",
             "competency": "Dr. Dr. med",
             "is_attentive": True,
+            "username": "AnnotoUser#1337",
+            "is_trained": True,
         },
     )
     assert response.status_code == 404
@@ -75,28 +79,47 @@ def test_post_image_wrong_hash_returns_400(client: TestClient) -> None:
     response = client.post(
         "/tasks/ecg-qrs-classification-physiodb/sloth.jpg",
         json={
-            "src": "sloth.jpg",
             "label": "foo",
             "hash": "wrong",
             "competency": "Dr. Dr. med",
             "is_attentive": True,
+            "username": "AnnotoUser#1337",
+            "is_trained": True,
         },
     )
     assert response.status_code == 400
     assert response.headers["content-type"] == "application/json"
 
 
-def test_post_image_with_invalid_proof_return_428(client: TestClient) -> None:
+def test_post_image_with_invalid_proof_returns_428(client: TestClient) -> None:
     """Test POST /tasks/ecg-qrs-classification-physiodb/sloth.jpg raises HttpException 428"""
     response = client.post(
         "/tasks/ecg-qrs-classification-physiodb/sloth.jpg",
         json={
-            "src": "sloth.jpg",
             "label": "foo",
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
             "competency": "Dr. Dr. med",
             "is_attentive": False,
+            "username": "AnnotoUser#1337",
+            "is_trained": False,
         },
     )
     assert response.status_code == 428
+    assert response.headers["content-type"] == "application/json"
+
+
+def test_post_image_with_invalid_username_returns_406(client: TestClient) -> None:
+    """Test POST /images/sloth.jpg raises HttpException 406"""
+    response = client.post(
+        "/images/sloth.jpg",
+        json={
+            "label": "foo",
+            "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
+            "competency": "Dr. Dr. med",
+            "is_attentive": True,
+            "username": "",
+            "is_trained": True,
+        },
+    )
+    assert response.status_code == 406
     assert response.headers["content-type"] == "application/json"

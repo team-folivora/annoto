@@ -58,6 +58,9 @@
                             }
                         }
                     },
+                    "404": {
+                        "description": "Task not found!"
+                    },
                     "422": {
                         "description": "Validation Error",
                         "content": {
@@ -180,6 +183,9 @@
                     "428": {
                         "description": "Provided proofs are not valid!"
                     },
+                    "406": {
+                        "description": "Provided username is not valid!"
+                    },
                     "422": {
                         "description": "Validation Error",
                         "content": {
@@ -201,7 +207,9 @@
                 "required": [
                     "label",
                     "hash",
+                    "username",
                     "competency",
+                    "is_trained",
                     "is_attentive"
                 ],
                 "type": "object",
@@ -218,11 +226,23 @@
                         "description": "The hash of the file",
                         "example": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d"
                     },
+                    "username": {
+                        "title": "Username",
+                        "type": "string",
+                        "description": "The name of the current user",
+                        "example": "AnnotoUser#1337"
+                    },
                     "competency": {
                         "title": "Competency",
                         "type": "string",
                         "description": "The competencies the annotator has",
                         "example": "Prof. Dr. Med"
+                    },
+                    "is_trained": {
+                        "title": "Is Trained",
+                        "type": "boolean",
+                        "description": "Whether the annotator said he finished the training",
+                        "example": true
                     },
                     "is_attentive": {
                         "title": "Is Attentive",

@@ -24,8 +24,18 @@ class AnnotationData(BaseModel):
         description="The hash of the file",
         example="e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
     )
+    username: str = Field(
+        ...,
+        description="The name of the current user",
+        example="AnnotoUser#1337",
+    )
     competency: str = Field(
         ..., description="The competencies the annotator has", example="Prof. Dr. Med"
+    )
+    is_trained: bool = Field(
+        ...,
+        description="Whether the annotator said he finished the training",
+        example=True,
     )
     is_attentive: bool = Field(
         ..., description="Whether the annotator said that he is attentive", example=True
@@ -65,7 +75,11 @@ class Annotation(AnnotationData):
 
     def proofs_are_valid(self) -> bool:
         """Checks whether the proofs of the annotator are all valid"""
-        return self.is_attentive and self.competency != ""
+        return self.is_attentive and self.competency != "" and self.is_trained
+
+    def username_is_valid(self) -> bool:
+        """Checks whether the username is empty and therefore invalid"""
+        return self.username != ""
 
     def save(self) -> None:
         """
@@ -78,6 +92,8 @@ class Annotation(AnnotationData):
             raise InvalidProof()
         if not self.hash_is_valid():
             raise HashMismatch()
+        if not self.username_is_valid():
+            raise InvalidUsername()
         annotation_file = SETTINGS.data_folder.joinpath(f"{self.src}.annotation.json")
         with open(annotation_file, "w", encoding="utf-8") as file:
             file.write(json.dumps(self.__dict__, indent=4))
@@ -92,3 +108,7 @@ class HashMismatch(Exception):
 
 class InvalidProof(Exception):
     """Raised when proofs are invalid"""
+
+
+class InvalidUsername(Exception):
+    """Raised when username is invalid"""

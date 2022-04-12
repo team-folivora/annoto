@@ -5,6 +5,8 @@ import ProofOfCondition from "./components/ProofOfCondition.vue";
 import UserInformationLabel from "./components/UserInformationLabel.vue";
 import { defineComponent } from "vue";
 import { getUrl } from "./utils/helpers";
+import { TasksService as API } from "./api/services/TasksService";
+import { paramCase } from "change-case";
 
 /**
  * The main App component for the website
@@ -19,16 +21,26 @@ export default defineComponent({
 
   data() {
     let imageId = "sloth.jpg";
+    let labels: string[] = [];
+    this.fetch_labels();
     return {
-      labels: ["Faultier", "Hund", "Katze", "Maus"],
+      labels: labels,
       visible: true,
       isAttentive: false,
       isTrained: false,
       competency: "Prof. Dr. Med.",
       user: "AnnotoUser#1337",
       imageId,
-      imageSrc: getUrl("images/" + imageId),
+      imageSrc: getUrl("tasks/ecg-qrs-classification-physiodb/" + imageId),
     };
+  },
+
+  methods: {
+    async fetch_labels() {
+      let task = await API.getTask("ecg-qrs-classification-physiodb");
+      this.labels = task.labels;
+    },
+    paramCase,
   },
 });
 </script>
@@ -50,7 +62,7 @@ export default defineComponent({
       <i-button-group block>
         <AnnotationButton
           v-for="label in labels"
-          :id="'annotation-button-' + label"
+          :id="'annotation-button-' + paramCase(label)"
           :key="label"
           :label="label"
           :username="user"

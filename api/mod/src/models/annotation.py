@@ -47,7 +47,11 @@ class Annotation(AnnotationData):
     The Annotation of a data file
     """
 
-    src: str = Field(..., description="The name of the data file", example="sloth.jpg")
+    src: str = Field(
+        ...,
+        description="The location of the data file",
+        example="ecg-qrs-classification-physiodb/sloth.jpg",
+    )
 
     @classmethod
     def from_data(cls, annotation_data: AnnotationData, src: str) -> Annotation:

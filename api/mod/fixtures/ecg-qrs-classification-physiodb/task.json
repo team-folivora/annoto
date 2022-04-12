@@ -1,0 +1,11 @@
+{
+    "id": "ecg-qrs-classification-physiodb",
+    "description": "Labeling the QRS complex of Physionet ECGs",
+    "labels": [
+        "Atrial fibrillation",
+        "Normal sinus rhythm",
+        "Ventricular tachycardia",
+        "Noise",
+        "Other"
+    ]
+}

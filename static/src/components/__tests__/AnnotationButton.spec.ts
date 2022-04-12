@@ -10,6 +10,7 @@ describe("Button", () => {
         competency: "Dr.",
         isAttentive: true,
         username: "",
+        isTrained: true,
       },
     });
   });
@@ -22,6 +23,7 @@ describe("Button", () => {
         competency: "Dr.",
         isAttentive: true,
         username: "",
+        isTrained: true,
       },
     });
     cy.get("i-button").should("be.visible");
@@ -35,6 +37,7 @@ describe("Button", () => {
         competency: "Dr.",
         isAttentive: true,
         username: "",
+        isTrained: true,
       },
     });
     cy.get("i-button").should("not.be.disabled");
@@ -49,6 +52,7 @@ describe("Button", () => {
         competency: "Dr.",
         isAttentive: true,
         username: "",
+        isTrained: true,
       },
     });
     cy.get("i-button").contains(label);

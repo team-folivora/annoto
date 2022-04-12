@@ -21,8 +21,10 @@ def annotation() -> Annotation:
         src="test.jpg",
         label="Label",
         hash="a59ce92485a863931af21370b5082eb8a0c258c1cd74ae068db0ad47aeac1344",
+        username="AnnotoUser#1337",
         competency="Prof. Dr. Med.",
         is_attentive=True,
+        is_trained=True,
     )
 
 

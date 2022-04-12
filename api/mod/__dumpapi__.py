@@ -11,4 +11,4 @@ openapi_schema = get_openapi(
     version="v1",
     routes=APP.routes,
 )
-print(json.dumps(openapi_schema))
+print(json.dumps(openapi_schema, indent=4))

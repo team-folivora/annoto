@@ -8,6 +8,7 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AnnotationData } from './models/AnnotationData';
 export type { HTTPValidationError } from './models/HTTPValidationError';
+export type { Task } from './models/Task';
 export type { ValidationError } from './models/ValidationError';
 
-export { DefaultService } from './services/DefaultService';
+export { TasksService } from './services/TasksService';

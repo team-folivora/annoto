@@ -8,12 +8,13 @@ from mod.src.models.annotation import (
     AnnotationData,
     HashMismatch,
     InvalidProof,
+    InvalidUsername,
 )
 from mod.src.settings import SETTINGS
 
 ROUTER = APIRouter(
-    prefix="/images",
-    tags=["images"],
+    prefix="/tasks/{task_id}",
+    tags=["tasks"],
 )
 
 
@@ -27,10 +28,11 @@ ROUTER = APIRouter(
     operation_id="get_image",
 )
 async def get_image(
+    task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
     src: str = Path(..., example="sloth.jpg"),
 ) -> FileResponse:
     """Get the image that should be annotated"""
-    image_file = SETTINGS.data_folder.joinpath(src)
+    image_file = SETTINGS.data_folder.joinpath(task_id).joinpath(src)
     if not image_file.is_file():
         raise HTTPException(status_code=404, detail="File not found")
     return FileResponse(str(image_file))
@@ -45,16 +47,20 @@ async def get_image(
             "description": "Hash values of the annotation and the local source do not match!"
         },
         428: {"description": "Provided proofs are not valid!"},
+        406: {"description": "Provided username is not valid!"},
     },
     operation_id="save_annotation",
 )
 async def save_annotation(
     annotation_data: AnnotationData,
+    task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
     src: str = Path(..., example="sloth.jpg"),
 ) -> None:
     """Saves the annotation for the specified image"""
 
-    annotation = Annotation.from_data(annotation_data=annotation_data, src=src)
+    annotation = Annotation.from_data(
+        annotation_data=annotation_data, src=f"{task_id}/{src}"
+    )
 
     try:
         annotation.save()
@@ -67,6 +73,11 @@ async def save_annotation(
         raise HTTPException(
             status_code=428,
             detail="Provided proofs are not valid!",
+        ) from None
+    except InvalidUsername:
+        raise HTTPException(
+            status_code=406,
+            detail="Provided username is not valid!",
         ) from None
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="File Not Found!") from None

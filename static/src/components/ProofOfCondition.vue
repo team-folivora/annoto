@@ -47,21 +47,27 @@ export default defineComponent({
     :show-close="false"
   >
     <template #header>
-      <p class="h4 _margin:0 _text:center _width:100%">
-        Proof of Condition
-      </p>
+      <p class="h4 _margin:0 _text:center _width:100%">Proof of Condition</p>
     </template>
-    Please read the <a href="https://github.com/team-folivora/annoto/blob/dev/MANUAL.md" target="_blank">Manual</a> before labeling the data.
-    <br/>
-    <br/>
-    Also, please make sure you feel well and concentrated to label the data. If you
-    experience tiredness or lack of concentration, you can continue the labeling
-    task later.
+    Please read the
+    <a
+      href="https://github.com/team-folivora/annoto/blob/dev/MANUAL.md"
+      target="_blank"
+    >
+      Manual
+    </a>
+    before labeling the data.
+    <br />
+    <br />
+    Also, please make sure you feel well and concentrated to label the data. If
+    you experience tiredness or lack of concentration, you can continue the
+    labeling task later.
     <template #footer>
       <div class="_display:flex _justify-content:space-between _flex-wrap:wrap">
         <i-checkbox v-model="checked" class="_text:wrap _margin-y:1/2">
           <span class="_color:dark _position:relative" style="top: -1px">
-            I am attentive and capable of labeling the data and I have read the Manual.
+            I am attentive and capable of labeling the data and I have read the
+            Manual.
           </span>
         </i-checkbox>
         <i-button color="success" :disabled="!checked" @click="onSubmit()">

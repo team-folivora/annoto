@@ -39,7 +39,10 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <ProofOfCondition v-model:isAttentive="isAttentive" v-model:isTrained="isTrained" />
+      <ProofOfCondition
+        v-model:isAttentive="isAttentive"
+        v-model:isTrained="isTrained"
+      />
       <i-label-group block>
         <UserInformationLabel :username="user" />
       </i-label-group>

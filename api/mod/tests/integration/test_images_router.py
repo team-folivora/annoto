@@ -103,6 +103,7 @@ def test_post_image_with_invalid_proof_returns_428(client: TestClient) -> None:
     assert response.status_code == 428
     assert response.headers["content-type"] == "application/json"
 
+
 def test_post_image_with_invalid_username_returns_406(client: TestClient) -> None:
     """Test POST /images/sloth.jpg raises HttpException 406"""
     response = client.post(

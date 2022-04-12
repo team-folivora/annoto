@@ -77,4 +77,3 @@ async def save_annotation(
         ) from None
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="File Not Found!") from None
-    

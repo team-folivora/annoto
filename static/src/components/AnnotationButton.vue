@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
-import { DefaultService as API } from "../api/services/DefaultService";
+import { TasksService as API } from "../api/services/TasksService";
 /**
  * A Button for annotating a datafile
  */
@@ -32,10 +32,10 @@ export default defineComponent({
     async saveAnnotation(): Promise<void> {
       this.isLoading = true;
       try {
-        let blob = await API.getImage(this.src);
+        let blob = await API.getImage('ecg-qrs-classification-physiodb', this.src);
         let buffer = await blob.arrayBuffer();
         let hash = sha256(buffer);
-        await API.saveAnnotation(this.src, {
+        await API.saveAnnotation('ecg-qrs-classification-physiodb', this.src, {
           label: this.label,
           hash: hash,
           competency: this.competency,
@@ -50,7 +50,5 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-button :loading="isLoading" @click="saveAnnotation">
-    Label: {{ label }}
-  </i-button>
+  <i-button :loading="isLoading" @click="saveAnnotation">Label: {{ label }}</i-button>
 </template>

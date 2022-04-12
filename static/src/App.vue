@@ -26,7 +26,7 @@ export default defineComponent({
       competency: "Prof. Dr. Med.",
       user: "AnnotoUser#1337",
       imageId,
-      imageSrc: getUrl("images/" + imageId),
+      imageSrc: getUrl("tasks/ecg-qrs-classification-physiodb/" + imageId),
     };
   },
 });

@@ -20,9 +20,9 @@ export default defineComponent({
   },
 
   data() {
-    let imageId = "sloth.jpg";
     let labels: string[] = [];
     this.fetch_labels();
+    this.next_image();
     return {
       labels: labels,
       visible: true,
@@ -30,15 +30,23 @@ export default defineComponent({
       isTrained: false,
       competency: "Prof. Dr. Med.",
       user: "AnnotoUser#1337",
-      imageId,
-      imageSrc: getUrl("tasks/ecg-qrs-classification-physiodb/" + imageId),
+      imageId: "",
     };
+  },
+
+  computed: {
+    imageSrc() {
+      return getUrl("tasks/ecg-qrs-classification-physiodb/" + this.imageId);
+    },
   },
 
   methods: {
     async fetch_labels() {
       let task = await API.getTask("ecg-qrs-classification-physiodb");
       this.labels = task.labels;
+    },
+    async next_image() {
+      this.imageId = await API.getNextImage("ecg-qrs-classification-physiodb");
     },
     paramCase,
   },

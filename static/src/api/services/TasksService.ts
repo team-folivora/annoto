@@ -47,6 +47,29 @@ export class TasksService {
     }
 
     /**
+     * Get Next Image
+     * Get the image that should be annotated
+     * @param taskId
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static getNextImage(
+        taskId: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/tasks/{task_id}/next',
+            path: {
+                'task_id': taskId,
+            },
+            errors: {
+                404: `No more images to annotate`,
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Get Image
      * Get the image that should be annotated
      * @param taskId

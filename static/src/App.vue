@@ -20,14 +20,14 @@ export default defineComponent({
 
   methods: {
     async fetch_labels() {
-      let task = await API.getTask('ecg-qrs-classification-physiodb');
+      let task = await API.getTask("ecg-qrs-classification-physiodb");
       this.labels = task.labels;
-    }
+    },
   },
 
   data() {
     let imageId = "sloth.jpg";
-    let labels: string[] = []
+    let labels: string[] = [];
     this.fetch_labels();
     return {
       labels: labels,

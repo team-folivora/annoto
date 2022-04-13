@@ -67,9 +67,7 @@ export default defineComponent({
         v-model:isAttentive="isAttentive"
         v-model:isTrained="isTrained"
       />
-      <i-label-group block>
-        <UserInformationLabel :username="user" />
-      </i-label-group>
+      <UserInformationLabel :username="user" />
       <div v-if="imageId">
         <ImageDisplay
           id="image-display"

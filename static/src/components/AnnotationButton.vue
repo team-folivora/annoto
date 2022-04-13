@@ -49,6 +49,10 @@ export default defineComponent({
           is_attentive: this.isAttentive,
         });
         this.$emit("annotationSaved");
+        this.$toast?.success("Annotation successfully saved.");
+      } catch (e) {
+        this.$toast?.danger("Something went wrong. Annotation not saved.");
+        throw e;
       } finally {
         this.isLoading = false;
       }
@@ -58,7 +62,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-button :loading="isLoading" @click="saveAnnotation">
+  <i-button :loading="isLoading" :disabled="isLoading" @click="saveAnnotation">
     Label: {{ label }}
   </i-button>
 </template>

@@ -1,21 +1,30 @@
 <script lang="ts">
+import { getUrl } from "@/utils/helpers";
 import { defineComponent } from "vue";
 /**
  * Displays an image specified by `src`
  */
 export default defineComponent({
+  computed: {
+    src() {
+      return getUrl(`tasks/${this.taskId}/${this.imageId}`);
+    },
+  },
   props: {
     /**
-     * Source from where the image should be loaded.
+     * Task from which an image should be loaded.
      */
-    src: { type: String, required: true },
+    taskId: { type: String, required: true },
+    /**
+     * Image that should be loaded.
+     */
+    imageId: { type: String, required: true },
   },
 });
 </script>
 
 <template>
-  <img v-if="src.endsWith('null')" :src="src" />
-  <i-card v-else class="margin-y:20px">No more Images to label</i-card>
+  <img :src="src" />
 </template>
 
 <style scoped>

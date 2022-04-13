@@ -13,7 +13,8 @@ export default defineComponent({
      * The other properties are transmitted for the annotation in the api.
      */
     label: { type: String, required: true },
-    src: { type: String, required: true },
+    taskId: { type: String, required: true },
+    imageId: { type: String, required: true },
     competency: { type: String, required: true },
     isAttentive: { type: Boolean, required: true },
     isTrained: { type: Boolean, required: true },
@@ -35,12 +36,12 @@ export default defineComponent({
       this.isLoading = true;
       try {
         let blob = await API.getImage(
-          "ecg-qrs-classification-physiodb",
-          this.src
+          this.taskId,
+          this.imageId
         );
         let buffer = await blob.arrayBuffer();
         let hash = sha256(buffer);
-        await API.saveAnnotation("ecg-qrs-classification-physiodb", this.src, {
+        await API.saveAnnotation(this.taskId, this.imageId, {
           label: this.label,
           hash: hash,
           username: this.username,
@@ -57,7 +58,5 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-button :loading="isLoading" @click="saveAnnotation">
-    Label: {{ label }}
-  </i-button>
+  <i-button :loading="isLoading" @click="saveAnnotation">Label: {{ label }}</i-button>
 </template>

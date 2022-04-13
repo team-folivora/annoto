@@ -13,12 +13,15 @@ export default defineComponent({
      * The other properties are transmitted for the annotation in the api.
      */
     label: { type: String, required: true },
-    src: { type: String, required: true },
+    taskId: { type: String, required: true },
+    imageId: { type: String, required: true },
     competency: { type: String, required: true },
     isAttentive: { type: Boolean, required: true },
     isTrained: { type: Boolean, required: true },
     username: { type: String, required: true },
   },
+
+  emits: ["annotationSaved"],
 
   data() {
     return {
@@ -34,13 +37,10 @@ export default defineComponent({
     async saveAnnotation(): Promise<void> {
       this.isLoading = true;
       try {
-        let blob = await API.getImage(
-          "ecg-qrs-classification-physiodb",
-          this.src
-        );
+        let blob = await API.getImage(this.taskId, this.imageId);
         let buffer = await blob.arrayBuffer();
         let hash = sha256(buffer);
-        await API.saveAnnotation("ecg-qrs-classification-physiodb", this.src, {
+        await API.saveAnnotation(this.taskId, this.imageId, {
           label: this.label,
           hash: hash,
           username: this.username,
@@ -48,6 +48,7 @@ export default defineComponent({
           competency: this.competency,
           is_attentive: this.isAttentive,
         });
+        this.$emit("annotationSaved");
       } finally {
         this.isLoading = false;
       }

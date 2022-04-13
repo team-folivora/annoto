@@ -1,4 +1,5 @@
 <script lang="ts">
+import { getUrl } from "@/utils/helpers";
 import { defineComponent } from "vue";
 /**
  * Displays an image specified by `src`
@@ -6,9 +7,19 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     /**
-     * Source from where the image should be loaded.
+     * Task from which an image should be loaded.
      */
-    src: { type: String, required: true },
+    taskId: { type: String, required: true },
+    /**
+     * Image that should be loaded.
+     */
+    imageId: { type: String, required: true },
+  },
+
+  computed: {
+    src() {
+      return getUrl(`tasks/${this.taskId}/${this.imageId}`);
+    },
   },
 });
 </script>

@@ -1,7 +1,11 @@
 """Routes for images and annotations"""
 
+import os
+import random
+import re
+
 from fastapi import APIRouter, HTTPException, Path
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
 
 from mod.src.models.annotation import (
     Annotation,
@@ -16,6 +20,33 @@ ROUTER = APIRouter(
     prefix="/tasks/{task_id}",
     tags=["tasks"],
 )
+
+
+@ROUTER.get(
+    "/next",
+    response_class=PlainTextResponse,
+    responses={
+        200: {"content": {"text/plain": {"example": "ecg_1.png"}}},
+        404: {"description": "No more images to annotate"},
+    },
+    operation_id="get_next_image",
+)
+async def get_next_image(
+    task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
+) -> PlainTextResponse:
+    """Get the image that should be annotated"""
+    task_folder = SETTINGS.data_folder.joinpath(task_id)
+    images = list(
+        filter(lambda f: re.match(".*\\.(png|jpg|jpeg)$", f), os.listdir(task_folder))
+    )
+    images = list(
+        filter(
+            lambda f: not task_folder.joinpath(f"{f}.annotation.json").exists(), images
+        )
+    )
+    if not images:
+        raise HTTPException(status_code=404, detail="No more images to annotate")
+    return PlainTextResponse(random.choice(images))
 
 
 @ROUTER.get(

@@ -74,6 +74,54 @@
                 }
             }
         },
+        "/tasks/{task_id}/next": {
+            "get": {
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "Get Next Image",
+                "description": "Get the image that should be annotated",
+                "operationId": "get_next_image",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Task Id",
+                            "type": "string"
+                        },
+                        "example": "ecg-qrs-classification-physiodb",
+                        "name": "task_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            },
+                            "text/plain": {
+                                "example": "ecg_1.png"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No more images to annotate"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/tasks/{task_id}/{src}": {
             "get": {
                 "tags": [

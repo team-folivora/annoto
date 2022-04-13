@@ -3,5 +3,8 @@
   "component": {
     "componentFolder": "src",
     "testFiles": "**/__tests__/*.spec.{js,ts,jsx,tsx}"
+  },
+  "env": {
+    "API_URL": "http://localhost:5000"
   }
 }

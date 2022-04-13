@@ -3,7 +3,7 @@
 import json
 from typing import List
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Path
 
 from mod.src.models.task import Task
 from mod.src.settings import SETTINGS
@@ -40,7 +40,9 @@ async def get_tasks() -> List[str]:
     },
     operation_id="get_task",
 )
-async def get_task(task_id: str) -> Task:
+async def get_task(
+    task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
+) -> Task:
     """Get all information about a labelling task"""
     task_folder = SETTINGS.data_folder.joinpath(task_id)
     task_file = task_folder.joinpath("task.json")

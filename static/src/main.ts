@@ -12,7 +12,11 @@ import Toaster from "./plugins/toaster";
 OpenAPI.BASE =
   import.meta.env.VITE_API_URL?.toString().replace(/\/$/, "") || "";
 
-const app = createApp(App);
+const app = createApp(App, {
+  taskId: "ecg-qrs-classification-physiodb",
+  competency: "Prof. Dr. Med.",
+  user: "AnnotoUser#1337",
+});
 
 app.use(Inkline, {
   components,

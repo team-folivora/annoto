@@ -6,7 +6,8 @@ describe("Button", () => {
     mount(AnnotationButton, {
       props: {
         label: "Test",
-        src: "/images/test.jpg",
+        taskId: "ecg-qrs-classification-physiodb",
+        imageId: "sloth.jpg",
         competency: "Dr.",
         isAttentive: true,
         username: "",
@@ -19,7 +20,8 @@ describe("Button", () => {
     mount(AnnotationButton, {
       props: {
         label: "Test",
-        src: "/images/test.jpg",
+        taskId: "ecg-qrs-classification-physiodb",
+        imageId: "sloth.jpg",
         competency: "Dr.",
         isAttentive: true,
         username: "",
@@ -33,7 +35,8 @@ describe("Button", () => {
     mount(AnnotationButton, {
       props: {
         label: "Test",
-        src: "/images/test.jpg",
+        taskId: "ecg-qrs-classification-physiodb",
+        imageId: "sloth.jpg",
         competency: "Dr.",
         isAttentive: true,
         username: "",
@@ -48,7 +51,8 @@ describe("Button", () => {
     mount(AnnotationButton, {
       props: {
         label: label,
-        src: "/images/test.jpg",
+        taskId: "ecg-qrs-classification-physiodb",
+        imageId: "sloth.jpg",
         competency: "Dr.",
         isAttentive: true,
         username: "",

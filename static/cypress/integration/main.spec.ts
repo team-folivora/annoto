@@ -3,7 +3,7 @@
 function intercept_get_task() {
   cy.intercept(
     "GET",
-    "http://localhost:5000/tasks/ecg-qrs-classification-physiodb",
+    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb`,
     { fixture: "task.json" }
   ).as("get_task");
 }
@@ -11,7 +11,7 @@ function intercept_get_task() {
 function intercept_next_image() {
   cy.intercept(
     "GET",
-    "http://localhost:5000/tasks/ecg-qrs-classification-physiodb/next",
+    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/next`,
     {
       fixture: "nextImage.txt",
     }
@@ -21,7 +21,7 @@ function intercept_next_image() {
 function intercept_next_image_with_failure() {
   cy.intercept(
     "GET",
-    "http://localhost:5000/tasks/ecg-qrs-classification-physiodb/next",
+    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/next`,
     { statusCode: 404 }
   ).as("get_next_image");
 }

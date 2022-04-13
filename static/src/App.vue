@@ -63,19 +63,12 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <ProofOfCondition
-        v-model:isAttentive="isAttentive"
-        v-model:isTrained="isTrained"
-      />
+      <ProofOfCondition v-model:isAttentive="isAttentive" v-model:isTrained="isTrained" />
       <i-label-group block>
         <UserInformationLabel :username="user" />
       </i-label-group>
       <div v-if="imageId">
-        <ImageDisplay
-          id="image-display"
-          :task-id="taskId"
-          :image-id="imageId"
-        />
+        <ImageDisplay id="image-display" :task-id="taskId" :image-id="imageId" />
         <i-button-group block>
           <AnnotationButton
             v-for="label in labels"
@@ -85,13 +78,13 @@ export default defineComponent({
             username="user"
             :is-attentive="isAttentive"
             :is-trained="isTrained"
-            competency="competency"
-            task-id="taskId"
+            :competency="competency"
+            :task-id="taskId"
             :image-id="imageId"
           />
         </i-button-group>
       </div>
-      <i-card v-else class="margin-y:20px">No more Images to label</i-card>
+      <i-card v-else id="no-more-images" class="margin-y:20px">No more Images to label</i-card>
     </i-layout-content>
   </i-layout>
 </template>

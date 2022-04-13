@@ -153,5 +153,4 @@ def test_get_next_image_returns_404_if_all_annotated(client: TestClient) -> None
     response = client.get(
         "/tasks/ecg-qrs-classification-physiodb/next",
     )
-    print(response.text)
     assert response.status_code == 404

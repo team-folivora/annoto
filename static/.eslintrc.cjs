@@ -13,6 +13,7 @@ module.exports = {
   rules: {
     "vue/attributes-order": "error",
     "vue/order-in-components": "error",
+    "vue/require-explicit-emits": "error",
   },
   env: {
     "vue/setup-compiler-macros": true,

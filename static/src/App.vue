@@ -88,6 +88,7 @@ export default defineComponent({
             :competency="competency"
             :task-id="taskId"
             :image-id="imageId"
+            @annotation-saved="nextImage"
           />
         </i-button-group>
       </div>

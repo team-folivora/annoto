@@ -21,6 +21,8 @@ export default defineComponent({
     username: { type: String, required: true },
   },
 
+  emits: ["annotationSaved"],
+
   data() {
     return {
       isLoading: false,
@@ -46,6 +48,7 @@ export default defineComponent({
           competency: this.competency,
           is_attentive: this.isAttentive,
         });
+        this.$emit("annotationSaved");
       } finally {
         this.isLoading = false;
       }

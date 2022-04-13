@@ -5,7 +5,7 @@ import random
 import re
 
 from fastapi import APIRouter, HTTPException, Path
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
 
 from mod.src.models.annotation import (
     Annotation,
@@ -24,6 +24,7 @@ ROUTER = APIRouter(
 
 @ROUTER.get(
     "/next",
+    response_class=PlainTextResponse,
     responses={
         200: {"content": {"text/plain": {"example": "ecg_1.png"}}},
         404: {"description": "No more images to annotate"},
@@ -32,7 +33,7 @@ ROUTER = APIRouter(
 )
 async def get_next_image(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
-) -> str:
+) -> PlainTextResponse:
     """Get the image that should be annotated"""
     task_folder = SETTINGS.data_folder.joinpath(task_id)
     images = list(
@@ -45,7 +46,7 @@ async def get_next_image(
     )
     if not images:
         raise HTTPException(status_code=404, detail="No more images to annotate")
-    return random.choice(images)
+    return PlainTextResponse(random.choice(images))
 
 
 @ROUTER.get(

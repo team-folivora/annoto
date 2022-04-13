@@ -42,7 +42,7 @@ def test_post_image(client: TestClient) -> None:
         "ecg-qrs-classification-physiodb/sloth.jpg.annotation.json"
     )
     assert annotation_file.is_file()
-    with open(annotation_file, encoding="utf8") as file:
+    with open(annotation_file, "r", encoding="utf8") as file:
         assert json.loads(file.read()) == {
             "src": "ecg-qrs-classification-physiodb/sloth.jpg",
             "label": "foo",
@@ -123,3 +123,35 @@ def test_post_image_with_invalid_username_returns_406(client: TestClient) -> Non
     )
     assert response.status_code == 406
     assert response.headers["content-type"] == "application/json"
+
+
+def test_get_next_image(client: TestClient) -> None:
+    """Test GET /tasks/ecg-qrs-classification-physiodb/next"""
+    response = client.get(
+        "/tasks/ecg-qrs-classification-physiodb/next",
+    )
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "text/plain; charset=utf-8"
+    image_id = response.text
+    assert (
+        client.get(f"/tasks/ecg-qrs-classification-physiodb/{image_id}").status_code
+        == 200
+    )
+
+
+def test_get_next_image_returns_404_if_all_annotated(client: TestClient) -> None:
+    """Test GET /tasks/ecg-qrs-classification-physiodb/next raises HTTPException 404"""
+    task_folder = SETTINGS.data_folder.joinpath("ecg-qrs-classification-physiodb")
+    with open(task_folder.joinpath("ecg_1.png.annotation.json"), "w", encoding="utf-8"):
+        pass
+    with open(task_folder.joinpath("ecg_2.png.annotation.json"), "w", encoding="utf-8"):
+        pass
+    with open(task_folder.joinpath("ecg_3.png.annotation.json"), "w", encoding="utf-8"):
+        pass
+    with open(task_folder.joinpath("sloth.jpg.annotation.json"), "w", encoding="utf-8"):
+        pass
+    response = client.get(
+        "/tasks/ecg-qrs-classification-physiodb/next",
+    )
+    print(response.text)
+    assert response.status_code == 404

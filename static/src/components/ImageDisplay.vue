@@ -5,11 +5,6 @@ import { defineComponent } from "vue";
  * Displays an image specified by `src`
  */
 export default defineComponent({
-  computed: {
-    src() {
-      return getUrl(`tasks/${this.taskId}/${this.imageId}`);
-    },
-  },
   props: {
     /**
      * Task from which an image should be loaded.
@@ -19,6 +14,12 @@ export default defineComponent({
      * Image that should be loaded.
      */
     imageId: { type: String, required: true },
+  },
+
+  computed: {
+    src() {
+      return getUrl(`tasks/${this.taskId}/${this.imageId}`);
+    },
   },
 });
 </script>

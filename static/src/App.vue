@@ -71,18 +71,22 @@ export default defineComponent({
         <UserInformationLabel :username="user" />
       </i-label-group>
       <div v-if="imageId">
-        <ImageDisplay id="image-display" :taskId="taskId" :imageId="imageId" />
+        <ImageDisplay
+          id="image-display"
+          :task-id="taskId"
+          :image-id="imageId"
+        />
         <i-button-group block>
           <AnnotationButton
             v-for="label in labels"
             :id="'annotation-button-' + paramCase(label)"
             :key="label"
             :label="label"
-            :username="user"
+            username="user"
             :is-attentive="isAttentive"
             :is-trained="isTrained"
-            :competency="competency"
-            :task-id="taskId"
+            competency="competency"
+            task-id="taskId"
             :image-id="imageId"
           />
         </i-button-group>

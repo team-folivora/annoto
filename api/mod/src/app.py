@@ -4,6 +4,7 @@ This module defines the FastAPI application server
 
 import random
 from datetime import datetime
+
 from fastapi import FastAPI
 from fastapi_restful import Api
 from starlette.middleware.cors import CORSMiddleware

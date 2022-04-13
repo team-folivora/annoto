@@ -3,7 +3,6 @@
 import os
 import random
 import re
-from datetime import datetime
 
 from fastapi import APIRouter, HTTPException, Path
 from fastapi.responses import FileResponse
@@ -46,7 +45,6 @@ async def get_next_image(
     )
     if not images:
         raise HTTPException(status_code=404, detail="No more images to annotate")
-    random.seed(datetime.now())
     return random.choice(images)
 
 

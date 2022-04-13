@@ -2,6 +2,8 @@
 This module defines the FastAPI application server
 """
 
+import random
+from datetime import datetime
 from fastapi import FastAPI
 from fastapi_restful import Api
 from starlette.middleware.cors import CORSMiddleware
@@ -9,6 +11,8 @@ from starlette.middleware.cors import CORSMiddleware
 from mod.src.routers import debug, images, tasks
 
 from .settings import SETTINGS
+
+random.seed(datetime.now())
 
 APP = FastAPI()
 API = Api(APP)

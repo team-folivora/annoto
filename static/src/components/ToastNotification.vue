@@ -50,7 +50,6 @@ export default defineComponent({
   mounted() {
     // This hides the toast after the specified duration. It gets removed from the DOM by the Toaster Plugin afterwards
     setTimeout(() => {
-      // this.isActive = false;
       this.dismiss();
     }, this.duration);
   },

@@ -35,10 +35,7 @@ export default defineComponent({
     async saveAnnotation(): Promise<void> {
       this.isLoading = true;
       try {
-        let blob = await API.getImage(
-          this.taskId,
-          this.imageId
-        );
+        let blob = await API.getImage(this.taskId, this.imageId);
         let buffer = await blob.arrayBuffer();
         let hash = sha256(buffer);
         await API.saveAnnotation(this.taskId, this.imageId, {
@@ -58,5 +55,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-button :loading="isLoading" @click="saveAnnotation">Label: {{ label }}</i-button>
+  <i-button :loading="isLoading" @click="saveAnnotation">
+    Label: {{ label }}
+  </i-button>
 </template>

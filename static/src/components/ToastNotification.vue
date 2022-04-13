@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, render } from "vue";
 export default defineComponent({
   props: {
     /**
@@ -32,7 +32,7 @@ export default defineComponent({
   data() {
     return {
       isActive: true,
-      typeIcon: new Map([
+      typeIcons: new Map([
         ["info", "ink-info"],
         ["success", "ink-check"],
         ["warning", "ink-warning"],
@@ -43,21 +43,34 @@ export default defineComponent({
 
   computed: {
     icon() {
-      return this.typeIcon.get(this.type);
+      return this.typeIcons.get(this.type);
     },
   },
 
   mounted() {
     // This hides the toast after the specified duration. It gets removed from the DOM by the Toaster Plugin afterwards
     setTimeout(() => {
-      this.isActive = false;
+      // this.isActive = false;
+      this.dismiss();
     }, this.duration);
+  },
+
+  methods: {
+    dismiss() {
+      this.isActive = false;
+    },
+
+    destroy() {
+      const wrapper = this.$el.parentElement;
+      render(null, wrapper);
+      document.body.removeChild(wrapper);
+    },
   },
 });
 </script>
 
 <template>
-  <Transition appear>
+  <Transition appear style="animationDuration" @after-leave="destroy">
     <div v-show="isActive" id="container" class="_position:fixed">
       <i-alert :dismissible="dismissible" :color="type" size="md">
         <template #icon>

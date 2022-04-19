@@ -1,10 +1,10 @@
 <script lang="ts">
-import ImageDisplay from "./components/ImageDisplay.vue";
-import AnnotationButton from "./components/AnnotationButton.vue";
-import ProofOfCondition from "./components/ProofOfCondition.vue";
-import UserInformationLabel from "./components/UserInformationLabel.vue";
+import ImageDisplay from "@/components/ImageDisplay.vue";
+import AnnotationButton from "@/components/AnnotationButton.vue";
+import ProofOfCondition from "@/components/ProofOfCondition.vue";
+import UserInformationLabel from "@/components/UserInformationLabel.vue";
 import { defineComponent } from "vue";
-import { TasksService as API } from "./api/services/TasksService";
+import { TasksService as API } from "@/api/services/TasksService";
 import { paramCase } from "change-case";
 
 /**

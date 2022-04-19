@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
-import { TasksService as API } from "../api/services/TasksService";
+import { TasksService as API } from "@/api/services/TasksService";
 /**
  * A Button for annotating a datafile
  */

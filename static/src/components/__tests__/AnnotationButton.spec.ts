@@ -1,5 +1,5 @@
 import { mount } from "@cypress/vue";
-import AnnotationButton from "../AnnotationButton.vue";
+import AnnotationButton from "@/components/AnnotationButton.vue";
 
 describe("Button", () => {
   it("exists", () => {

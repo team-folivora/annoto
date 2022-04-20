@@ -1,5 +1,5 @@
 import { mount } from "@cypress/vue";
-import UserInformationLabel from "../UserInformationLabel.vue";
+import UserInformationLabel from "@/components/UserInformationLabel.vue";
 
 // Label exists
 describe("UserInformationLabel", () => {

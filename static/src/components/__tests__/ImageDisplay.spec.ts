@@ -1,5 +1,5 @@
 import { mount } from "@cypress/vue";
-import ImageDisplay from "../ImageDisplay.vue";
+import ImageDisplay from "@/components/ImageDisplay.vue";
 
 describe("ImageDisplay", () => {
   it("exists", () => {

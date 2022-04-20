@@ -1,7 +1,6 @@
 import { type App, h, render, type Plugin } from "vue";
-import type { ToasterApi } from "./types";
-import type { ToastProps, ToastOptions } from "./types";
-import ToastNotification from "../components/ToastNotification.vue";
+import type { ToastProps, ToastOptions, ToasterApi } from "@/plugins/types";
+import ToastNotification from "@/components/ToastNotification.vue";
 
 declare module "vue" {
   interface ComponentCustomProperties {

@@ -37,7 +37,7 @@ jobs:
       - name: Install node dependencies
         run: npm ci --no-save
       - name: API Generation
-        run: npm run generate-aoi
+        run: npm run generate-api
       - name: Commit changes
         run: |
           git config user.name github-actions

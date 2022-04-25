@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: api
+    working-directory: static
 
 jobs:
   format:
@@ -25,19 +25,23 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-      - name: Install dependencies
+      - name: Install python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install black
-          pip install isort
-      - name: Black Formatter
-        run: black .
-      - name: isort Import Sorting
-        run: isort .
+          pip install -r ../api/requirements-dev.txt
+      - run: echo "nvmrc=$(cat .nvmrc)" >> $GITHUB_ENV
+      - name: Use Node.js ${{ env.nvmrc }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.nvmrc }}
+      - name: Install node dependencies
+        run: npm ci --no-save
+      - name: API Generation
+        run: npm run generate-aoi
       - name: Commit changes
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Automation: Code Formatter (api)" --all | exit 0
+          git commit -m "Automation: REST Client Generator" --all | exit 0
           git push

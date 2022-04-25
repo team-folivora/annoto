@@ -1,4 +1,4 @@
-name: Format api
+name: Generate REST Client
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ defaults:
     working-directory: static
 
 jobs:
-  format:
+  generate-api:
     runs-on: ubuntu-latest
 
     steps:

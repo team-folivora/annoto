@@ -30,7 +30,7 @@ export default defineComponent({
       visible: true,
       isAttentive: false,
       isTrained: false,
-      imageId: undefined as string | undefined,
+      imageId: undefined as string | void,
     };
   },
 
@@ -48,7 +48,7 @@ export default defineComponent({
     async nextImage() {
       this.imageId = await API.getNextImage(this.taskId).catch((e) => {
         console.log(e);
-        delete this.imageId;
+        this.imageId = undefined;
       });
     },
 

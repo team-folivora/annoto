@@ -43,6 +43,7 @@
                             "title": "Task Id",
                             "type": "string"
                         },
+                        "example": "ecg-qrs-classification-physiodb",
                         "name": "task_id",
                         "in": "path"
                     }
@@ -98,10 +99,10 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {}
-                            },
                             "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
                                 "example": "ecg_1.png"
                             }
                         }

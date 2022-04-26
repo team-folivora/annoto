@@ -10,11 +10,11 @@ export default defineComponent({
   data() {
     return {
       page: "login",
-    }
+    };
   },
   components: {
     TaskPane,
-    LoginPane
+    LoginPane,
   },
 });
 </script>
@@ -24,7 +24,11 @@ export default defineComponent({
     <i-layout-header>
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
-    <LoginPane v-if="page == 'login'" :page="page" @login="page = 'task'"></LoginPane>
+    <LoginPane
+      v-if="page == 'login'"
+      :page="page"
+      @login="page = 'task'"
+    ></LoginPane>
     <TaskPane
       taskId="ecg-qrs-classification-physiodb"
       competency="Prof. Dr. Med."

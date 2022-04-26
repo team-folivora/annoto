@@ -55,7 +55,10 @@ export default defineComponent({
 
 <template>
   <i-layout-content>
-    <ProofOfCondition v-model:isAttentive="isAttentive" v-model:isTrained="isTrained" />
+    <ProofOfCondition
+      v-model:isAttentive="isAttentive"
+      v-model:isTrained="isTrained"
+    />
     <UserInformationLabel :username="user" />
     <div v-if="imageId">
       <ImageDisplay id="image-display" :task-id="taskId" :image-id="imageId" />
@@ -75,6 +78,8 @@ export default defineComponent({
         />
       </i-button-group>
     </div>
-    <i-card v-else id="no-more-images" class="margin-y:20px">No more Images to label</i-card>
+    <i-card v-else id="no-more-images" class="margin-y:20px">
+      No more Images to label
+    </i-card>
   </i-layout-content>
 </template>

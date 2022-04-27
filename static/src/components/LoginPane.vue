@@ -26,8 +26,10 @@ export default defineComponent({
           this.$emit("login");
         } else {
           console.log("Username or Password is not correct...");
+          this.$toast?.danger("Username or Password is not correct...");
         }
       } else {
+        this.$toast?.warning("Username and Password needs to be set...");
         console.log("Username and Password needs to be set...");
       }
     },
@@ -37,19 +39,9 @@ export default defineComponent({
 
 <template>
   <div>
-    <input
-      v-model="username"
-      type="text"
-      name="Username"
-      placeholder="Username"
-    />
+    <input v-model="username" type="text" name="Username" placeholder="Username" />
     <br />
-    <input
-      v-model="password"
-      type="password"
-      name="Password"
-      placeholder="Password"
-    />
+    <input v-model="password" type="password" name="Password" placeholder="Password" />
     <br />
     <button type="button" @click="loginUser">Login!</button>
   </div>

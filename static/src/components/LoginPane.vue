@@ -1,5 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { LoginService as API } from "@/api/services/LoginService";
+
 export default defineComponent({
   emits: ["login"],
 
@@ -17,14 +19,16 @@ export default defineComponent({
   },
 
   methods: {
-    loginUser() {
+    async loginUser() {
       if (this.username != "" && this.password != "") {
-        // mocked data user
-        if (this.username == "annoto" && this.password == "lol") {
-          //TODO backend login logic
+        try {
+          await API.login({
+            username: this.username,
+            password: this.password,
+          });
           console.log(this.username + " " + "authenticated...");
           this.$emit("login");
-        } else {
+        } catch (ex) {
           console.log("Username or Password is not correct...");
           this.$toast?.danger("Username or Password is not correct...");
         }
@@ -39,20 +43,10 @@ export default defineComponent({
 
 <template>
   <div>
-    <input
-      v-model="username"
-      type="text"
-      name="Username"
-      placeholder="Username"
-    />
+    <input v-model="username" type="text" name="username" placeholder="Username" />
     <br />
-    <input
-      v-model="password"
-      type="password"
-      name="Password"
-      placeholder="Password"
-    />
+    <input v-model="password" type="password" name="password" placeholder="Password" />
     <br />
-    <button type="button" @click="loginUser">Login!</button>
+    <button type="button" @click="loginUser" id="submit">Login!</button>
   </div>
 </template>

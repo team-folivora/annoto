@@ -26,11 +26,13 @@ export default defineComponent({
     </i-layout-header>
     <LoginPane
       v-if="page == 'login'"
+      id="login-view"
       :page="page"
       @login="page = 'task'"
     ></LoginPane>
     <TaskPane
       v-else
+      id="task-view"
       task-id="ecg-qrs-classification-physiodb"
       competency="Prof. Dr. Med."
       user="AnnotoUser#1337"

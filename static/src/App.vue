@@ -7,14 +7,14 @@ import LoginPane from "./components/LoginPane.vue";
  * The main App component for the website
  */
 export default defineComponent({
+  components: {
+    TaskPane,
+    LoginPane,
+  },
   data() {
     return {
       page: "login",
     };
-  },
-  components: {
-    TaskPane,
-    LoginPane,
   },
 });
 </script>
@@ -30,10 +30,10 @@ export default defineComponent({
       @login="page = 'task'"
     ></LoginPane>
     <TaskPane
-      taskId="ecg-qrs-classification-physiodb"
+      v-else
+      task-id="ecg-qrs-classification-physiodb"
       competency="Prof. Dr. Med."
       user="AnnotoUser#1337"
-      v-else
     ></TaskPane>
   </i-layout>
 </template>

@@ -1,5 +1,4 @@
 import { mount } from "@cypress/vue";
-import UserInformationLabel from "@/components/UserInformationLabel.vue";
 import LoginPane from "../LoginView.vue";
 
 describe("LoginPane", () => {

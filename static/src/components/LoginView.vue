@@ -57,6 +57,6 @@ export default defineComponent({
       placeholder="Password"
     />
     <br />
-    <button type="button" @click="loginUser" id="submit">Login!</button>
+    <button id="submit" type="button" @click="loginUser">Login!</button>
   </div>
 </template>

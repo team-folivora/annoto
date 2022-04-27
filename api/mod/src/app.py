@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi_restful import Api
 from starlette.middleware.cors import CORSMiddleware
 
-from mod.src.routers import debug, images, tasks
+from mod.src.routers import debug, images, tasks, login
 
 from .settings import SETTINGS
 
@@ -21,6 +21,7 @@ APP.add_middleware(
 
 APP.include_router(tasks.ROUTER)
 APP.include_router(images.ROUTER)
+APP.include_router(login.ROUTER)
 
 if SETTINGS.debug_routes:
     APP.include_router(debug.ROUTER)

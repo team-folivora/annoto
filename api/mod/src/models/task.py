@@ -1,4 +1,4 @@
-"""Provides classes for Annotations"""
+"""Provides classes for Tasks"""
 
 from __future__ import annotations
 

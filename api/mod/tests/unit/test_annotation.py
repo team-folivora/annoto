@@ -1,5 +1,5 @@
 """
-Module for integration tests
+Module for unit tests
 """
 
 

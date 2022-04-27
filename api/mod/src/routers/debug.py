@@ -11,7 +11,6 @@ from fastapi.templating import Jinja2Templates
 from starlette.templating import _TemplateResponse
 
 from mod.src.settings import SETTINGS
-from mod.src.database import create_users
 
 ROUTER = APIRouter(
     prefix="/debug",
@@ -28,10 +27,6 @@ def path_url(path: PurePath) -> str:
     url_path = str(path.relative_to(SETTINGS.data_folder)).replace(os.path.sep, "/")
     return f"/debug/data/{url_path}" if url_path != "." else "/debug/data"
 
-
-@ROUTER.get("/run-create")
-def run_create_script():
-    create_users.create()
 
 @ROUTER.get(
     "/data/{path:path}",

@@ -1,3 +1,4 @@
 fastapi_restful==0.4.3
 fastapi[all]==0.75.1
 sqlalchemy==1.4.35
+alembic==1.7.7

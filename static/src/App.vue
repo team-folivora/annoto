@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import TaskPane from "./components/TaskPane.vue";
-import LoginPane from "./components/LoginPane.vue";
+import TaskPane from "./components/TaskView.vue";
+import LoginPane from "./components/LoginView.vue";
 
 /**
  * The main App component for the website

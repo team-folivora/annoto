@@ -27,19 +27,15 @@ function intercept_next_image_with_failure() {
 }
 
 function intercept_login() {
-  cy.intercept(
-    "POST",
-    `${Cypress.env("API_URL")}/login`,
-    { statusCode: 204 }
-  ).as("login");
+  cy.intercept("POST", `${Cypress.env("API_URL")}/login`, {
+    statusCode: 204,
+  }).as("login");
 }
 
 function intercept_login_with_failure() {
-  cy.intercept(
-    "POST",
-    `${Cypress.env("API_URL")}/login`,
-    { statusCode: 401 }
-  ).as("login");
+  cy.intercept("POST", `${Cypress.env("API_URL")}/login`, {
+    statusCode: 401,
+  }).as("login");
 }
 
 function login() {
@@ -70,7 +66,7 @@ describe("LoginView", () => {
     cy.get("input[name='password']").type("test1234");
     cy.get("button#submit").click();
     cy.wait("@login").then(() => {
-      cy.get('#task-view')
+      cy.get("#task-view");
     });
   });
 
@@ -78,7 +74,7 @@ describe("LoginView", () => {
     intercept_login();
     cy.visit("/");
     cy.get("button#submit").click();
-    cy.get('div.alert.-warning')
+    cy.get("div.alert.-warning");
   });
 
   it("errors if invalid login data provided", () => {
@@ -88,7 +84,7 @@ describe("LoginView", () => {
     cy.get("input[name='password']").type("wrong_password");
     cy.get("button#submit").click();
     cy.wait("@login").then(() => {
-      cy.get('div.alert.-danger')
+      cy.get("div.alert.-danger");
     });
   });
 });
@@ -104,7 +100,7 @@ describe("TaskView", () => {
     intercept_next_image_with_failure();
     await login();
 
-    cy.wait("@get_task")
+    cy.wait("@get_task");
     cy.wait("@get_next_image").then(() => {
       cy.get("#no-more-images").should("be.visible");
     });

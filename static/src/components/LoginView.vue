@@ -43,9 +43,19 @@ export default defineComponent({
 
 <template>
   <div>
-    <input v-model="username" type="text" name="username" placeholder="Username" />
+    <input
+      v-model="username"
+      type="text"
+      name="username"
+      placeholder="Username"
+    />
     <br />
-    <input v-model="password" type="password" name="password" placeholder="Password" />
+    <input
+      v-model="password"
+      type="password"
+      name="password"
+      placeholder="Password"
+    />
     <br />
     <button type="button" @click="loginUser" id="submit">Login!</button>
   </div>

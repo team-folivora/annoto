@@ -50,12 +50,12 @@ export class TasksService {
      * Get Next Image
      * Get the image that should be annotated
      * @param taskId
-     * @returns any Successful Response
+     * @returns string Successful Response
      * @throws ApiError
      */
     public static getNextImage(
         taskId: string,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/tasks/{task_id}/next',

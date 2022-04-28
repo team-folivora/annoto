@@ -1,15 +1,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import TaskPane from "./components/TaskView.vue";
-import LoginPane from "./components/LoginView.vue";
+import TaskView from "./components/TaskView.vue";
+import LoginView from "./components/LoginView.vue";
 
 /**
  * The main App component for the website
  */
 export default defineComponent({
   components: {
-    TaskPane,
-    LoginPane,
+    TaskView,
+    LoginView,
   },
   data() {
     return {
@@ -24,18 +24,18 @@ export default defineComponent({
     <i-layout-header>
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
-    <LoginPane
+    <LoginView
       v-if="page == 'login'"
       id="login-view"
       :page="page"
       @login="page = 'task'"
-    ></LoginPane>
-    <TaskPane
+    ></LoginView>
+    <TaskView
       v-else
       id="task-view"
       task-id="ecg-qrs-classification-physiodb"
       competency="Prof. Dr. Med."
       user="AnnotoUser#1337"
-    ></TaskPane>
+    ></TaskView>
   </i-layout>
 </template>

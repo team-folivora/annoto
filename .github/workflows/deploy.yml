@@ -17,9 +17,9 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "annoto-dev"
           heroku_email: "berndtjannis@gmail.com"
-      - name: Deploy to annoto-dev-api
+      - name: Deploy to annoto-api-dev
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "annoto-dev-api"
+          heroku_app_name: "annoto-api-dev"
           heroku_email: "berndtjannis@gmail.com"

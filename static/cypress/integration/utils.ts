@@ -24,6 +24,40 @@ export function intercept_next_image_with_failure() {
   ).as("get_next_image");
 }
 
+export function intercept_store_annotation() {
+  return cy
+    .intercept(
+      "POST",
+      `${Cypress.env(
+        "API_URL"
+      )}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
+      {
+        statusCode: 204,
+      }
+    )
+    .as("store_annotation");
+}
+
+export function intercept_store_annotation_spy() {
+  return cy
+    .intercept(
+      "POST",
+      `${Cypress.env(
+        "API_URL"
+      )}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
+      cy.spy().as("store_annotation_spy")
+    )
+    .as("store_annotation");
+}
+
+export function intercept_get_image() {
+  cy.intercept(
+    "GET",
+    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
+    { fixture: "sloth.jpg" }
+  ).as("get_image");
+}
+
 export function intercept_login() {
   cy.intercept("POST", `${Cypress.env("API_URL")}/login`, {
     statusCode: 204,
@@ -47,4 +81,12 @@ export function login() {
     .get("button#submit")
     .click()
     .wait("@login");
+}
+
+export function proof_condition() {
+  return cy
+    .get("#proof-of-condition .checkbox-label")
+    .click()
+    .get("#proof-of-condition button")
+    .click();
 }

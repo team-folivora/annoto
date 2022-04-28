@@ -1,4 +1,9 @@
-import { intercept_login, intercept_login_with_failure } from "./utils";
+import {
+  intercept_get_task,
+  intercept_login,
+  intercept_login_with_failure,
+  intercept_next_image,
+} from "./utils";
 
 describe("LoginView", () => {
   it("logs the user in when valid login data is provided", () => {

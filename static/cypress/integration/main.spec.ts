@@ -60,6 +60,8 @@ describe("Application", () => {
 describe("LoginView", () => {
   it("logs the user in when valid login data is provided", () => {
     intercept_login();
+    intercept_get_task();
+    intercept_next_image();
     cy.visit("/")
       .get("input[name='username']")
       .type("AnnotoUser#1337")

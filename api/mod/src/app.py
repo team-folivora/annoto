@@ -12,8 +12,6 @@ from mod.src.routers import debug, images, tasks, users
 from mod.src.database.database import engine
 from .settings import SETTINGS
 
-db_models.Base.metadata.create_all(bind=engine)
-
 APP = FastAPI()
 API = Api(APP)
 

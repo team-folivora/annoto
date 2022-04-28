@@ -3,7 +3,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from mod.src.database import crud
+from mod.src.database import db_models
 from mod.src.database.database import get_db
 from mod.src.models import user
 
@@ -23,7 +23,7 @@ ROUTER = APIRouter(
 )
 def read_user(user_id: int, db: Session = Depends(get_db)) -> user.User:
     """Read a user by their ID"""
-    db_user = crud.get_user_by_id(db, user_id=user_id)
+    db_user = db_models.User.get_by_id(db, user_id=user_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
@@ -39,7 +39,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)) -> user.User:
 )
 def create_user(user: user.UserCreate, db: Session = Depends(get_db)) -> user.User:
     """Create a user"""
-    db_user = crud.get_user_by_email(db, email=user.email)
+    db_user = db_models.User.get_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    return crud.create_user(db=db, user=user)
+    return db_models.User.create(db=db, user=user)

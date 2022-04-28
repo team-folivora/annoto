@@ -1,0 +1,25 @@
+name: Deploy
+
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to annoto-dev
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "annoto-dev"
+          heroku_email: "berndtjannis@gmail.com"
+      - name: Deploy to annoto-dev-api
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "annoto-dev-api"
+          heroku_email: "berndtjannis@gmail.com"

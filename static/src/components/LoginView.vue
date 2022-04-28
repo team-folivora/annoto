@@ -19,17 +19,13 @@ export default defineComponent({
   },
 
   methods: {
-    async loginUser() {
+    loginUser() {
       if (this.username != "" && this.password != "") {
-        try {
-          await API.login({
-            username: this.username,
-            password: this.password,
-          });
-          this.$emit("login");
-        } catch (ex) {
-          this.$toast?.danger("Username or Password is not correct...");
-        }
+        API.login({
+          username: this.username,
+          password: this.password,
+        }).then(() => this.$emit("login"))
+          .catch(() => this.$toast?.danger("Username or Password is not correct..."))
       } else {
         this.$toast?.warning("Username and Password needs to be set...");
       }

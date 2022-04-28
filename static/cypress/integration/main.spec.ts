@@ -71,7 +71,6 @@ describe("LoginView", () => {
   });
 
   it("warns if no password or username provided", () => {
-    intercept_login();
     cy.visit("/");
     cy.get("button#submit").click();
     cy.get("div.alert.-warning");

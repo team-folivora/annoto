@@ -24,8 +24,11 @@ export default defineComponent({
         API.login({
           username: this.username,
           password: this.password,
-        }).then(() => this.$emit("login"))
-          .catch(() => this.$toast?.danger("Username or Password is not correct..."))
+        })
+          .then(() => this.$emit("login"))
+          .catch(() =>
+            this.$toast?.danger("Username or Password is not correct...")
+          );
       } else {
         this.$toast?.warning("Username and Password needs to be set...");
       }

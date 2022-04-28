@@ -26,15 +26,12 @@ export default defineComponent({
             username: this.username,
             password: this.password,
           });
-          console.log(this.username + " " + "authenticated...");
           this.$emit("login");
         } catch (ex) {
-          console.log("Username or Password is not correct...");
           this.$toast?.danger("Username or Password is not correct...");
         }
       } else {
         this.$toast?.warning("Username and Password needs to be set...");
-        console.log("Username and Password needs to be set...");
       }
     },
   },

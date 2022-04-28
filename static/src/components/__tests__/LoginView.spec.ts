@@ -1,23 +1,23 @@
 import { mount } from "@cypress/vue";
-import LoginPane from "../LoginView.vue";
+import LoginView from "../LoginView.vue";
 
-describe("LoginPane", () => {
+describe("LoginView", () => {
   it("exists", () => {
-    mount(LoginPane);
+    mount(LoginView);
   });
 
   it("has a field for username", () => {
-    mount(LoginPane);
+    mount(LoginView);
     cy.get("input[name='username']");
   });
 
   it("has a field for password", () => {
-    mount(LoginPane);
+    mount(LoginView);
     cy.get("input[name='password']");
   });
 
   it("has a submit button", () => {
-    mount(LoginPane);
+    mount(LoginView);
     cy.get("button#submit");
   });
 });

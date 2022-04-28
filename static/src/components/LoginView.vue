@@ -25,9 +25,12 @@ export default defineComponent({
           username: this.username,
           password: this.password,
         })
-          .then(() => this.$emit("login"))
-          .catch(() =>
-            this.$toast?.danger("Username or Password is not correct...")
+          .then((() => this.$emit("login")).bind(this))
+          .catch(
+            (() =>
+              this.$toast?.danger(
+                "Username or Password is not correct..."
+              )).bind(this)
           );
       } else {
         this.$toast?.warning("Username and Password needs to be set...");

@@ -91,6 +91,8 @@ describe("LoginView", () => {
 
 describe("TaskView", () => {
   it("shows username", () => {
+    intercept_get_task();
+    intercept_next_image();
     login().get("#userLabel").contains("AnnotoUser#1337");
   });
 

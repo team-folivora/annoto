@@ -40,93 +40,89 @@ function intercept_login_with_failure() {
 
 function login() {
   intercept_login();
-  cy.visit("/");
-  cy.get("input[name='username']").type("AnnotoUser#1337");
-  cy.get("input[name='password']").type("test1234");
-  return new Promise((resolve) => {
-    cy.get("button#submit").click();
-    cy.wait("@login").then(() => {
-      resolve(null);
-    });
-  });
+  return cy
+    .visit("/")
+    .get("input[name='username']")
+    .type("AnnotoUser#1337")
+    .get("input[name='password']")
+    .type("test1234")
+    .get("button#submit")
+    .click()
+    .wait("@login");
 }
 
 describe("Application", () => {
   it("visits the app root url", () => {
-    cy.visit("/");
-    cy.contains("h1", "Annoto");
+    cy.visit("/").contains("h1", "Annoto");
   });
 });
 
 describe("LoginView", () => {
   it("logs the user in when valid login data is provided", () => {
     intercept_login();
-    cy.visit("/");
-    cy.get("input[name='username']").type("AnnotoUser#1337");
-    cy.get("input[name='password']").type("test1234");
-    cy.get("button#submit").click();
-    cy.wait("@login").then(() => {
-      cy.get("#task-view");
-    });
+    cy.visit("/")
+      .get("input[name='username']")
+      .type("AnnotoUser#1337")
+      .get("input[name='password']")
+      .type("test1234")
+      .get("button#submit")
+      .click()
+      .wait("@login")
+      .get("#task-view");
   });
 
   it("warns if no password or username provided", () => {
-    cy.visit("/");
-    cy.get("button#submit").click();
-    cy.get("div.alert.-warning");
+    cy.visit("/").get("button#submit").click().get("div.alert.-warning");
   });
 
   it("errors if invalid login data provided", () => {
     intercept_login_with_failure();
-    cy.visit("/");
-    cy.get("input[name='username']").type("AnnotoUser#1337");
-    cy.get("input[name='password']").type("wrong_password");
-    cy.get("button#submit").click();
-    cy.wait("@login").then(() => {
-      cy.get("div.alert.-danger");
-    });
+    cy.visit("/")
+      .get("input[name='username']")
+      .type("AnnotoUser#1337")
+      .get("input[name='password']")
+      .type("wrong_password")
+      .get("button#submit")
+      .click()
+      .wait("@login")
+      .get("div.alert.-danger");
   });
 });
 
 describe("TaskView", () => {
-  it("shows username", async () => {
-    await login();
-    cy.get("#userLabel").contains("AnnotoUser#1337");
+  it("shows username", () => {
+    login().get("#userLabel").contains("AnnotoUser#1337");
   });
 
-  it("informs the user when no more images are available for annotation", async () => {
+  it("informs the user when no more images are available for annotation", () => {
     intercept_get_task();
     intercept_next_image_with_failure();
-    await login();
-
-    cy.wait("@get_task");
-    cy.wait("@get_next_image").then(() => {
-      cy.get("#no-more-images").should("be.visible");
-    });
+    login()
+      .wait("@get_task")
+      .wait("@get_next_image")
+      .get("#no-more-images")
+      .should("be.visible");
   });
 
-  it("shows annotation buttons", async () => {
+  it("shows annotation buttons", () => {
     intercept_get_task();
     intercept_next_image();
-    await login();
-
-    cy.wait("@get_task").then(() => {
-      cy.wait("@get_next_image").then(() => {
-        cy.get("#annotation-button-atrial-fibrillation").should("be.visible");
-        cy.get("#annotation-button-other").should("be.visible");
-      });
-    });
+    login()
+      .wait("@get_task")
+      .wait("@get_next_image")
+      .get("#annotation-button-atrial-fibrillation")
+      .should("be.visible")
+      .get("#annotation-button-other")
+      .should("be.visible");
   });
 
-  it("shows image display", async () => {
+  it("shows image display", () => {
     intercept_get_task();
     intercept_next_image();
-    await login();
-
-    cy.wait("@get_task").then(() => {
-      cy.wait("@get_next_image").then(() => {
-        cy.get("#image-display").should("be.visible");
-      });
-    });
+    login()
+      .wait("@get_task")
+      .wait("@get_next_image")
+      .get("#image-display")
+      .should("be.visible");
   });
 });

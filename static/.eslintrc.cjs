@@ -26,9 +26,6 @@ module.exports = {
         "cypress/integration/**.spec.{js,ts,jsx,tsx}",
       ],
       extends: ["plugin:cypress/recommended"],
-      rules: {
-        "cypress/no-async-tests": "off",
-      },
     },
   ],
 };

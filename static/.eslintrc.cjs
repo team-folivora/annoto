@@ -15,7 +15,6 @@ module.exports = {
     "vue/order-in-components": "error",
     "vue/require-explicit-emits": "error",
     "vue/attribute-hyphenation": "error",
-    "cypress/no-async-tests": "off",
   },
   env: {
     "vue/setup-compiler-macros": true,
@@ -27,6 +26,9 @@ module.exports = {
         "cypress/integration/**.spec.{js,ts,jsx,tsx}",
       ],
       extends: ["plugin:cypress/recommended"],
+      rules: {
+        "cypress/no-async-tests": "off",
+      },
     },
   ],
 };

@@ -1,6 +1,6 @@
 # Annoto Manual for users
 
-Opening the web app will confront you with a login dialog. The test user is `Annoto#1337` with password `test1234`. Press the button to login. When the correct credentials have been entered you will be forwarded to the annotation site, otherwise you will only see a warning or error pop-up.
+Opening the web app will confront you with a login dialog. The test user is `AnnotoUser#1337` with password `test1234`. Press the button to login. When the correct credentials have been entered you will be forwarded to the annotation site, otherwise you will only see a warning or error pop-up.
 
 You will then see a dialogue window, asking you to confirm that you have 1) read this Manual and 2) are attentive and in the proper condition to annotate images.
 

@@ -39,7 +39,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
+  <div class="_margin-x:auto _margin-top:8">
     <i-input
       v-model="username"
       type="text"
@@ -58,3 +58,9 @@ export default defineComponent({
     <i-button id="submit" type="button" @click="loginUser">Login!</i-button>
   </div>
 </template>
+
+<style>
+div {
+  max-width: 300px;
+}
+</style>

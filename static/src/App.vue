@@ -24,17 +24,19 @@ export default defineComponent({
     <i-layout-header>
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
-    <LoginView
-      v-if="page == 'login'"
-      id="login-view"
-      @login="page = 'task'"
-    ></LoginView>
-    <TaskView
-      v-else
-      id="task-view"
-      task-id="ecg-qrs-classification-physiodb"
-      competency="Prof. Dr. Med."
-      user="AnnotoUser#1337"
-    ></TaskView>
+    <i-layout-content>
+      <LoginView
+        v-if="page == 'login'"
+        id="login-view"
+        @login="page = 'task'"
+      ></LoginView>
+      <TaskView
+        v-else
+        id="task-view"
+        task-id="ecg-qrs-classification-physiodb"
+        competency="Prof. Dr. Med."
+        user="AnnotoUser#1337"
+      ></TaskView>
+    </i-layout-content>
   </i-layout>
 </template>

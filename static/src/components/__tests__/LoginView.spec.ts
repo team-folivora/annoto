@@ -8,16 +8,16 @@ describe("LoginView", () => {
 
   it("has a field for username", () => {
     mount(LoginView);
-    cy.get("input[name='username']");
+    cy.get("i-input[name='username']");
   });
 
   it("has a field for password", () => {
     mount(LoginView);
-    cy.get("input[name='password']");
+    cy.get("i-input[name='password']");
   });
 
   it("has a submit button", () => {
     mount(LoginView);
-    cy.get("button#submit");
+    cy.get("i-button#submit");
   });
 });

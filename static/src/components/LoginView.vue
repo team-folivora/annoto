@@ -40,20 +40,21 @@ export default defineComponent({
 
 <template>
   <div>
-    <input
+    <i-input
       v-model="username"
       type="text"
       name="username"
       placeholder="Username"
     />
     <br />
-    <input
+    <i-input
       v-model="password"
       type="password"
       name="password"
       placeholder="Password"
+      @keyup.enter="loginUser"
     />
     <br />
-    <button id="submit" type="button" @click="loginUser">Login!</button>
+    <i-button id="submit" type="button" @click="loginUser">Login!</i-button>
   </div>
 </template>

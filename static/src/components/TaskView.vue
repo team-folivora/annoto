@@ -68,7 +68,7 @@ export default defineComponent({
           :id="'annotation-button-' + paramCase(label)"
           :key="label"
           :label="label"
-          username="user"
+          :username="user"
           :is-attentive="isAttentive"
           :is-trained="isTrained"
           :competency="competency"

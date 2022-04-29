@@ -27,7 +27,6 @@ export default defineComponent({
     <LoginView
       v-if="page == 'login'"
       id="login-view"
-      :page="page"
       @login="page = 'task'"
     ></LoginView>
     <TaskView

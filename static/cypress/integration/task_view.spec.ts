@@ -1,6 +1,4 @@
 import {
-  intercept_get_task,
-  intercept_next_image,
   intercept_next_image_with_failure,
   intercept_store_annotation,
   login,
@@ -10,20 +8,14 @@ import {
 
 describe("TaskView", () => {
   it("shows username", () => {
-    intercept_get_task();
-    intercept_next_image();
     login().get("#userLabel").contains("AnnotoUser#1337");
   });
 
   it("shows the proof of condition popup on startup", () => {
-    intercept_get_task();
-    intercept_next_image();
     login().get("#proof-of-condition").should("be.visible");
   });
 
   it("can close the proof of condition dialog when checkbox is checked", () => {
-    intercept_get_task();
-    intercept_next_image();
     login()
       .then(proof_condition)
       .get("#proof-of-condition")
@@ -31,8 +23,6 @@ describe("TaskView", () => {
   });
 
   it("cannot close the proof of condition dialog when checkbox is not checked", () => {
-    intercept_get_task();
-    intercept_next_image();
     login()
       .get("#proof-of-condition button")
       .click({ force: true })
@@ -41,9 +31,7 @@ describe("TaskView", () => {
   });
 
   it("informs the user when no more images are available for annotation", () => {
-    intercept_get_task();
-    intercept_next_image_with_failure();
-    login()
+    login({ intercept_next_image: intercept_next_image_with_failure })
       .wait("@get_task")
       .wait("@get_next_image")
       .get("#no-more-images")
@@ -51,8 +39,6 @@ describe("TaskView", () => {
   });
 
   it("shows annotation buttons", () => {
-    intercept_get_task();
-    intercept_next_image();
     login()
       .wait("@get_task")
       .wait("@get_next_image")
@@ -63,8 +49,6 @@ describe("TaskView", () => {
   });
 
   it("shows image display", () => {
-    intercept_get_task();
-    intercept_next_image();
     login()
       .wait("@get_task")
       .wait("@get_next_image")
@@ -73,10 +57,6 @@ describe("TaskView", () => {
   });
 
   it("annotation button stores annotation", () => {
-    intercept_get_task();
-    intercept_next_image();
-    intercept_get_image();
-    intercept_store_annotation();
     login()
       .then(proof_condition)
       .wait("@get_task")
@@ -91,10 +71,6 @@ describe("TaskView", () => {
 
   it("annotation request includes condition from popup", () => {
     cy.on("uncaught:exception", () => false);
-    intercept_get_task();
-    intercept_next_image();
-    intercept_get_image();
-    intercept_store_annotation();
     login()
       .wait("@get_task")
       .wait("@get_next_image")
@@ -107,10 +83,6 @@ describe("TaskView", () => {
   });
 
   it("shows next image once annotation has been made", () => {
-    intercept_get_task();
-    intercept_next_image();
-    intercept_get_image();
-    intercept_store_annotation();
     login()
       .then(proof_condition)
       .wait("@get_task")

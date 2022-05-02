@@ -63,8 +63,17 @@ export function intercept_login_with_failure() {
   }).as("login");
 }
 
-export function login() {
-  intercept_login();
+export function login(config: { [key: string]: Function } = {}) {
+  config["intercept_login"] ||= intercept_login;
+  config["intercept_get_task"] ||= intercept_get_task;
+  config["intercept_next_image"] ||= intercept_next_image;
+  config["intercept_get_image"] ||= intercept_get_image;
+  config["intercept_store_annotation"] ||= intercept_store_annotation;
+  config["intercept_login"]();
+  config["intercept_get_task"]();
+  config["intercept_next_image"]();
+  config["intercept_get_image"]();
+  config["intercept_store_annotation"]();
   return cy
     .visit("/")
     .get("input[name='username']")

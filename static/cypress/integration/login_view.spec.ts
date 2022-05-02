@@ -8,9 +8,6 @@ import {
 
 describe("LoginView", () => {
   it("logs the user in when valid login data is provided", () => {
-    intercept_login();
-    intercept_get_task();
-    intercept_next_image();
     login().get("#task-view");
   });
 
@@ -19,7 +16,8 @@ describe("LoginView", () => {
   });
 
   it("errors if invalid login data provided", () => {
-    intercept_login_with_failure();
-    login().get("div.alert.-danger");
+    login({ intercept_login: intercept_login_with_failure }).get(
+      "div.alert.-danger"
+    );
   });
 });

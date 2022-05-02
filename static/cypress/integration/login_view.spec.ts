@@ -3,6 +3,7 @@ import {
   intercept_login,
   intercept_login_with_failure,
   intercept_next_image,
+  login,
 } from "./utils";
 
 describe("LoginView", () => {
@@ -10,15 +11,7 @@ describe("LoginView", () => {
     intercept_login();
     intercept_get_task();
     intercept_next_image();
-    cy.visit("/")
-      .get("input[name='username']")
-      .type("AnnotoUser#1337")
-      .get("input[name='password']")
-      .type("test1234")
-      .get("button#submit")
-      .click()
-      .wait("@login")
-      .get("#task-view");
+    login().get("#task-view");
   });
 
   it("warns if no password or username provided", () => {
@@ -27,14 +20,6 @@ describe("LoginView", () => {
 
   it("errors if invalid login data provided", () => {
     intercept_login_with_failure();
-    cy.visit("/")
-      .get("input[name='username']")
-      .type("AnnotoUser#1337")
-      .get("input[name='password']")
-      .type("wrong_password")
-      .get("button#submit")
-      .click()
-      .wait("@login")
-      .get("div.alert.-danger");
+    login().get("div.alert.-danger");
   });
 });

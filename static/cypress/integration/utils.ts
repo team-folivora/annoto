@@ -25,21 +25,20 @@ export function intercept_next_image_with_failure() {
 }
 
 export function intercept_store_annotation() {
-  cy
-    .intercept(
-      "POST",
-      `${Cypress.env(
-        "API_URL"
-      )}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
-      cy.spy(
+  cy.intercept(
+    "POST",
+    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
+    cy
+      .spy(
         {
           handle: (req: any) => {
-            req.reply({ statusCode: 204 })
-          }
-        }
-        , 'handle').as('store_annotation_spy')
-    )
-    .as("store_annotation");
+            req.reply({ statusCode: 204 });
+          },
+        },
+        "handle"
+      )
+      .as("store_annotation_spy")
+  ).as("store_annotation");
 }
 
 export function intercept_get_image() {

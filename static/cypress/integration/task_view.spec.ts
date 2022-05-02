@@ -86,7 +86,7 @@ describe("TaskView", () => {
       .wait("@store_annotation")
       .get("@store_annotation_spy")
       .its("args.0.0.body")
-      .should("deep.include", { is_attentive: true })
+      .should("deep.include", { is_attentive: true });
   });
 
   it("annotation request includes condition from popup", () => {

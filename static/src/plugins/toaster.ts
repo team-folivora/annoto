@@ -31,6 +31,11 @@ function createToaster(app: App, globalOptions: ToastOptions): ToasterApi {
       this.show(message, options);
     },
 
+    warning(message: string, options: ToastOptions = {}) {
+      options.type = "warning";
+      this.show(message, options);
+    },
+
     info(message: string, options: ToastOptions = {}) {
       options.type = "info";
       this.show(message, options);

@@ -1,3 +1,5 @@
+import type { CyHttpMessages } from "cypress/types/net-stubbing";
+
 export function intercept_get_task() {
   cy.intercept(
     "GET",
@@ -31,7 +33,7 @@ export function intercept_store_annotation() {
     cy
       .spy(
         {
-          handle: (req: any) => {
+          handle: (req: CyHttpMessages.IncomingHttpRequest) => {
             req.reply({ statusCode: 204 });
           },
         },

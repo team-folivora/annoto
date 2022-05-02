@@ -31,7 +31,7 @@ export default defineComponent({
           this.$toast?.danger("Username or Password is not correct...");
         }
       } else {
-        this.$toast?.warning("Username and Password needs to be set...");
+        this.$toast?.warning("Username and Password need to be set...");
       }
     },
   },

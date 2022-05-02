@@ -21,20 +21,24 @@ class User(Base):
     __tablename__ = "users"
 
     id: int = Column(Integer, primary_key=True, index=True)
-    username: str = Column(String)
+    username: str = Column(String, unique=True, index=True)
     email: str = Column(String, unique=True, index=True)
     hashed_password: bytes = Column(String)
     salt: bytes = Column(String)
 
-    def __init__(self, username: str, email: str, password: str):
-        self.username = username
-        self.email = email
-        self.set_password(password)
+    @classmethod
+    def with_password(cls, username: str, email: str, password: str) -> "User":
+        """Create a new user object and automatically hash the password"""
+        user = cls()
+        user.email = email
+        user.username = username
+        user.set_password(password)
+        return user
 
     @classmethod
     def create(cls, db: Session, user: UserCreate) -> "User":
         """Creates a new user and stores it in the database"""
-        db_user = cls(user.username, user.email, user.password)
+        db_user = cls.with_password(user.username, user.email, user.password)
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
@@ -44,6 +48,11 @@ class User(Base):
     def get_by_email(cls, db: Session, email: str) -> Optional["User"]:
         """Get a user by email"""
         return db.query(cls).filter(cls.email == email).first()
+
+    @classmethod
+    def get_by_username(cls, db: Session, username: str) -> Optional["User"]:
+        """Get a user by username"""
+        return db.query(cls).filter(cls.username == username).first()
 
     @classmethod
     def get_by_id(cls, db: Session, user_id: int) -> Optional["User"]:

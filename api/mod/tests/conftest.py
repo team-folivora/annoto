@@ -14,6 +14,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 from mod.src.app import APP
 from mod.src.database.database import get_db
+from mod.src.models.user import UserCreate
 from mod.src.settings import SETTINGS
 
 temp_folder = Path(tempfile.mkdtemp(prefix="annoto"))
@@ -74,3 +75,12 @@ def db() -> scoped_session:
     yield session
     transaction.rollback()
     connection.close()
+
+@pytest.fixture
+def user() -> UserCreate:
+    """Creates a basic Annotation"""
+    return UserCreate(
+        username="AnnotoUser#1337",
+        password="password",
+        email="annoto@team-folivora.com",
+    )

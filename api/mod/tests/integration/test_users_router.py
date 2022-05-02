@@ -9,17 +9,14 @@ from mod.src.database import db_models
 from mod.src.models import user
 
 
-def test_get_user_returns_correct_user(client: TestClient, db: Session) -> None:
+def test_get_user_returns_correct_user(
+    client: TestClient, db: Session, user: user.UserCreate
+) -> None:
     """Test GET /users/1"""
-    test_user = user.UserCreate(
-        username="AnnotoUser#1337",
-        password="password",
-        email="annoto@team-folivora.com",
-    )
-    db_models.User.create(db=db, user=test_user)
+    db_models.User.create(db=db, user=user)
     response = client.get("/users/1")
     assert response.status_code == 200
-    assert response.json()["username"] == test_user.username
+    assert response.json()["username"] == user.username
 
 
 def test_get_unknown_user_returns_404(client: TestClient) -> None:
@@ -29,34 +26,40 @@ def test_get_unknown_user_returns_404(client: TestClient) -> None:
 
 
 def test_create_user_with_existing_email_returns_400(
-    client: TestClient, db: Session
+    client: TestClient, db: Session, user: user.UserCreate
 ) -> None:
     """Test POST /users/ with existing email"""
-    test_user = user.UserCreate(
-        username="AnnotoUser#1337",
-        password="password",
-        email="annoto@team-folivora.com",
-    )
-    db_models.User.create(db=db, user=test_user)
+    duplicate_email_test_user = user
+    duplicate_email_test_user.username = "AnotherUser"
+    db_models.User.create(db=db, user=duplicate_email_test_user)
     response = client.post(
         "/users/",
-        json=test_user.dict(),
+        json=user.dict(),
     )
     assert response.status_code == 400
 
 
-def test_create_user(client: TestClient, db: Session) -> None:
-    """Test POST /users/ with new user"""
-    test_user = user.UserCreate(
-        username="AnnotoUser#1337",
-        password="password",
-        email="annoto@team-folivora.com",
-    )
+def test_create_user_with_existing_username_returns_400(
+    client: TestClient, db: Session, user: user.UserCreate
+) -> None:
+    """Test POST /users/ with existing email"""
+    duplicate_username_test_user = user
+    duplicate_username_test_user.email = "another@email.com"
+    db_models.User.create(db=db, user=duplicate_username_test_user)
     response = client.post(
         "/users/",
-        json=test_user.dict(),
+        json=user.dict(),
+    )
+    assert response.status_code == 400
+
+
+def test_create_user(client: TestClient, db: Session, user: user.UserCreate) -> None:
+    """Test POST /users/ with new user"""
+    response = client.post(
+        "/users/",
+        json=user.dict(),
     )
     assert response.status_code == 200
-    created_user = db_models.User.get_by_email(db, email=test_user.email)
+    created_user = db_models.User.get_by_email(db, email=user.email)
     assert created_user is not None
     assert created_user.id == response.json()["id"]

@@ -20,7 +20,7 @@ class UserCreate(UserBase):
     """The fields required to create a new user"""
 
     password: str = Field(
-        ..., description="The password of the user", example="folivora!!!!11elf"
+        ..., description="The password of the user", example="test1234"
     )
 
 

@@ -76,6 +76,7 @@ def db() -> scoped_session:
     transaction.rollback()
     connection.close()
 
+
 @pytest.fixture
 def user() -> UserCreate:
     """Creates a basic Annotation"""

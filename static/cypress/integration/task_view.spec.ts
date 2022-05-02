@@ -3,7 +3,6 @@ import {
   intercept_next_image,
   intercept_next_image_with_failure,
   intercept_store_annotation,
-  intercept_store_annotation_spy,
   login,
   proof_condition,
   intercept_get_image,
@@ -77,7 +76,7 @@ describe("TaskView", () => {
     intercept_get_task();
     intercept_next_image();
     intercept_get_image();
-    intercept_store_annotation_spy();
+    intercept_store_annotation();
     login()
       .then(proof_condition)
       .wait("@get_task")
@@ -87,7 +86,7 @@ describe("TaskView", () => {
       .wait("@store_annotation")
       .get("@store_annotation_spy")
       .its("args.0.0.body")
-      .should("deep.include", { is_attentive: true });
+      .should("deep.include", { is_attentive: true })
   });
 
   it("annotation request includes condition from popup", () => {
@@ -95,7 +94,7 @@ describe("TaskView", () => {
     intercept_get_task();
     intercept_next_image();
     intercept_get_image();
-    intercept_store_annotation_spy();
+    intercept_store_annotation();
     login()
       .wait("@get_task")
       .wait("@get_next_image")

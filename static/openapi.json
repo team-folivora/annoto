@@ -43,6 +43,7 @@
                             "title": "Task Id",
                             "type": "string"
                         },
+                        "example": "ecg-qrs-classification-physiodb",
                         "name": "task_id",
                         "in": "path"
                     }
@@ -98,10 +99,10 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {}
-                            },
                             "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
                                 "example": "ecg_1.png"
                             }
                         }
@@ -246,6 +247,44 @@
                     }
                 }
             }
+        },
+        "/login/": {
+            "post": {
+                "tags": [
+                    "login"
+                ],
+                "summary": "Login",
+                "description": "Validate login via username and password",
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginData"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "204": {
+                        "description": "Successful Response"
+                    },
+                    "401": {
+                        "description": "Failed to validate login"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -313,6 +352,29 @@
                         }
                     }
                 }
+            },
+            "LoginData": {
+                "title": "LoginData",
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "title": "Username",
+                        "type": "string",
+                        "description": "The name of the user to be logged in",
+                        "example": "AnnotoUser#1337"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string",
+                        "description": "The password of the user to be logged in",
+                        "example": "test1234"
+                    }
+                },
+                "description": "The basic Login Data"
             },
             "Task": {
                 "title": "Task",

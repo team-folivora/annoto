@@ -26,12 +26,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.nvmrc }}
-      - run: npm ci
+      - run: npm ci --no-save
       - run: npm run format
       - name: Commit changes
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Automation: Code Formatter" --all | exit 0
+          git commit -m "Automation: Code Formatter (static)" --all | exit 0
           git push

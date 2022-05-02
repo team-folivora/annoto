@@ -285,6 +285,97 @@
                     }
                 }
             }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Read User",
+                "description": "Read a user by their ID",
+                "operationId": "read_user",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Id",
+                            "type": "integer"
+                        },
+                        "name": "user_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create User",
+                "description": "Create a user",
+                "operationId": "create_user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Email already registered"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -414,6 +505,66 @@
                     }
                 },
                 "description": "A labelling task"
+            },
+            "User": {
+                "title": "User",
+                "required": [
+                    "username",
+                    "email",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "title": "Username",
+                        "type": "string",
+                        "description": "The name of the user",
+                        "example": "team-folivora"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "description": "The email of the user",
+                        "example": "annoto@team-folivora.com"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "The id of the user",
+                        "example": 1
+                    }
+                },
+                "description": "An already existing user"
+            },
+            "UserCreate": {
+                "title": "UserCreate",
+                "required": [
+                    "username",
+                    "email",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "title": "Username",
+                        "type": "string",
+                        "description": "The name of the user",
+                        "example": "team-folivora"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "description": "The email of the user",
+                        "example": "annoto@team-folivora.com"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string",
+                        "description": "The password of the user",
+                        "example": "folivora!!!!11elf"
+                    }
+                },
+                "description": "The fields required to create a new user"
             },
             "ValidationError": {
                 "title": "ValidationError",

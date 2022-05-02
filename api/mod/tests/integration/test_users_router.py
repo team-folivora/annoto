@@ -28,7 +28,9 @@ def test_get_unknown_user_returns_404(client: TestClient) -> None:
     assert response.status_code == 404
 
 
-def test_create_user_with_existing_email_returns_400(client: TestClient, db: Session) -> None:
+def test_create_user_with_existing_email_returns_400(
+    client: TestClient, db: Session
+) -> None:
     """Test POST /users/ with existing email"""
     test_user = user.UserCreate(
         username="AnnotoUser#1337",
@@ -57,7 +59,4 @@ def test_create_user(client: TestClient, db: Session) -> None:
     assert response.status_code == 200
     created_user = db_models.User.get_by_email(db, email=test_user.email)
     assert created_user is not None
-    assert (
-        created_user.id
-        == response.json()["id"]
-    )
+    assert created_user.id == response.json()["id"]

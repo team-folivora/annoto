@@ -7,6 +7,7 @@ import hashlib
 
 from mod.src.database import db_models
 
+
 def test_hash_new_password() -> None:
     """Test if new hash for password is generated correctly"""
     password = "password"

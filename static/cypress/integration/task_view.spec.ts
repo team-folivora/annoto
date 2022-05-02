@@ -1,9 +1,7 @@
 import {
   intercept_next_image_with_failure,
-  intercept_store_annotation,
   login,
   proof_condition,
-  intercept_get_image,
 } from "./utils";
 
 describe("TaskView", () => {

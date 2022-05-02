@@ -63,7 +63,7 @@ export function intercept_login_with_failure() {
   }).as("login");
 }
 
-export function login(config: { [key: string]: Function } = {}) {
+export function login(config: { [key: string]: () => void } = {}) {
   config["intercept_login"] ||= intercept_login;
   config["intercept_get_task"] ||= intercept_get_task;
   config["intercept_next_image"] ||= intercept_next_image;

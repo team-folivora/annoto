@@ -324,7 +324,7 @@
                         }
                     },
                     "400": {
-                        "description": "Email already registered"
+                        "description": "Email or username already registered"
                     },
                     "422": {
                         "description": "Validation Error",
@@ -360,6 +360,9 @@
                 "responses": {
                     "204": {
                         "description": "Successful Response"
+                    },
+                    "400": {
+                        "description": "No user found with that username"
                     },
                     "401": {
                         "description": "Failed to validate login"
@@ -561,7 +564,7 @@
                         "title": "Password",
                         "type": "string",
                         "description": "The password of the user",
-                        "example": "folivora!!!!11elf"
+                        "example": "test1234"
                     }
                 },
                 "description": "The fields required to create a new user"

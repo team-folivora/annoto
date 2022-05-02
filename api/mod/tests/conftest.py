@@ -45,7 +45,7 @@ def session() -> Generator:
 @pytest.fixture(scope="session", autouse=True)
 def apply_migrations() -> Generator:
     """Apply migrations to test database"""
-    config = Config(str(Path.cwd().joinpath("mod").joinpath("alembic.ini")))
+    config = Config(str(Path.cwd().joinpath("alembic.ini")))
     config.set_main_option(
         "script_location", str(Path.cwd().joinpath("mod").joinpath("alembic"))
     )

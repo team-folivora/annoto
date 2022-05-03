@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from mod.src.database import db_models
 from mod.src.database.database import get_db as DB
-from mod.src.models.user import UserResponse, CreateUserRequest
+from mod.src.models.user import CreateUserRequest, UserResponse
 
 ROUTER = APIRouter(
     prefix="/users",

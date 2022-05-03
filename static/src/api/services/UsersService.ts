@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { User } from '../models/User';
-import type { UserCreate } from '../models/UserCreate';
+import type { CreateUserRequest } from '../models/CreateUserRequest';
+import type { UserResponse } from '../models/UserResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -14,12 +14,12 @@ export class UsersService {
      * Read User
      * Read a user by their ID
      * @param userId
-     * @returns User Successful Response
+     * @returns UserResponse Successful Response
      * @throws ApiError
      */
     public static readUser(
         userId: number,
-    ): CancelablePromise<User> {
+    ): CancelablePromise<UserResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/users/{user_id}',
@@ -37,12 +37,12 @@ export class UsersService {
      * Create User
      * Create a user
      * @param requestBody
-     * @returns User Successful Response
+     * @returns UserResponse Successful Response
      * @throws ApiError
      */
     public static createUser(
-        requestBody: UserCreate,
-    ): CancelablePromise<User> {
+        requestBody: CreateUserRequest,
+    ): CancelablePromise<UserResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/users/',

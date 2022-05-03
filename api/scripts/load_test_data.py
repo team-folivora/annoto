@@ -27,7 +27,7 @@ class BytesDecoder(json.JSONDecoder):
         json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
     def object_hook(self, dct):
-        """"Byte data is recognised from the JSON file and directly decoded as bytes-object"""
+        """ "Byte data is recognised from the JSON file and directly decoded as bytes-object"""
         for key in dct.keys():
             if isinstance(dct[key], str) and dct[key].startswith("0x"):
                 dct[key] = bytes.fromhex(dct[key][2:])

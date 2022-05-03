@@ -2,18 +2,22 @@ import {
   intercept_next_image_with_failure,
   login,
   proof_condition,
+  setup_intercepts,
 } from "./utils";
 
 describe("TaskView", () => {
   it("shows username", () => {
+    setup_intercepts();
     login().get("#userLabel").contains("AnnotoUser#1337");
   });
 
   it("shows the proof of condition popup on startup", () => {
+    setup_intercepts();
     login().get("#proof-of-condition").should("be.visible");
   });
 
   it("can close the proof of condition dialog when checkbox is checked", () => {
+    setup_intercepts();
     login()
       .then(proof_condition)
       .get("#proof-of-condition")
@@ -21,6 +25,7 @@ describe("TaskView", () => {
   });
 
   it("cannot close the proof of condition dialog when checkbox is not checked", () => {
+    setup_intercepts();
     login()
       .get("#proof-of-condition button")
       .click({ force: true })
@@ -29,7 +34,8 @@ describe("TaskView", () => {
   });
 
   it("informs the user when no more images are available for annotation", () => {
-    login({ intercept_next_image: intercept_next_image_with_failure })
+    setup_intercepts({ intercept_next_image: intercept_next_image_with_failure });
+    login()
       .wait("@get_task")
       .wait("@get_next_image")
       .get("#no-more-images")
@@ -37,6 +43,7 @@ describe("TaskView", () => {
   });
 
   it("shows annotation buttons", () => {
+    setup_intercepts();
     login()
       .wait("@get_task")
       .wait("@get_next_image")
@@ -47,6 +54,7 @@ describe("TaskView", () => {
   });
 
   it("shows image display", () => {
+    setup_intercepts();
     login()
       .wait("@get_task")
       .wait("@get_next_image")
@@ -55,6 +63,7 @@ describe("TaskView", () => {
   });
 
   it("annotation button stores annotation", () => {
+    setup_intercepts();
     login()
       .then(proof_condition)
       .wait("@get_task")
@@ -69,6 +78,7 @@ describe("TaskView", () => {
 
   it("annotation request includes condition from popup", () => {
     cy.on("uncaught:exception", () => false);
+    setup_intercepts();
     login()
       .wait("@get_task")
       .wait("@get_next_image")
@@ -81,6 +91,7 @@ describe("TaskView", () => {
   });
 
   it("shows next image once annotation has been made", () => {
+    setup_intercepts();
     login()
       .then(proof_condition)
       .wait("@get_task")

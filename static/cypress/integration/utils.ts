@@ -78,17 +78,34 @@ export function intercept_login_with_failure() {
   }).as("login");
 }
 
-export function login(config: { [key: string]: () => void } = {}) {
-  config["intercept_login"] ||= intercept_login;
-  config["intercept_get_task"] ||= intercept_get_task;
-  config["intercept_next_image"] ||= intercept_next_image;
-  config["intercept_get_image"] ||= intercept_get_image;
-  config["intercept_store_annotation"] ||= intercept_store_annotation;
-  config["intercept_login"]();
-  config["intercept_get_task"]();
-  config["intercept_next_image"]();
-  config["intercept_get_image"]();
-  config["intercept_store_annotation"]();
+export interface InterceptConfig {
+  intercept_login?: () => void,
+  intercept_get_task?: () => void,
+  intercept_next_image?: () => void,
+  intercept_get_image?: () => void,
+  intercept_store_annotation?: () => void,
+}
+
+// Make sure that every key of IntercepyConfig will be filled with a default in this object.
+let defaultInterceptConfig: InterceptConfig = {
+  intercept_login: intercept_login,
+  intercept_get_task: intercept_get_task,
+  intercept_next_image: intercept_next_image,
+  intercept_get_image: intercept_get_image,
+  intercept_store_annotation: intercept_store_annotation,
+};
+
+export function setup_intercepts(config: InterceptConfig = {}) {
+  const interceptConfig: { [key: string]: () => void } = {
+    ...defaultInterceptConfig,
+    ...config,
+  };
+  for (let k in interceptConfig) {
+    interceptConfig[k]();
+  }
+}
+
+export function login() {
   return cy
     .visit("/")
     .get("input[name='username']")

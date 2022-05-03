@@ -1,15 +1,16 @@
 """empty message
 
-Revision ID: 981ce91575bc
+Revision ID: be60cc3fc1d3
 Revises: 
-Create Date: 2022-05-03 14:46:23.306402
+Create Date: 2022-05-03 15:08:14.541643
 
 """
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
+
 
 # revision identifiers, used by Alembic.
-revision = "981ce91575bc"
+revision = "be60cc3fc1d3"
 down_revision = None
 branch_labels = None
 depends_on = None

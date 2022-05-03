@@ -1,3 +1,4 @@
+"""Fixtures for integration tests."""
 import pytest
 
 from mod.src.models.user import CreateUserRequest

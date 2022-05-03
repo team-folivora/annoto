@@ -3,16 +3,17 @@ Module for unit tests
 """
 
 
+from pytest_mock import MockerFixture
 from mod.src.database.db_models import DBUser
 from mod.src.models.user import CreateUserRequest
 
 
-def test_hash_new_password(mocker) -> None:
+def test_hash_new_password(mocker: MockerFixture) -> None:
     """Test if new hash for password is generated correctly"""
     salt: bytes = b"salt"
     mocker.patch("os.urandom", return_value=salt)
     password = "password"
-    test_hash = b'\xf5\xd1p"\xc9j\xf4l\n\x1d\xc4\x9aX\xbb\xe6T\xa2\x8e\x98\x10H\x83\xe4\xafM\xe9t\xcd\xa2\xc7A"\xdd\x08/A\x05\xa9?\xc8\x06\x92\xcaN\xb1\xa7\x84\xcf\xed\xa8\x1b\xfa\xa3?Q\x92\xcc\x91C\xd8\x18\xbdu\x81'
+    test_hash = b'\xf5\xd1p"\xc9j\xf4l\n\x1d\xc4\x9aX\xbb\xe6T\xa2\x8e\x98\x10H\x83\xe4\xafM\xe9t\xcd\xa2\xc7A"\xdd\x08/A\x05\xa9?\xc8\x06\x92\xcaN\xb1\xa7\x84\xcf\xed\xa8\x1b\xfa\xa3?Q\x92\xcc\x91C\xd8\x18\xbdu\x81' #pylint: disable=line-too-long
     user: DBUser = DBUser.from_create_request(
         CreateUserRequest(
             fullname="Prof. Dr. Folivora",

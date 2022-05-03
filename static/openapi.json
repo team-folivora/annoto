@@ -361,9 +361,6 @@
                     "204": {
                         "description": "Successful Response"
                     },
-                    "400": {
-                        "description": "No user found with that username"
-                    },
                     "401": {
                         "description": "Failed to validate login"
                     },

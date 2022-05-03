@@ -16,7 +16,7 @@ class UserBase(BaseModel):
     )
 
 
-class UserCreate(UserBase):
+class CreateUserRequest(UserBase):
     """The fields required to create a new user"""
 
     password: str = Field(
@@ -24,7 +24,7 @@ class UserCreate(UserBase):
     )
 
 
-class User(UserBase):
+class UserResponse(UserBase):
     """An already existing user"""
 
     id: int = Field(..., description="The id of the user", example=1)

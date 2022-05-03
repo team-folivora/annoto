@@ -59,7 +59,7 @@ export default defineComponent({
   </div>
 </template>
 
-<style>
+<style scoped>
 div {
   max-width: 300px;
 }

@@ -40,12 +40,7 @@ export default defineComponent({
 
 <template>
   <div class="_margin-x:auto _margin-top:8">
-    <i-input
-      v-model="email"
-      type="email"
-      name="email"
-      placeholder="E-Mail"
-    />
+    <i-input v-model="email" type="email" name="email" placeholder="E-Mail" />
     <br />
     <i-input
       v-model="password"

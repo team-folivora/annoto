@@ -3,22 +3,22 @@ Module for unit tests
 """
 
 
-import hashlib
-
-from mod.src.database import db_models
+from mod.src.database.db_models import DBUser
 
 
-def test_hash_new_password() -> None:
+def test_hash_new_password(mocker) -> None:
     """Test if new hash for password is generated correctly"""
+    salt: bytes = b"salt"
+    mocker.patch("os.urandom", return_value=salt)
     password = "password"
-    user: db_models.User = db_models.User.with_password("AnnotoUser", "email", password)
-    test_hash = hashlib.pbkdf2_hmac("sha512", password.encode(), user.salt, 100000)
+    test_hash = b'\xf5\xd1p"\xc9j\xf4l\n\x1d\xc4\x9aX\xbb\xe6T\xa2\x8e\x98\x10H\x83\xe4\xafM\xe9t\xcd\xa2\xc7A"\xdd\x08/A\x05\xa9?\xc8\x06\x92\xcaN\xb1\xa7\x84\xcf\xed\xa8\x1b\xfa\xa3?Q\x92\xcc\x91C\xd8\x18\xbdu\x81'
+    user: DBUser = DBUser.with_password("AnnotoUser", "email", password)
     assert user.hashed_password == test_hash
 
 
 def test_hash_check() -> None:
     """Test the password-check function"""
     password = "password"
-    user: db_models.User = db_models.User.with_password("AnnotoUser", "email", password)
+    user: DBUser = DBUser.with_password("AnnotoUser", "email", password)
     assert user.verify_password(password)
     assert not user.verify_password("wrong_password")

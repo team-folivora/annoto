@@ -6,9 +6,9 @@ describe("LoginView", () => {
     mount(LoginView);
   });
 
-  it("has a field for username", () => {
+  it("has a field for email", () => {
     mount(LoginView);
-    cy.get("i-input[name='username']");
+    cy.get("i-input[name='email']");
   });
 
   it("has a field for password", () => {

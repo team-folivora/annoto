@@ -42,8 +42,8 @@ function login() {
   intercept_login();
   return cy
     .visit("/")
-    .get("input[name='username']")
-    .type("Prof. Dr. Folivora")
+    .get("input[name='email']")
+    .type("team@folivora.online")
     .get("input[name='password']")
     .type("test1234")
     .get("button#submit")
@@ -63,8 +63,8 @@ describe("LoginView", () => {
     intercept_get_task();
     intercept_next_image();
     cy.visit("/")
-      .get("input[name='username']")
-      .type("Prof. Dr. Folivora")
+      .get("input[name='email']")
+      .type("team@folivora.online")
       .get("input[name='password']")
       .type("test1234")
       .get("button#submit")
@@ -73,15 +73,15 @@ describe("LoginView", () => {
       .get("#task-view");
   });
 
-  it("warns if no password or username provided", () => {
+  it("warns if no password or email provided", () => {
     cy.visit("/").get("button#submit").click().get("div.alert.-warning");
   });
 
   it("errors if invalid login data provided", () => {
     intercept_login_with_failure();
     cy.visit("/")
-      .get("input[name='username']")
-      .type("Prof. Dr. Folivora")
+      .get("input[name='email']")
+      .type("team@folivora.online")
       .get("input[name='password']")
       .type("wrong_password")
       .get("button#submit")
@@ -92,7 +92,7 @@ describe("LoginView", () => {
 });
 
 describe("TaskView", () => {
-  it("shows username", () => {
+  it("shows full name", () => {
     intercept_get_task();
     intercept_next_image();
     login().get("#userLabel").contains("Prof. Dr. Folivora");

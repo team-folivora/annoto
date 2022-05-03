@@ -1,4 +1,27 @@
-import type { CyHttpMessages } from "cypress/types/net-stubbing";
+import type { Method } from "axios";
+import type { CyHttpMessages, RouteMatcher } from "cypress/types/net-stubbing";
+
+function intercept_with_spy(
+  method: Method,
+  url: RouteMatcher,
+  response: any,
+  name: string
+) {
+  cy.intercept(
+    method,
+    url,
+    cy
+      .spy(
+        {
+          handle: (req: CyHttpMessages.IncomingHttpRequest) => {
+            req.reply(response);
+          },
+        },
+        "handle"
+      )
+      .as(`${name}_spy`)
+  ).as(name);
+}
 
 export function intercept_get_task() {
   cy.intercept(
@@ -27,20 +50,12 @@ export function intercept_next_image_with_failure() {
 }
 
 export function intercept_store_annotation() {
-  cy.intercept(
+  intercept_with_spy(
     "POST",
     `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
-    cy
-      .spy(
-        {
-          handle: (req: CyHttpMessages.IncomingHttpRequest) => {
-            req.reply({ statusCode: 204 });
-          },
-        },
-        "handle"
-      )
-      .as("store_annotation_spy")
-  ).as("store_annotation");
+    { statusCode: 204 },
+    "store_annotation"
+  );
 }
 
 export function intercept_get_image() {

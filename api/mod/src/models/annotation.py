@@ -1,7 +1,5 @@
 """Provides classes for Annotations"""
 
-from __future__ import annotations
-
 import hashlib
 import json
 from pathlib import Path
@@ -54,7 +52,7 @@ class Annotation(AnnotationData):
     )
 
     @classmethod
-    def from_data(cls, annotation_data: AnnotationData, src: str) -> Annotation:
+    def from_data(cls, annotation_data: AnnotationData, src: str) -> "Annotation":
         """Creates an Annotation from AnnotationData and additional attributes"""
         return Annotation(**{**annotation_data.__dict__, **{"src": src}})
 

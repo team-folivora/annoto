@@ -7,7 +7,7 @@ import hmac
 import os
 from typing import Optional
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, LargeBinary, String
 from sqlalchemy.orm import Session
 
 from mod.src.models.user import UserCreate
@@ -20,11 +20,11 @@ class User(Base):
 
     __tablename__ = "users"
 
-    id: int = Column(Integer, primary_key=True, index=True)
-    username: str = Column(String, unique=True, index=True)
-    email: str = Column(String, unique=True, index=True)
-    hashed_password: bytes = Column(String)
-    salt: bytes = Column(String)
+    id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
+    username: str = Column(String, unique=True, index=True, nullable=False)
+    email: str = Column(String, unique=True, index=True, nullable=False)
+    hashed_password: bytes = Column(LargeBinary, nullable=False)
+    salt: bytes = Column(LargeBinary, nullable=False)
 
     @classmethod
     def with_password(cls, username: str, email: str, password: str) -> "User":

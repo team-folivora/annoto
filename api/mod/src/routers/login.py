@@ -17,7 +17,6 @@ ROUTER = APIRouter(
     "/",
     status_code=204,
     responses={
-        400: {"description": "No user found with that username"},
         401: {"description": "Failed to validate login"},
     },
     operation_id="login",
@@ -28,8 +27,5 @@ async def login(
 ) -> None:
     """Validate login via username and password"""
     user = User.get_by_username(db, login_data.username)
-    if not user:
-        raise HTTPException(status_code=400, detail="No user found with that username")
-
-    if not user.verify_password(login_data.password):
+    if not user or not user.verify_password(login_data.password):
         raise HTTPException(status_code=401, detail="Failed to validate login")

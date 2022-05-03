@@ -273,7 +273,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/User"
+                                    "$ref": "#/components/schemas/UserResponse"
                                 }
                             }
                         }
@@ -306,7 +306,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/UserCreate"
+                                "$ref": "#/components/schemas/CreateUserRequest"
                             }
                         }
                     },
@@ -318,7 +318,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/User"
+                                    "$ref": "#/components/schemas/UserResponse"
                                 }
                             }
                         }
@@ -431,6 +431,36 @@
                 },
                 "description": "The basic Annotation Data for a data file"
             },
+            "CreateUserRequest": {
+                "title": "CreateUserRequest",
+                "required": [
+                    "username",
+                    "email",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "title": "Username",
+                        "type": "string",
+                        "description": "The name of the user",
+                        "example": "team-folivora"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "description": "The email of the user",
+                        "example": "annoto@team-folivora.com"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string",
+                        "description": "The password of the user",
+                        "example": "test1234"
+                    }
+                },
+                "description": "The fields required to create a new user"
+            },
             "HTTPValidationError": {
                 "title": "HTTPValidationError",
                 "type": "object",
@@ -506,8 +536,8 @@
                 },
                 "description": "A labelling task"
             },
-            "User": {
-                "title": "User",
+            "UserResponse": {
+                "title": "UserResponse",
                 "required": [
                     "username",
                     "email",
@@ -535,36 +565,6 @@
                     }
                 },
                 "description": "An already existing user"
-            },
-            "UserCreate": {
-                "title": "UserCreate",
-                "required": [
-                    "username",
-                    "email",
-                    "password"
-                ],
-                "type": "object",
-                "properties": {
-                    "username": {
-                        "title": "Username",
-                        "type": "string",
-                        "description": "The name of the user",
-                        "example": "team-folivora"
-                    },
-                    "email": {
-                        "title": "Email",
-                        "type": "string",
-                        "description": "The email of the user",
-                        "example": "annoto@team-folivora.com"
-                    },
-                    "password": {
-                        "title": "Password",
-                        "type": "string",
-                        "description": "The password of the user",
-                        "example": "test1234"
-                    }
-                },
-                "description": "The fields required to create a new user"
             },
             "ValidationError": {
                 "title": "ValidationError",

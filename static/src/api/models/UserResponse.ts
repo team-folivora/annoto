@@ -5,7 +5,7 @@
 /**
  * An already existing user
  */
-export type User = {
+export type UserResponse = {
     /**
      * The name of the user
      */

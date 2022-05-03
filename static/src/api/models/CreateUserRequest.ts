@@ -5,7 +5,7 @@
 /**
  * The fields required to create a new user
  */
-export type UserCreate = {
+export type CreateUserRequest = {
     /**
      * The name of the user
      */

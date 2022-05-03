@@ -7,9 +7,9 @@
  */
 export type LoginData = {
     /**
-     * The name of the user to be logged in
+     * The email of the user to be logged in
      */
-    username: string;
+    email: string;
     /**
      * The password of the user to be logged in
      */

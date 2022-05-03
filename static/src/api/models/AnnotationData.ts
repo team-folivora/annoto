@@ -15,7 +15,7 @@ export type AnnotationData = {
      */
     hash: string;
     /**
-     * The name of the current user
+     * The full name of the current user
      */
     username: string;
     /**

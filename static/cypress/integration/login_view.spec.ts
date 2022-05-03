@@ -12,8 +12,6 @@ describe("LoginView", () => {
 
   it("errors if invalid login data provided", () => {
     setup_intercepts({ intercept_login: intercept_login_with_failure });
-    login().get(
-      "div.alert.-danger"
-    );
+    login().get("div.alert.-danger");
   });
 });

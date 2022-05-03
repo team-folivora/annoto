@@ -34,7 +34,9 @@ describe("TaskView", () => {
   });
 
   it("informs the user when no more images are available for annotation", () => {
-    setup_intercepts({ intercept_next_image: intercept_next_image_with_failure });
+    setup_intercepts({
+      intercept_next_image: intercept_next_image_with_failure,
+    });
     login()
       .wait("@get_task")
       .wait("@get_next_image")

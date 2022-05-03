@@ -79,11 +79,11 @@ export function intercept_login_with_failure() {
 }
 
 export interface InterceptConfig {
-  intercept_login?: () => void,
-  intercept_get_task?: () => void,
-  intercept_next_image?: () => void,
-  intercept_get_image?: () => void,
-  intercept_store_annotation?: () => void,
+  intercept_login?: () => void;
+  intercept_get_task?: () => void;
+  intercept_next_image?: () => void;
+  intercept_get_image?: () => void;
+  intercept_store_annotation?: () => void;
 }
 
 // Make sure that every key of IntercepyConfig will be filled with a default in this object.

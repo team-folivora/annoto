@@ -4,7 +4,7 @@ import type { CyHttpMessages, RouteMatcher } from "cypress/types/net-stubbing";
 function intercept_with_spy(
   method: Method,
   url: RouteMatcher,
-  response: any,
+  response: object,
   name: string
 ) {
   cy.intercept(
@@ -87,7 +87,7 @@ export interface InterceptConfig {
 }
 
 // Make sure that every key of IntercepyConfig will be filled with a default in this object.
-let defaultInterceptConfig: InterceptConfig = {
+const defaultInterceptConfig: InterceptConfig = {
   intercept_login: intercept_login,
   intercept_get_task: intercept_get_task,
   intercept_next_image: intercept_next_image,
@@ -100,7 +100,7 @@ export function setup_intercepts(config: InterceptConfig = {}) {
     ...defaultInterceptConfig,
     ...config,
   };
-  for (let k in interceptConfig) {
+  for (const k in interceptConfig) {
     interceptConfig[k]();
   }
 }

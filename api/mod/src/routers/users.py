@@ -45,4 +45,4 @@ def create_user(user: user.UserCreate, db: Session = Depends(get_db)) -> user.Us
     db_user = db_models.User.get_by_username(db, username=user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
-    return db_models.User.create(db=db, user=user)
+    return db_models.User.create(db, user=user)

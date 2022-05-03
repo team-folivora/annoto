@@ -18,7 +18,7 @@ from mod.src.models.user import UserCreate
 from mod.src.settings import SETTINGS
 
 temp_folder = Path(tempfile.mkdtemp(prefix="annoto"))
-SETTINGS.database_url = f"sqlite:///{temp_folder.joinpath('test_db.db')}"
+SETTINGS.database_url = f"sqlite:///{temp_folder.joinpath('test_db.sqlite3')}"
 
 engine = create_engine(SETTINGS.database_url, connect_args={"check_same_thread": False})
 

@@ -1,7 +1,7 @@
 {
     "alembic_version": [
         {
-            "version_num": "774303782e40"
+            "version_num": "683688d4ca8b"
         }
     ],
     "users": [
@@ -9,15 +9,15 @@
             "id": 1,
             "username": "admin",
             "email": "admin@team-folivora.com",
-            "hashed_password": "5b2d495a721de0d3f595892613e4113977f27629ef38e1549f5f3c0929d2ac4c0f9e49d8bb0845eb1642abc09baa5a92a965d350fe41fbd7b21c26e866b7afbb",
-            "salt": "b540a99d7e1ee25cbef987459c777b54"
+            "hashed_password": "0x5b2d495a721de0d3f595892613e4113977f27629ef38e1549f5f3c0929d2ac4c0f9e49d8bb0845eb1642abc09baa5a92a965d350fe41fbd7b21c26e866b7afbb",
+            "salt": "0xb540a99d7e1ee25cbef987459c777b54"
         },
         {
             "id": 2,
             "username": "team",
             "email": "team@team-folivora.com",
-            "hashed_password": "d489116c9488203f869baf1eecd65c17242ad53da894ea7f618b7e5abf505bcb213296675fff8e4c32f86ce94ef8352cd58f709e5b2bc393e7ecc25b973095a5",
-            "salt": "10f63710bc3fecb9a1649c9e1ee44b09"
+            "hashed_password": "0xd489116c9488203f869baf1eecd65c17242ad53da894ea7f618b7e5abf505bcb213296675fff8e4c32f86ce94ef8352cd58f709e5b2bc393e7ecc25b973095a5",
+            "salt": "0x10f63710bc3fecb9a1649c9e1ee44b09"
         }
     ]
 }

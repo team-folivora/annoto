@@ -27,10 +27,10 @@ class BytesDecoder(json.JSONDecoder):
         json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
     def object_hook(self, dct):
-        if "hashed_password" in dct:
-            dct["hashed_password"] = bytes.fromhex(dct["hashed_password"])
-            dct["salt"] = bytes.fromhex(dct["salt"])
-            return dct
+        """"Byte data is recognised from the JSON file and directly decoded as bytes-object"""
+        for key in dct.keys():
+            if isinstance(dct[key], str) and dct[key].startswith("0x"):
+                dct[key] = bytes.fromhex(dct[key][2:])
         return dct
 
 
@@ -48,6 +48,7 @@ meta.reflect(bind=engine)
 for table in meta.sorted_tables:
     Table = get_class_by_tablename(table.name)
     if not Table:
+        print(f"DB Model Class not found for table: {table.name}")
         continue
     for row in jsondata[table.name]:
         obj = Table(**row)

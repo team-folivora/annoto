@@ -11,9 +11,11 @@ outfile_path = (
 
 
 class BytesEncoder(json.JSONEncoder):
+    """Byte data is encoded as a hexadecimal string and prefixed with 0x to be recognised during decoding"""
+
     def default(self, z):
         if isinstance(z, bytes):
-            return z.hex()
+            return "0x" + z.hex()
         return super().default(z)
 
 

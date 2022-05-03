@@ -11,7 +11,7 @@ export class LoginService {
 
     /**
      * Login
-     * Validate login via username and password
+     * Validate login via email and password
      * @param requestBody
      * @returns void
      * @throws ApiError

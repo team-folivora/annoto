@@ -7,9 +7,9 @@
  */
 export type UserResponse = {
     /**
-     * The name of the user
+     * The full name of the user
      */
-    username: string;
+    fullname: string;
     /**
      * The email of the user
      */

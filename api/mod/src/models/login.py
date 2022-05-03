@@ -8,10 +8,10 @@ class LoginData(BaseModel):
     The basic Login Data
     """
 
-    username: str = Field(
+    email: str = Field(
         ...,
-        description="The name of the user to be logged in",
-        example="AnnotoUser#1337",
+        description="The email of the user to be logged in",
+        example="team@folivora.online",
     )
 
     password: str = Field(

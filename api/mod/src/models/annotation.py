@@ -24,8 +24,8 @@ class AnnotationData(BaseModel):
     )
     username: str = Field(
         ...,
-        description="The name of the current user",
-        example="AnnotoUser#1337",
+        description="The full name of the current user",
+        example="Prof. Dr. Folivora",
     )
     competency: str = Field(
         ..., description="The competencies the annotator has", example="Prof. Dr. Med"

@@ -81,7 +81,7 @@ def db() -> scoped_session:
 def user() -> CreateUserRequest:
     """Creates a basic Annotation"""
     return CreateUserRequest(
-        username="AnnotoUser#1337",
+        fullname="Prof. Dr. Folivora",
         password="password",
         email="annoto@team-folivora.com",
     )

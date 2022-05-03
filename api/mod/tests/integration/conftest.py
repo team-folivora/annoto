@@ -7,7 +7,7 @@ from mod.src.models.user import CreateUserRequest
 def user() -> CreateUserRequest:
     """Creates a basic Annotation"""
     return CreateUserRequest(
-        username="AnnotoUser#1337",
+        fullname="Prof. Dr. Folivora",
         password="password",
-        email="annoto@team-folivora.com",
+        email="team@folivora.online",
     )

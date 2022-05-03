@@ -8,11 +8,11 @@ from pydantic import BaseModel, Field
 class UserBase(BaseModel):
     """Basic information about a user"""
 
-    username: str = Field(
-        ..., description="The name of the user", example="team-folivora"
+    fullname: str = Field(
+        ..., description="The full name of the user", example="Prof. Dr. Folivora"
     )
     email: str = Field(
-        ..., description="The email of the user", example="annoto@team-folivora.com"
+        ..., description="The email of the user", example="team@folivora.online"
     )
 
 
@@ -20,7 +20,7 @@ class CreateUserRequest(UserBase):
     """The fields required to create a new user"""
 
     password: str = Field(
-        ..., description="The password of the user", example="test1234"
+        ..., description="The password of the user", example="password"
     )
 
 

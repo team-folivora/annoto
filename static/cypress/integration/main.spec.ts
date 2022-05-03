@@ -43,7 +43,7 @@ function login() {
   return cy
     .visit("/")
     .get("input[name='username']")
-    .type("AnnotoUser#1337")
+    .type("Prof. Dr. Folivora")
     .get("input[name='password']")
     .type("test1234")
     .get("button#submit")
@@ -64,7 +64,7 @@ describe("LoginView", () => {
     intercept_next_image();
     cy.visit("/")
       .get("input[name='username']")
-      .type("AnnotoUser#1337")
+      .type("Prof. Dr. Folivora")
       .get("input[name='password']")
       .type("test1234")
       .get("button#submit")
@@ -81,7 +81,7 @@ describe("LoginView", () => {
     intercept_login_with_failure();
     cy.visit("/")
       .get("input[name='username']")
-      .type("AnnotoUser#1337")
+      .type("Prof. Dr. Folivora")
       .get("input[name='password']")
       .type("wrong_password")
       .get("button#submit")
@@ -95,7 +95,7 @@ describe("TaskView", () => {
   it("shows username", () => {
     intercept_get_task();
     intercept_next_image();
-    login().get("#userLabel").contains("AnnotoUser#1337");
+    login().get("#userLabel").contains("Prof. Dr. Folivora");
   });
 
   it("informs the user when no more images are available for annotation", () => {

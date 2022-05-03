@@ -25,7 +25,7 @@ async def login(
     login_data: LoginData,
     db: Session = Depends(DB),
 ) -> None:
-    """Validate login via username and password"""
-    user = DBUser.get_by_username(db, login_data.username)
+    """Validate login via email and password"""
+    user = DBUser.get_by_email(db, login_data.email)
     if not user or not user.verify_password(login_data.password):
         raise HTTPException(status_code=401, detail="Failed to validate login")

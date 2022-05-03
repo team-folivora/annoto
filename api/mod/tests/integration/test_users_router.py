@@ -16,7 +16,7 @@ def test_get_user_returns_correct_user(
     DBUser.create(db=db, user=user)
     response = client.get("/users/1")
     assert response.status_code == 200
-    assert response.json()["username"] == user.username
+    assert response.json()["email"] == user.email
 
 
 def test_get_unknown_user_returns_404(client: TestClient) -> None:
@@ -30,22 +30,8 @@ def test_create_user_with_existing_email_returns_400(
 ) -> None:
     """Test POST /users/ with existing email"""
     duplicate_email_test_user = user
-    duplicate_email_test_user.username = "AnotherUser"
+    duplicate_email_test_user.email = "info@folivora.online"
     DBUser.create(db=db, user=duplicate_email_test_user)
-    response = client.post(
-        "/users/",
-        json=user.dict(),
-    )
-    assert response.status_code == 400
-
-
-def test_create_user_with_existing_username_returns_400(
-    client: TestClient, db: Session, user: CreateUserRequest
-) -> None:
-    """Test POST /users/ with existing email"""
-    duplicate_username_test_user = user
-    duplicate_username_test_user.email = "another@email.com"
-    DBUser.create(db=db, user=duplicate_username_test_user)
     response = client.post(
         "/users/",
         json=user.dict(),

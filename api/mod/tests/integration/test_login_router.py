@@ -14,7 +14,7 @@ def test_login(client: TestClient, db: Session, user: CreateUserRequest) -> None
     DBUser.create(db=db, user=user)
     response = client.post(
         "/login/",
-        json={"username": "AnnotoUser#1337", "password": "password"},
+        json={"email": "team@folivora.online", "password": "password"},
     )
     assert response.status_code == 204
 
@@ -23,7 +23,7 @@ def test_unknown_user_returns_401(client: TestClient) -> None:
     """Test POST /login raises HttpException 401"""
     response = client.post(
         "/login/",
-        json={"username": "AnnotoUser#1337", "password": "wrong_password"},
+        json={"email": "team@folivora.online", "password": "wrong_password"},
     )
     assert response.status_code == 401
 
@@ -35,6 +35,6 @@ def test_invalid_password_returns_401(
     DBUser.create(db=db, user=user)
     response = client.post(
         "/login/",
-        json={"username": "AnnotoUser#1337", "password": "wrong_password"},
+        json={"email": "team@folivora.online", "password": "wrong_password"},
     )
     assert response.status_code == 401

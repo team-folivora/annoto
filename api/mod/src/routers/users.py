@@ -33,7 +33,7 @@ def read_user(user_id: int, db: Session = Depends(DB)) -> UserResponse:
     "/",
     response_model=UserResponse,
     responses={
-        400: {"description": "Email or username already registered"},
+        400: {"description": "Email already registered"},
     },
     operation_id="create_user",
 )
@@ -42,7 +42,4 @@ def create_user(user: CreateUserRequest, db: Session = Depends(DB)) -> UserRespo
     db_user = db_models.DBUser.get_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    db_user = db_models.DBUser.get_by_username(db, username=user.username)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Username already registered")
     return db_models.DBUser.create(db, user=user)

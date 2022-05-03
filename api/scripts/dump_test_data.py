@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
-from sqlalchemy import MetaData, create_engine
-from mod.src.settings import SETTINGS
 
+from sqlalchemy import MetaData, create_engine
+
+from mod.src.settings import SETTINGS
 
 outfile_path = (
     Path.cwd().joinpath("mod").joinpath("fixtures").joinpath("test_data.json")
@@ -14,6 +15,7 @@ class BytesEncoder(json.JSONEncoder):
         if isinstance(z, bytes):
             return z.hex()
         return super().default(z)
+
 
 engine = create_engine(SETTINGS.database_url, connect_args={"check_same_thread": False})
 meta = MetaData()

@@ -49,7 +49,7 @@ export class UsersService {
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Email already registered`,
+                400: `Email or username already registered`,
                 422: `Validation Error`,
             },
         });

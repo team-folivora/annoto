@@ -25,6 +25,7 @@ export class LoginService {
             body: requestBody,
             mediaType: 'application/json',
             errors: {
+                400: `No user found with that username`,
                 401: `Failed to validate login`,
                 422: `Validation Error`,
             },

@@ -3,8 +3,8 @@ Module for unit tests
 """
 
 
-from mod.src.models.user import CreateUserRequest
 from mod.src.database.db_models import DBUser
+from mod.src.models.user import CreateUserRequest
 
 
 def test_hash_new_password(mocker) -> None:

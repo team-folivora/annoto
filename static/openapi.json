@@ -493,7 +493,7 @@
                         "title": "Password",
                         "type": "string",
                         "description": "The password of the user to be logged in",
-                        "example": "test1234"
+                        "example": "password"
                     }
                 },
                 "description": "The basic Login Data"

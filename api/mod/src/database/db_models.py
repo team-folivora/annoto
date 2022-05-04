@@ -42,7 +42,6 @@ class DBUser(Base):
         db_user = cls.from_create_request(user)
         db.add(db_user)
         db.commit()
-        db.refresh(db_user)
         return db_user
 
     @classmethod
@@ -70,6 +69,3 @@ class DBUser(Base):
                 "sha512", password.encode(), self.salt, self.__hash_iterations__
             ),
         )
-
-    def __repr__(self) -> str:
-        return f"<User {self.fullname}>"

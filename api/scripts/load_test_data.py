@@ -36,7 +36,7 @@ class BytesDecoder(json.JSONDecoder):
 
 engine = create_engine(SETTINGS.database_url, connect_args={"check_same_thread": False})
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(bind=engine)
 session = SessionLocal()
 
 with open(file_path) as f:

@@ -3,11 +3,11 @@
 import json
 from typing import List
 
-from fastapi import APIRouter, HTTPException, Path, Depends
+from fastapi import APIRouter, Depends, HTTPException, Path
 
+from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.models.task import Task
 from mod.src.settings import SETTINGS
-from mod.src.auth.auth_bearer import JWTBearer
 
 ROUTER = APIRouter(
     prefix="/tasks",

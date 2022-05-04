@@ -1,13 +1,13 @@
 """Routes for login"""
 
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import Dict
 
+from mod.src.auth.auth_handler import signJWT
 from mod.src.database.database import get_db as DB
 from mod.src.database.db_models import DBUser
 from mod.src.models.login import LoginRequest, LoginResponse
-from mod.src.auth.auth_handler import signJWT
 
 ROUTER = APIRouter(
     prefix="/login",

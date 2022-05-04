@@ -1,7 +1,8 @@
 import time
-from typing import Dict
+from typing import Dict, Optional
 
 import jwt
+
 from mod.src.settings import SETTINGS
 
 
@@ -22,7 +23,7 @@ def signJWT(user_id: str) -> str:
     return token
 
 
-def decodeJWT(token: str) -> Payload:
+def decodeJWT(token: str) -> Optional[Payload]:
     try:
         decoded_token = jwt.decode(
             token, SETTINGS.jwt_secret, algorithms=[SETTINGS.jwt_algorithm]
@@ -33,4 +34,4 @@ def decodeJWT(token: str) -> Payload:
             else None
         )
     except:
-        return {}
+        return None

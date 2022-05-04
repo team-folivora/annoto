@@ -3,23 +3,25 @@
 import os
 import random
 import re
+from typing import Optional
 
-from sqlalchemy.orm import Session
-from fastapi import APIRouter, HTTPException, Path, Depends
+from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.security.http import HTTPAuthorizationCredentials
+from sqlalchemy.orm import Session
 
+from mod.src.auth.auth_bearer import JWTBearer
+from mod.src.auth.auth_handler import decodeJWT
+from mod.src.database.database import get_db as DB
+from mod.src.database.db_models import DBUser
 from mod.src.models.annotation import (
     Annotation,
     AnnotationData,
     HashMismatch,
-    InvalidProof,
     InvalidFullName,
+    InvalidProof,
 )
-from mod.src.auth.auth_bearer import JWTBearer
-from mod.src.auth.auth_handler import decodeJWT
 from mod.src.settings import SETTINGS
-from mod.src.database.db_models import DBUser
-from mod.src.database.database import get_db as DB
 
 ROUTER = APIRouter(
     prefix="/tasks/{task_id}",
@@ -94,13 +96,16 @@ async def save_annotation(
     annotation_data: AnnotationData,
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
     src: str = Path(..., example="sloth.jpg"),
-    jwt=Depends(JWTBearer()),
+    jwt: Optional[HTTPAuthorizationCredentials] = Depends(JWTBearer()),
     db: Session = Depends(DB),
 ) -> None:
     """Saves the annotation for the specified image"""
 
-    user_id = decodeJWT(jwt).user_id
+    user_id = decodeJWT(jwt.credentials).user_id
     user = DBUser.get_by_id(db, user_id)
+
+    if not user:
+        raise HTTPException(status_code=500)
 
     annotation = Annotation.from_data(
         annotation_data=annotation_data, src=f"{task_id}/{src}", fullname=user.fullname
@@ -118,7 +123,7 @@ async def save_annotation(
             status_code=428,
             detail="Provided proofs are not valid!",
         ) from None
-    except InvalidUsername:
+    except InvalidFullName:
         raise HTTPException(
             status_code=406,
             detail="Provided username is not valid!",

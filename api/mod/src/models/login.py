@@ -29,5 +29,5 @@ class LoginResponse(BaseModel):
     access_token: str = Field(
         ...,
         description="The generated JWT access token",
-        example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHBpcmVzIjoxNjUxNjcyMTU5LjMyMjY3ODZ9.ONVOoCKQ3ypaPgPAYCFnjlECzRdW9QgZsrkilnclnxg",
+        example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHBpcmVzIjoxNjUxNjcyMTU5LjMyMjY3ODZ9.ONVOoCKQ3ypaPgPAYCFnjlECzRdW9QgZsrkilnclnxg",  # pylint: disable=line-too-long
     )

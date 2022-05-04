@@ -21,7 +21,9 @@ ROUTER = APIRouter(
     },
     operation_id="read_user",
 )
-def read_user(user_id: int = Path(..., example=1), db: Session = Depends(DB)) -> UserResponse:
+def read_user(
+    user_id: int = Path(..., example=1), db: Session = Depends(DB)
+) -> UserResponse:
     """Read a user by their ID"""
     db_user = db_models.DBUser.get_by_id(db, user_id=user_id)
     if db_user is None:

@@ -57,7 +57,7 @@ def db_engine() -> Generator:
 
 
 @pytest.fixture(autouse=True)
-def db(db_engine) -> scoped_session: # type: ignore
+def db(db_engine) -> scoped_session:  # type: ignore
     """
     Provides a database session that is scoped to the test function
     and is automatically rolled back after the test

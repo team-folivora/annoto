@@ -68,7 +68,7 @@ export function intercept_get_image() {
 
 export function intercept_login() {
   cy.intercept("POST", `${Cypress.env("API_URL")}/login`, {
-    fixture: "login.json"
+    fixture: "login.json",
   }).as("login");
 }
 

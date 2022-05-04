@@ -39,6 +39,7 @@ export default defineComponent({
 
 <template>
   <i-modal
+    id="proof-of-condition"
     v-model="visible"
     size="lg"
     color="warning"

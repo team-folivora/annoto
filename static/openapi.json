@@ -252,9 +252,6 @@
                     "428": {
                         "description": "Provided proofs are not valid!"
                     },
-                    "406": {
-                        "description": "Provided username is not valid!"
-                    },
                     "422": {
                         "description": "Validation Error",
                         "content": {

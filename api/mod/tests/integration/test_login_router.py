@@ -3,10 +3,6 @@ Module for integration tests
 """
 
 from fastapi.testclient import TestClient
-from sqlalchemy.orm import Session
-
-from mod.src.database.db_models import DBUser
-from mod.src.models.user import CreateUserRequest
 
 
 def test_login(client: TestClient) -> None:

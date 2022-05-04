@@ -36,9 +36,19 @@ Medical annotation tool
 
 ## Testing and Linting
 
-* `mypy mod`,`pylint mod`, `pytest mod`, `pytest mod --cov`
+* `mypy mod`, `pylint mod`, `pytest mod`, `pytest mod --cov`
 
 * `npm run lint`, `npm run test:e2e`, `npm run test:unit`
+
+## Database
+
+* Create Migrations: `alembic revision --autogenerate`
+
+* Apply Migrations: `alembic upgrade head`
+
+* Load test data into database: `python3 scripts/load_test_data.py`
+
+* Dump database content into JSON-file: `python3 scripts/dump_data.py`
 
 # Docker
 

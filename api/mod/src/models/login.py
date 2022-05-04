@@ -17,7 +17,7 @@ class LoginRequest(BaseModel):
     password: str = Field(
         ...,
         description="The password of the user to be logged in",
-        example="test1234",
+        example="password",
     )
 
 

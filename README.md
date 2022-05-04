@@ -34,11 +34,25 @@ Medical annotation tool
 
 * `cd static; npm run dev`
 
-## Testing and Linting
+## Testing, Linting and Formatting
 
-* `mypy mod`,`pylint mod`, `pytest mod`, `pytest mod --cov`
+* Full build: `python3 manage.py build`
 
-* `npm run lint`, `npm run test:e2e`, `npm run test:unit`
+* Only tests: `python3 manage.py test {--cov}`
+
+* Format: `python3 manage.py format`
+
+* Frontend: `npm run lint`, `npm run test:e2e`, `npm run test:unit`
+
+## Database
+
+* Create Migrations: `python3 manage.py migration-create`
+
+* Apply Migrations: `python3 manage.py migration-apply`
+
+* Load test data into database: `python3 manage.py data-load`
+
+* Dump database content into JSON-file: `python3 manage.py data-dump`
 
 # Docker
 

@@ -27,14 +27,20 @@ class BytesDecoder(json.JSONDecoder):
                 dct[key] = bytes.fromhex(dct[key][2:])
         return dct
 
+
 def load():
-    file_path = Path.cwd().joinpath("mod").joinpath("fixtures").joinpath("test_data.json")
+    """Loads all objects from 'test_data.json' into the database that have a corresponding defined model class"""
+    file_path = (
+        Path.cwd().joinpath("mod").joinpath("fixtures").joinpath("test_data.json")
+    )
 
     if not file_path.exists():
         print("File does not exist")
         exit(1)
 
-    engine = create_engine(SETTINGS.database_url, connect_args={"check_same_thread": False})
+    engine = create_engine(
+        SETTINGS.database_url, connect_args={"check_same_thread": False}
+    )
 
     SessionLocal = sessionmaker(bind=engine)
     session = SessionLocal()

@@ -5,6 +5,7 @@ from sqlalchemy import MetaData, create_engine
 
 from mod.src.settings import SETTINGS
 
+
 class BytesEncoder(json.JSONEncoder):
     """Byte data is encoded as a hexadecimal string and prefixed with 0x to be recognised during decoding"""
 
@@ -15,13 +16,18 @@ class BytesEncoder(json.JSONEncoder):
 
 
 def dump():
+    """Dumps all entries from the database into 'test_data.json'"""
     outfile_path = (
         Path.cwd().joinpath("mod").joinpath("fixtures").joinpath("test_data.json")
     )
 
-    engine = create_engine(SETTINGS.database_url, connect_args={"check_same_thread": False})
+    engine = create_engine(
+        SETTINGS.database_url, connect_args={"check_same_thread": False}
+    )
     meta = MetaData()
-    meta.reflect(bind=engine)  # http://docs.sqlalchemy.org/en/rel_0_9/core/reflection.html
+    meta.reflect(
+        bind=engine
+    )  # http://docs.sqlalchemy.org/en/rel_0_9/core/reflection.html
     result = {}
     for table in meta.sorted_tables:
         result[table.name] = [dict(row) for row in engine.execute(table.select())]

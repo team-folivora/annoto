@@ -101,6 +101,9 @@ async def save_annotation(
 ) -> None:
     """Saves the annotation for the specified image"""
 
+    if not jwt:
+        raise HTTPException(status_code=500)
+
     user_id = decodeJWT(jwt.credentials).user_id
     user = DBUser.get_by_id(db, user_id)
 

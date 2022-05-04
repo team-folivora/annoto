@@ -79,10 +79,6 @@ class Annotation(AnnotationData):
         """Checks whether the proofs of the annotator are all valid"""
         return self.is_attentive and self.competency != "" and self.is_trained
 
-    def fullname_is_valid(self) -> bool:
-        """Checks whether the full name is empty and therefore invalid"""
-        return self.fullname != ""
-
     def save(self) -> None:
         """
         Annotates the data file.
@@ -94,8 +90,6 @@ class Annotation(AnnotationData):
             raise InvalidProof()
         if not self.hash_is_valid():
             raise HashMismatch()
-        if not self.fullname_is_valid():
-            raise InvalidFullName()
         annotation_file = SETTINGS.data_folder.joinpath(f"{self.src}.annotation.json")
         with open(annotation_file, "w", encoding="utf-8") as file:
             file.write(json.dumps(self.__dict__, indent=4))
@@ -110,7 +104,3 @@ class HashMismatch(Exception):
 
 class InvalidProof(Exception):
     """Raised when proofs are invalid"""
-
-
-class InvalidFullName(Exception):
-    """Raised when full name is invalid"""

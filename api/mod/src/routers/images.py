@@ -18,7 +18,6 @@ from mod.src.models.annotation import (
     Annotation,
     AnnotationData,
     HashMismatch,
-    InvalidFullName,
     InvalidProof,
 )
 from mod.src.settings import SETTINGS
@@ -87,7 +86,6 @@ async def get_image(
             "description": "Hash values of the annotation and the local source do not match!"
         },
         428: {"description": "Provided proofs are not valid!"},
-        406: {"description": "Provided username is not valid!"},
     },
     operation_id="save_annotation",
     dependencies=[Depends(JWTBearer())],
@@ -125,11 +123,6 @@ async def save_annotation(
         raise HTTPException(
             status_code=428,
             detail="Provided proofs are not valid!",
-        ) from None
-    except InvalidFullName:
-        raise HTTPException(
-            status_code=406,
-            detail="Provided username is not valid!",
         ) from None
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="File Not Found!") from None

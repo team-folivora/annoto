@@ -13,8 +13,8 @@ def test_get_user_returns_correct_user(
     client: TestClient, db: Session, user: CreateUserRequest
 ) -> None:
     """Test GET /users/1"""
-    DBUser.create(db=db, user=user)
-    response = client.get("/users/1")
+    user = DBUser.create(db=db, user=user)
+    response = client.get(f"/users/{user.id}")
     assert response.status_code == 200
     assert response.json()["email"] == user.email
 

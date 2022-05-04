@@ -5,6 +5,7 @@ profile = "black"
 disallow_untyped_defs = true
 allow_redefinition = true
 ignore_missing_imports = true
+exclude = ["alembic"]
 
 [tool.coverage.report]
 omit = [ "mod/tests/*" ]

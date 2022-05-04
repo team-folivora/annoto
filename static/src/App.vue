@@ -35,7 +35,7 @@ export default defineComponent({
         id="task-view"
         task-id="ecg-qrs-classification-physiodb"
         competency="Prof. Dr. Med."
-        user="AnnotoUser#1337"
+        user="Prof. Dr. Folivora"
       ></TaskView>
     </i-layout-content>
   </i-layout>

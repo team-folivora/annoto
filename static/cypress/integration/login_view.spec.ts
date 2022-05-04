@@ -6,7 +6,7 @@ describe("LoginView", () => {
     login().get("#task-view");
   });
 
-  it("warns if no password or username provided", () => {
+  it("warns if no password or email provided", () => {
     cy.visit("/").get("button#submit").click().get("div.alert.-warning");
   });
 

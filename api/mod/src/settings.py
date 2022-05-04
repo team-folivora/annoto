@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     """
 
     data_folder: Path = Path.home().joinpath(".annoto")
+    database_url: str = (
+        f"sqlite:///{Path.home().joinpath('.annoto').joinpath('db.sqlite3')}"
+    )
     debug_routes: bool = True
 
     class Config:

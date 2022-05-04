@@ -1,6 +1,4 @@
-"""Provides classes for Annotations"""
-
-from __future__ import annotations
+"""Provides classes for Tasks"""
 
 from typing import List
 

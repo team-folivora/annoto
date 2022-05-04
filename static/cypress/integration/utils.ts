@@ -108,8 +108,8 @@ export function setup_intercepts(config: InterceptConfig = {}) {
 export function login() {
   return cy
     .visit("/")
-    .get("input[name='username']")
-    .type("AnnotoUser#1337")
+    .get("input[name='email']")
+    .type("team@folivora.online")
     .get("input[name='password']")
     .type("test1234")
     .get("button#submit")

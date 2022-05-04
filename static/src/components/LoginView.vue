@@ -10,7 +10,7 @@ export default defineComponent({
       /**
        * Content of the username filed
        */
-      username: "",
+      email: "",
       /**
        * Content of the password field
        */
@@ -20,10 +20,10 @@ export default defineComponent({
 
   methods: {
     async loginUser() {
-      if (this.username != "" && this.password != "") {
+      if (this.email != "" && this.password != "") {
         try {
           await API.login({
-            username: this.username,
+            email: this.email,
             password: this.password,
           });
           this.$emit("login");
@@ -31,7 +31,7 @@ export default defineComponent({
           this.$toast?.danger("Username or Password is not correct...");
         }
       } else {
-        this.$toast?.warning("Username and Password needs to be set...");
+        this.$toast?.warning("Username and Password need to be set...");
       }
     },
   },
@@ -40,12 +40,7 @@ export default defineComponent({
 
 <template>
   <div class="_margin-x:auto _margin-top:8">
-    <i-input
-      v-model="username"
-      type="text"
-      name="username"
-      placeholder="Username"
-    />
+    <i-input v-model="email" type="email" name="email" placeholder="E-Mail" />
     <br />
     <i-input
       v-model="password"

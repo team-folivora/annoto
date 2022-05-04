@@ -32,7 +32,7 @@ def test_post_image(client: TestClient) -> None:
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
             "competency": "Prof. Dr. Med",
             "is_attentive": True,
-            "username": "AnnotoUser#1337",
+            "username": "Prof. Dr. Folivora",
             "is_trained": True,
         },
     )
@@ -49,7 +49,7 @@ def test_post_image(client: TestClient) -> None:
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
             "competency": "Prof. Dr. Med",
             "is_attentive": True,
-            "username": "AnnotoUser#1337",
+            "username": "Prof. Dr. Folivora",
             "is_trained": True,
         }
 
@@ -66,7 +66,7 @@ def test_post_unknown_image_returns_404(client: TestClient) -> None:
             "hash": "unknown",
             "competency": "Dr. Dr. med",
             "is_attentive": True,
-            "username": "AnnotoUser#1337",
+            "username": "Prof. Dr. Folivora",
             "is_trained": True,
         },
     )
@@ -83,7 +83,7 @@ def test_post_image_wrong_hash_returns_400(client: TestClient) -> None:
             "hash": "wrong",
             "competency": "Dr. Dr. med",
             "is_attentive": True,
-            "username": "AnnotoUser#1337",
+            "username": "Prof. Dr. Folivora",
             "is_trained": True,
         },
     )
@@ -100,7 +100,7 @@ def test_post_image_with_invalid_proof_returns_428(client: TestClient) -> None:
             "hash": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
             "competency": "Dr. Dr. med",
             "is_attentive": False,
-            "username": "AnnotoUser#1337",
+            "username": "Prof. Dr. Folivora",
             "is_trained": False,
         },
     )

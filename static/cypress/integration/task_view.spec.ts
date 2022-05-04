@@ -8,7 +8,7 @@ import {
 describe("TaskView", () => {
   it("shows username", () => {
     setup_intercepts();
-    login().get("#userLabel").contains("AnnotoUser#1337");
+    login().get("#userLabel").contains("Prof. Dr. Folivora");
   });
 
   it("shows the proof of condition popup on startup", () => {

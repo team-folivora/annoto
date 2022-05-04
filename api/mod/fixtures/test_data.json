@@ -1,0 +1,23 @@
+{
+    "alembic_version": [
+        {
+            "version_num": "981ce91575bc"
+        }
+    ],
+    "users": [
+        {
+            "id": 1,
+            "fullname": "Prof. Dr. Folivora",
+            "email": "team@folivora.online",
+            "hashed_password": "0xb9c4a5786d8ef8d47a823f1dfa24b3fe443d21e06263e26e26d4971156ce25c6a61952ffb9a681be0bfefb15c662e1c339ecb8f5e9605fc3bcb5a3d1422055e1",
+            "salt": "0x44f24b299324e350fe57f86e34a8d697"
+        },
+        {
+            "id": 2,
+            "fullname": "Admin",
+            "email": "admin@folivora.online",
+            "hashed_password": "0x2b2f1013472926fbb51d47aa928c226b29e2c69d52d04b2888221fbeefe05c413deb4ccbca5c1f8ed42167b4e8760143b506f94e6ee1bf360d36eba065921a5d",
+            "salt": "0xc7368df1de13a43c410df5bef80d113f"
+        }
+    ]
+}

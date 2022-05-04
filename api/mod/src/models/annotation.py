@@ -1,7 +1,5 @@
 """Provides classes for Annotations"""
 
-from __future__ import annotations
-
 import hashlib
 import json
 from pathlib import Path
@@ -26,8 +24,8 @@ class AnnotationData(BaseModel):
     )
     username: str = Field(
         ...,
-        description="The name of the current user",
-        example="AnnotoUser#1337",
+        description="The full name of the current user",
+        example="Prof. Dr. Folivora",
     )
     competency: str = Field(
         ..., description="The competencies the annotator has", example="Prof. Dr. Med"
@@ -54,7 +52,7 @@ class Annotation(AnnotationData):
     )
 
     @classmethod
-    def from_data(cls, annotation_data: AnnotationData, src: str) -> Annotation:
+    def from_data(cls, annotation_data: AnnotationData, src: str) -> "Annotation":
         """Creates an Annotation from AnnotationData and additional attributes"""
         return Annotation(**{**annotation_data.__dict__, **{"src": src}})
 

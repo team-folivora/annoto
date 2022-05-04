@@ -4,7 +4,8 @@ import os
 import random
 import re
 
-from fastapi import APIRouter, HTTPException, Path
+from sqlalchemy.orm import Session
+from fastapi import APIRouter, HTTPException, Path, Depends
 from fastapi.responses import FileResponse, PlainTextResponse
 
 from mod.src.models.annotation import (
@@ -12,9 +13,13 @@ from mod.src.models.annotation import (
     AnnotationData,
     HashMismatch,
     InvalidProof,
-    InvalidUsername,
+    InvalidFullName,
 )
+from mod.src.auth.auth_bearer import JWTBearer
+from mod.src.auth.auth_handler import decodeJWT
 from mod.src.settings import SETTINGS
+from mod.src.database.db_models import DBUser
+from mod.src.database.database import get_db as DB
 
 ROUTER = APIRouter(
     prefix="/tasks/{task_id}",
@@ -30,6 +35,7 @@ ROUTER = APIRouter(
         404: {"description": "No more images to annotate"},
     },
     operation_id="get_next_image",
+    dependencies=[Depends(JWTBearer())],
 )
 async def get_next_image(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
@@ -57,6 +63,7 @@ async def get_next_image(
         404: {"description": "File not found"},
     },
     operation_id="get_image",
+    dependencies=[Depends(JWTBearer())],
 )
 async def get_image(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
@@ -81,16 +88,22 @@ async def get_image(
         406: {"description": "Provided username is not valid!"},
     },
     operation_id="save_annotation",
+    dependencies=[Depends(JWTBearer())],
 )
 async def save_annotation(
     annotation_data: AnnotationData,
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
     src: str = Path(..., example="sloth.jpg"),
+    jwt=Depends(JWTBearer()),
+    db: Session = Depends(DB),
 ) -> None:
     """Saves the annotation for the specified image"""
 
+    user_id = decodeJWT(jwt).user_id
+    user = DBUser.get_by_id(db, user_id)
+
     annotation = Annotation.from_data(
-        annotation_data=annotation_data, src=f"{task_id}/{src}"
+        annotation_data=annotation_data, src=f"{task_id}/{src}", fullname=user.fullname
     )
 
     try:

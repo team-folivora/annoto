@@ -23,6 +23,9 @@ class Settings(BaseSettings):
         f"sqlite:///{Path.home().joinpath('.annoto').joinpath('db.sqlite3')}"
     )
     debug_routes: bool = True
+    jwt_algorithm: str = "HS256"
+    jwt_secret: str = "fd232ad1ff70a3a874dda48e857b1ef086e474194ce5d2f8"
+    jwt_expiry: int = 60 * 60 * 24  # one day
 
     class Config:
         """Reads the dotenv file"""

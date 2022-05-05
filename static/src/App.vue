@@ -17,12 +17,14 @@ export default defineComponent({
       page: "login",
     };
   },
+
   async mounted() {
     const jwt = this.$cookies.get("jwt");
     if (jwt) {
       this.login(jwt);
     }
   },
+
   methods: {
     async login(token: string) {
       try {
@@ -54,7 +56,6 @@ export default defineComponent({
         id="task-view"
         task-id="ecg-qrs-classification-physiodb"
         competency="Prof. Dr. Med."
-        user="Prof. Dr. Folivora"
       ></TaskView>
     </i-layout-content>
   </i-layout>

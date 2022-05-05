@@ -7,12 +7,9 @@ import re
 from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.security.http import HTTPAuthorizationCredentials
-from sqlalchemy.orm import Session
 
 from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.auth.auth_handler import decodeJWT
-from mod.src.database.database import get_db as DB
-from mod.src.database.db_models import DBUser
 from mod.src.models.annotation import (
     Annotation,
     AnnotationData,
@@ -94,7 +91,6 @@ async def save_annotation(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
     src: str = Path(..., example="sloth.jpg"),
     jwt: HTTPAuthorizationCredentials = Depends(JWTBearer()),
-    db: Session = Depends(DB),
 ) -> None:
     """Saves the annotation for the specified image"""
 
@@ -102,12 +98,8 @@ async def save_annotation(
     if not jwt:
         raise HTTPException(status_code=500)
 
-    user = DBUser.get_by_id(db, jwt.user_id)
-    if not user:
-        raise HTTPException(status_code=500)
-
     annotation = Annotation.from_data(
-        annotation_data=annotation_data, src=f"{task_id}/{src}", fullname=user.fullname
+        annotation_data=annotation_data, src=f"{task_id}/{src}", fullname=jwt.fullname
     )
 
     try:

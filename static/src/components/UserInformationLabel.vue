@@ -1,11 +1,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// This component outputs a string with user information (username)
+// This component outputs a string with user information (fullname)
 
 export default defineComponent({
   props: {
-    username: { type: String, required: true },
+    fullname: { type: String, required: true },
   },
 });
 </script>
@@ -13,7 +13,7 @@ export default defineComponent({
 <template>
   <div>
     Current logged in user:
-    <label id="userLabel">{{ username }}</label>
+    <label id="userLabel">{{ fullname }}</label>
   </div>
 </template>
 

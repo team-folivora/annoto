@@ -30,10 +30,10 @@ export default defineComponent({
           this.$cookies.set("jwt", jwt);
           this.$emit("login", jwt);
         } catch {
-          this.$toast?.danger("Username or Password is not correct...");
+          this.$toast?.danger("E-Mail or Password is not correct...");
         }
       } else {
-        this.$toast?.warning("Username and Password need to be set...");
+        this.$toast?.warning("E-Mail and Password need to be set...");
       }
     },
   },

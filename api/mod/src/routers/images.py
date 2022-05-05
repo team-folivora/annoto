@@ -94,17 +94,16 @@ async def save_annotation(
     annotation_data: AnnotationData,
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
     src: str = Path(..., example="sloth.jpg"),
-    jwt: Optional[HTTPAuthorizationCredentials] = Depends(JWTBearer()),
+    jwt: HTTPAuthorizationCredentials = Depends(JWTBearer()),
     db: Session = Depends(DB),
 ) -> None:
     """Saves the annotation for the specified image"""
 
+    jwt = decodeJWT(jwt.credentials)
     if not jwt:
         raise HTTPException(status_code=500)
 
-    user_id = decodeJWT(jwt.credentials).user_id
-    user = DBUser.get_by_id(db, user_id)
-
+    user = DBUser.get_by_id(db, jwt.user_id)
     if not user:
         raise HTTPException(status_code=500)
 

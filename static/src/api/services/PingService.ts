@@ -9,6 +9,7 @@ export class PingService {
 
     /**
      * Ping
+     * Validate API availability after authorization
      * @returns void
      * @throws ApiError
      */

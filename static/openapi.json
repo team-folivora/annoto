@@ -416,6 +416,7 @@
                     "ping"
                 ],
                 "summary": "Ping",
+                "description": "Validate API availability after authorization",
                 "operationId": "ping",
                 "responses": {
                     "204": {

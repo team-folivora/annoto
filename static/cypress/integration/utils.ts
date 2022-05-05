@@ -74,7 +74,7 @@ export function intercept_login() {
 
 export function intercept_ping() {
   cy.intercept("GET", `${Cypress.env("API_URL")}/ping`, {
-    statusCode: 204
+    statusCode: 204,
   }).as("ping");
 }
 

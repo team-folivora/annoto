@@ -6,6 +6,8 @@ import ProofOfCondition from "@/components/ProofOfCondition.vue";
 import UserInformationLabel from "@/components/UserInformationLabel.vue";
 import { TasksService as API } from "@/api/services/TasksService";
 import { paramCase } from "change-case";
+import { OpenAPI } from "@/api";
+import { parseJwt } from "@/utils/helpers";
 export default defineComponent({
   components: {
     ImageDisplay,
@@ -17,7 +19,6 @@ export default defineComponent({
   props: {
     taskId: { type: String, required: true },
     competency: { type: String, required: true },
-    user: { type: String, required: true },
   },
 
   data() {
@@ -28,6 +29,16 @@ export default defineComponent({
       isTrained: false,
       imageId: undefined as string | void,
     };
+  },
+
+  computed: {
+    fullname() {
+      if (typeof OpenAPI.TOKEN === "string") {
+        return parseJwt(OpenAPI.TOKEN)["fullname"];
+      } else {
+        return undefined;
+      }
+    },
   },
 
   mounted() {
@@ -59,7 +70,7 @@ export default defineComponent({
       v-model:isAttentive="isAttentive"
       v-model:isTrained="isTrained"
     />
-    <UserInformationLabel :username="user" />
+    <UserInformationLabel :fullname="fullname" />
     <div v-if="imageId">
       <ImageDisplay id="image-display" :task-id="taskId" :image-id="imageId" />
       <i-button-group block>
@@ -68,7 +79,6 @@ export default defineComponent({
           :id="'annotation-button-' + paramCase(label)"
           :key="label"
           :label="label"
-          :username="user"
           :is-attentive="isAttentive"
           :is-trained="isTrained"
           :competency="competency"

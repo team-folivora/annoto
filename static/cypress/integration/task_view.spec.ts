@@ -6,7 +6,7 @@ import {
 } from "./utils";
 
 describe("TaskView", () => {
-  it("shows username", () => {
+  it("shows full name", () => {
     setup_intercepts();
     login().get("#userLabel").contains("Prof. Dr. Folivora");
   });

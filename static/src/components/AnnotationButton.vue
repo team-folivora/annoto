@@ -18,7 +18,6 @@ export default defineComponent({
     competency: { type: String, required: true },
     isAttentive: { type: Boolean, required: true },
     isTrained: { type: Boolean, required: true },
-    username: { type: String, required: true },
   },
 
   emits: ["annotationSaved"],

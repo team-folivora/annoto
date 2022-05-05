@@ -10,7 +10,6 @@ describe("Button", () => {
         imageId: "sloth.jpg",
         competency: "Dr.",
         isAttentive: true,
-        username: "",
         isTrained: true,
       },
     });
@@ -24,7 +23,6 @@ describe("Button", () => {
         imageId: "sloth.jpg",
         competency: "Dr.",
         isAttentive: true,
-        username: "",
         isTrained: true,
       },
     });
@@ -39,7 +37,6 @@ describe("Button", () => {
         imageId: "sloth.jpg",
         competency: "Dr.",
         isAttentive: true,
-        username: "",
         isTrained: true,
       },
     });
@@ -55,7 +52,6 @@ describe("Button", () => {
         imageId: "sloth.jpg",
         competency: "Dr.",
         isAttentive: true,
-        username: "",
         isTrained: true,
       },
     });

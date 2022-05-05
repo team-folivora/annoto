@@ -3,6 +3,7 @@ import { defineComponent } from "vue";
 import TaskView from "./components/TaskView.vue";
 import LoginView from "./components/LoginView.vue";
 import { OpenAPI, PingService } from "@/api";
+import { parseJwt } from "./utils/helpers";
 
 /**
  * The main App component for the website
@@ -16,6 +17,15 @@ export default defineComponent({
     return {
       page: "login",
     };
+  },
+  computed: {
+    fullname() {
+      if (typeof OpenAPI.TOKEN === "string") {
+        return parseJwt(OpenAPI.TOKEN)["fullname"];
+      } else {
+        return undefined;
+      }
+    },
   },
   async mounted() {
     const jwt = this.$cookies.get("jwt");
@@ -54,7 +64,7 @@ export default defineComponent({
         id="task-view"
         task-id="ecg-qrs-classification-physiodb"
         competency="Prof. Dr. Med."
-        user="Prof. Dr. Folivora"
+        :user="fullname"
       ></TaskView>
     </i-layout-content>
   </i-layout>

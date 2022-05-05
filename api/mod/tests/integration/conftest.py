@@ -1,7 +1,7 @@
 """Fixtures for integration tests."""
 import pytest
 
-AUTH_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHBpcmVzIjozMjI4NDc5OTIwLjI4MzI0NX0.0tL-qwtDvIV-b7pR1fwcwtUIcT3kjt43vEFiVKsN_9I"  # pylint: disable=line-too-long
+AUTH_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJmdWxsbmFtZSI6IlByb2YuIERyLiBGb2xpdm9yYSIsImV4cGlyZXMiOjMyMjg1NzY2ODEuNjkxNjMxM30.feRiRVFJMpcrwjcVlh8A8QR7WribXOUdTxMh2crjRAQ"  # pylint: disable=line-too-long
 
 
 @pytest.fixture

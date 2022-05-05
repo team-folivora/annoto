@@ -3,7 +3,6 @@
 import os
 import random
 import re
-from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse

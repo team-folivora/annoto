@@ -14,8 +14,15 @@ export default defineComponent({
   data() {
     return {
       page: "login",
+      userName: "",
     };
   },
+  methods: {
+    onLogin(userName: string) {
+      this.page = "tasks";
+      this.userName = userName;
+    },
+  }
 });
 </script>
 
@@ -28,14 +35,14 @@ export default defineComponent({
       <LoginView
         v-if="page == 'login'"
         id="login-view"
-        @login="page = 'task'"
+        @login="onLogin"
       ></LoginView>
       <TaskView
         v-else
         id="task-view"
         task-id="ecg-qrs-classification-physiodb"
         competency="Prof. Dr. Med."
-        user="Prof. Dr. Folivora"
+        :user="userName"
       ></TaskView>
     </i-layout-content>
   </i-layout>

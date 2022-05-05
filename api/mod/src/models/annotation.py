@@ -91,6 +91,14 @@ class Annotation(AnnotationData):
         if not self.hash_is_valid():
             raise HashMismatch()
         annotation_file = SETTINGS.data_folder.joinpath(f"{self.src}.annotation.json")
+
+        trial = 2
+        while annotation_file.exists():
+            annotation_file = SETTINGS.data_folder.joinpath(
+                f"{self.src}.annotation.{trial}.json"
+            )
+            trial += 1
+
         with open(annotation_file, "w", encoding="utf-8") as file:
             file.write(json.dumps(self.__dict__, indent=4))
 

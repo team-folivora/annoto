@@ -28,8 +28,7 @@ export default defineComponent({
             password: this.password,
           });
           OpenAPI.TOKEN = response.access_token;
-          let userName = "TestUser";
-          this.$emit("login", userName);
+          this.$emit("login", response.fullname);
         } catch {
           this.$toast?.danger("Username or Password is not correct...");
         }

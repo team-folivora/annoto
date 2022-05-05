@@ -56,7 +56,9 @@ def test_login_returns_correct_fullname(client: TestClient, db: Session) -> None
     )
     assert response.status_code == 200
     name = response.json()["fullname"]
-    assert DBUser.get_by_email(db, email="team@folivora.online").fullname == name
+    user = DBUser.get_by_email(db, email="team@folivora.online")
+    assert user is not None
+    assert user.fullname == name
 
 
 def test_login_token_expires(client: TestClient, mocker: MockerFixture) -> None:

@@ -4,15 +4,20 @@ import os
 import random
 import re
 
-from fastapi import APIRouter, HTTPException, Path
+from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.security.http import HTTPAuthorizationCredentials
+from sqlalchemy.orm import Session
 
+from mod.src.auth.auth_bearer import JWTBearer
+from mod.src.auth.auth_handler import decodeJWT
+from mod.src.database.database import get_db as DB
+from mod.src.database.db_models import DBUser
 from mod.src.models.annotation import (
     Annotation,
     AnnotationData,
     HashMismatch,
     InvalidProof,
-    InvalidUsername,
 )
 from mod.src.settings import SETTINGS
 
@@ -30,6 +35,7 @@ ROUTER = APIRouter(
         404: {"description": "No more images to annotate"},
     },
     operation_id="get_next_image",
+    dependencies=[Depends(JWTBearer())],
 )
 async def get_next_image(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
@@ -57,6 +63,7 @@ async def get_next_image(
         404: {"description": "File not found"},
     },
     operation_id="get_image",
+    dependencies=[Depends(JWTBearer())],
 )
 async def get_image(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
@@ -78,19 +85,29 @@ async def get_image(
             "description": "Hash values of the annotation and the local source do not match!"
         },
         428: {"description": "Provided proofs are not valid!"},
-        406: {"description": "Provided username is not valid!"},
     },
     operation_id="save_annotation",
+    dependencies=[Depends(JWTBearer())],
 )
 async def save_annotation(
     annotation_data: AnnotationData,
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
     src: str = Path(..., example="sloth.jpg"),
+    jwt: HTTPAuthorizationCredentials = Depends(JWTBearer()),
+    db: Session = Depends(DB),
 ) -> None:
     """Saves the annotation for the specified image"""
 
+    jwt = decodeJWT(jwt.credentials)
+    if not jwt:
+        raise HTTPException(status_code=500)
+
+    user = DBUser.get_by_id(db, jwt.user_id)
+    if not user:
+        raise HTTPException(status_code=500)
+
     annotation = Annotation.from_data(
-        annotation_data=annotation_data, src=f"{task_id}/{src}"
+        annotation_data=annotation_data, src=f"{task_id}/{src}", fullname=user.fullname
     )
 
     try:
@@ -104,11 +121,6 @@ async def save_annotation(
         raise HTTPException(
             status_code=428,
             detail="Provided proofs are not valid!",
-        ) from None
-    except InvalidUsername:
-        raise HTTPException(
-            status_code=406,
-            detail="Provided username is not valid!",
         ) from None
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="File Not Found!") from None

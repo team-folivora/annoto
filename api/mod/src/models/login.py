@@ -3,7 +3,7 @@
 from pydantic import BaseModel, Field
 
 
-class LoginData(BaseModel):
+class LoginRequest(BaseModel):
     """
     The basic Login Data
     """
@@ -18,4 +18,16 @@ class LoginData(BaseModel):
         ...,
         description="The password of the user to be logged in",
         example="password",
+    )
+
+
+class LoginResponse(BaseModel):
+    """
+    Login token (JWT)
+    """
+
+    access_token: str = Field(
+        ...,
+        description="The generated JWT access token",
+        example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHBpcmVzIjoxNjUxNjcyMTU5LjMyMjY3ODZ9.ONVOoCKQ3ypaPgPAYCFnjlECzRdW9QgZsrkilnclnxg",  # pylint: disable=line-too-long
     )

@@ -5,7 +5,7 @@
 /**
  * The basic Login Data
  */
-export type LoginData = {
+export type LoginRequest = {
     /**
      * The email of the user to be logged in
      */

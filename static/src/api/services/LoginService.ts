@@ -1,7 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { LoginData } from '../models/LoginData';
+import type { LoginRequest } from '../models/LoginRequest';
+import type { LoginResponse } from '../models/LoginResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -13,12 +14,12 @@ export class LoginService {
      * Login
      * Validate login via email and password
      * @param requestBody
-     * @returns void
+     * @returns LoginResponse Successful Response
      * @throws ApiError
      */
     public static login(
-        requestBody: LoginData,
-    ): CancelablePromise<void> {
+        requestBody: LoginRequest,
+    ): CancelablePromise<LoginResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/login/',

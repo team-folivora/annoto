@@ -10,13 +10,12 @@ from mod.src.models.user import CreateUserRequest
 
 
 def test_get_user_returns_correct_user(
-    client: TestClient, db: Session, user: CreateUserRequest
+    client: TestClient,
 ) -> None:
     """Test GET /users/1"""
-    DBUser.create(db=db, user=user)
     response = client.get("/users/1")
     assert response.status_code == 200
-    assert response.json()["email"] == user.email
+    assert response.json()["email"] == "team@folivora.online"
 
 
 def test_get_unknown_user_returns_404(client: TestClient) -> None:
@@ -25,13 +24,11 @@ def test_get_unknown_user_returns_404(client: TestClient) -> None:
     assert response.status_code == 404
 
 
-def test_create_user_with_existing_email_returns_400(
-    client: TestClient, db: Session, user: CreateUserRequest
-) -> None:
+def test_create_user_with_existing_email_returns_400(client: TestClient) -> None:
     """Test POST /users/ with existing email"""
-    duplicate_email_test_user = user
-    duplicate_email_test_user.email = "info@folivora.online"
-    DBUser.create(db=db, user=duplicate_email_test_user)
+    user = CreateUserRequest(
+        fullname="Prof. Nr. 2", email="team@folivora.online", password="asdfasdf"
+    )
     response = client.post(
         "/users/",
         json=user.dict(),
@@ -39,8 +36,13 @@ def test_create_user_with_existing_email_returns_400(
     assert response.status_code == 400
 
 
-def test_create_user(client: TestClient, db: Session, user: CreateUserRequest) -> None:
+def test_create_user(client: TestClient, db: Session) -> None:
     """Test POST /users/ with new user"""
+    user = CreateUserRequest(
+        fullname="Prof. Dr. Perry",
+        password="brrrrrrr",
+        email="perry@folivora.online",
+    )
     response = client.post(
         "/users/",
         json=user.dict(),

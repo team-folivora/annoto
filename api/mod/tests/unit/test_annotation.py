@@ -21,7 +21,7 @@ def annotation() -> Annotation:
         src="test.jpg",
         label="Label",
         hash="a59ce92485a863931af21370b5082eb8a0c258c1cd74ae068db0ad47aeac1344",
-        username="Prof. Dr. Folivora",
+        fullname="Prof. Dr. Folivora",
         competency="Prof. Dr. Med.",
         is_attentive=True,
         is_trained=True,

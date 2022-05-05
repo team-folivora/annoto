@@ -22,7 +22,7 @@ export default defineComponent({
       this.page = "tasks";
       this.userName = userName;
     },
-  }
+  },
 });
 </script>
 

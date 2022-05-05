@@ -18,4 +18,5 @@ ROUTER = APIRouter(
     dependencies=[Depends(JWTBearer())],
 )
 async def ping() -> None:
+    """Validate API availability after authorization"""
     return

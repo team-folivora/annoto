@@ -3,7 +3,7 @@ from typing import Any, Coroutine, Optional
 from fastapi import HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from .auth_handler import decodeJWT
+from mod.src.auth.auth_handler import decodeJWT
 
 
 class JWTBearer(HTTPBearer):
@@ -16,26 +16,17 @@ class JWTBearer(HTTPBearer):
         credentials: Optional[HTTPAuthorizationCredentials] = await super(
             JWTBearer, self
         ).__call__(request)
-        if credentials:
-            if not credentials.scheme == "Bearer":
-                raise HTTPException(
-                    status_code=403, detail="Invalid authentication scheme."
-                )
-            if not self.verify_jwt(credentials.credentials):
-                raise HTTPException(
-                    status_code=403, detail="Invalid token or expired token."
-                )
-            return credentials
-        else:
+        if not credentials:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
+        if not credentials.scheme == "Bearer":
+            raise HTTPException(
+                status_code=403, detail="Invalid authentication scheme."
+            )
+        if not self.verify_jwt(credentials.credentials):
+            raise HTTPException(
+                status_code=403, detail="Invalid token or expired token."
+            )
+        return credentials
 
     def verify_jwt(self, jwtoken: str) -> bool:
-        isTokenValid: bool = False
-
-        try:
-            payload = decodeJWT(jwtoken)
-        except:
-            payload = None
-        if payload:
-            isTokenValid = True
-        return isTokenValid
+        return decodeJWT(jwtoken) is not None

@@ -6,7 +6,7 @@ import jwt
 from mod.src.settings import SETTINGS
 
 
-class Payload:
+class JWTPayload:
     user_id: str
     expires: float
 
@@ -16,20 +16,20 @@ class Payload:
 
 
 def signJWT(user_id: str) -> str:
-    payload = Payload(user_id, time.time() + SETTINGS.jwt_expiry)
+    payload = JWTPayload(user_id, time.time() + SETTINGS.jwt_expiry)
     token = jwt.encode(
         payload.__dict__, SETTINGS.jwt_secret, algorithm=SETTINGS.jwt_algorithm
     )
     return token
 
 
-def decodeJWT(token: str) -> Optional[Payload]:
+def decodeJWT(token: str) -> Optional[JWTPayload]:
     try:
         decoded_token = jwt.decode(
             token, SETTINGS.jwt_secret, algorithms=[SETTINGS.jwt_algorithm]
         )
         return (
-            Payload(**decoded_token)
+            JWTPayload(**decoded_token)
             if decoded_token["expires"] >= time.time()
             else None
         )

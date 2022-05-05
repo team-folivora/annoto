@@ -47,14 +47,14 @@ def test_login_token_is_usable(client: TestClient) -> None:
 
 def test_login_token_expires(client: TestClient, mocker: MockerFixture) -> None:
     """Test POST /login"""
-    mocker.patch("time.time", lambda: 0)
+    mocker.patch("time.time", return_value=0)
     response = client.post(
         "/login/",
         json={"email": "team@folivora.online", "password": "password"},
     )
     assert response.status_code == 200
     token = response.json()["access_token"]
-    mocker.patch("time.time", lambda: 1e9)
+    mocker.patch("time.time", returl_value=1e9)
     response = client.get("/ping", headers={"Authorization": f"Bearer {token}"})
     assert response.status_code == 403
 

@@ -526,7 +526,8 @@
             "LoginResponse": {
                 "title": "LoginResponse",
                 "required": [
-                    "access_token"
+                    "access_token",
+                    "fullname"
                 ],
                 "type": "object",
                 "properties": {
@@ -535,9 +536,15 @@
                         "type": "string",
                         "description": "The generated JWT access token",
                         "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHBpcmVzIjoxNjUxNjcyMTU5LjMyMjY3ODZ9.ONVOoCKQ3ypaPgPAYCFnjlECzRdW9QgZsrkilnclnxg"
+                    },
+                    "fullname": {
+                        "title": "Fullname",
+                        "type": "string",
+                        "description": "The fullname of the user",
+                        "example": "Prof. Dr. Folivora"
                     }
                 },
-                "description": "Login token (JWT)"
+                "description": "Login token (JWT) and full user name"
             },
             "Task": {
                 "title": "Task",

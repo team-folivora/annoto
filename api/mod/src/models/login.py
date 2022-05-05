@@ -23,11 +23,15 @@ class LoginRequest(BaseModel):
 
 class LoginResponse(BaseModel):
     """
-    Login token (JWT)
+    Login token (JWT) and full user name
     """
 
     access_token: str = Field(
         ...,
         description="The generated JWT access token",
         example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHBpcmVzIjoxNjUxNjcyMTU5LjMyMjY3ODZ9.ONVOoCKQ3ypaPgPAYCFnjlECzRdW9QgZsrkilnclnxg",  # pylint: disable=line-too-long
+    )
+
+    fullname: str = Field(
+        ..., description="The fullname of the user", example="Prof. Dr. Folivora"
     )

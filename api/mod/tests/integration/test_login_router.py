@@ -4,6 +4,9 @@ Module for integration tests
 
 from fastapi.testclient import TestClient
 from pytest_mock import MockerFixture
+from sqlalchemy.orm import Session
+
+from mod.src.database.db_models import DBUser
 
 
 def test_login(client: TestClient) -> None:
@@ -43,6 +46,17 @@ def test_login_token_is_usable(client: TestClient) -> None:
     token = response.json()["access_token"]
     response = client.get("/tasks", headers={"Authorization": f"Bearer {token}"})
     assert response.status_code == 200
+
+
+def test_login_returns_correct_fullname(client: TestClient, db: Session) -> None:
+    """Test POST /login"""
+    response = client.post(
+        "/login/",
+        json={"email": "team@folivora.online", "password": "password"},
+    )
+    assert response.status_code == 200
+    name = response.json()["fullname"]
+    assert DBUser.get_by_email(db, email="team@folivora.online").fullname == name
 
 
 def test_login_token_expires(client: TestClient, mocker: MockerFixture) -> None:

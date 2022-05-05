@@ -28,4 +28,4 @@ async def login(login_data: LoginRequest, db: Session = Depends(DB)) -> LoginRes
     user = DBUser.get_by_email(db, login_data.email)
     if not user or not user.verify_password(login_data.password):
         raise HTTPException(status_code=401, detail="Failed to validate login")
-    return LoginResponse(access_token=signJWT(user.id))
+    return LoginResponse(access_token=signJWT(user.id), fullname=user.fullname)

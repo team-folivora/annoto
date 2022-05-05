@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { LoginService as API } from "@/api/services/LoginService";
-import { OpenAPI } from "@/api";
 
 export default defineComponent({
   emits: ["login"],
@@ -27,8 +26,9 @@ export default defineComponent({
             email: this.email,
             password: this.password,
           });
-          OpenAPI.TOKEN = response.access_token;
-          this.$emit("login");
+          const jwt = response.access_token;
+          this.$cookies.set("jwt", jwt);
+          this.$emit("login", jwt);
         } catch {
           this.$toast?.danger("Username or Password is not correct...");
         }

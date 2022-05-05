@@ -409,6 +409,25 @@
                     }
                 }
             }
+        },
+        "/ping/": {
+            "get": {
+                "tags": [
+                    "ping"
+                ],
+                "summary": "Ping",
+                "operationId": "ping",
+                "responses": {
+                    "204": {
+                        "description": "Successful Response"
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {

@@ -4,6 +4,8 @@ import App from "@/App.vue";
 import { Inkline, components } from "@inkline/inkline";
 import "@inkline/inkline/inkline.scss";
 
+import VueCookies from "vue-cookies";
+
 import "@/assets/base.scss";
 
 import { OpenAPI } from "@/api/core/OpenAPI";
@@ -19,5 +21,7 @@ app.use(Inkline, {
 });
 
 app.use(Toaster);
+
+app.use(VueCookies, { expire: "1d" });
 
 app.mount("#app");

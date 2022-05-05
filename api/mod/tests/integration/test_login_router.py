@@ -41,8 +41,8 @@ def test_login_token_is_usable(client: TestClient) -> None:
     )
     assert response.status_code == 200
     token = response.json()["access_token"]
-    response = client.get("/tasks", headers={"Authorization": f"Bearer {token}"})
-    assert response.status_code == 200
+    response = client.get("/ping", headers={"Authorization": f"Bearer {token}"})
+    assert response.status_code == 204
 
 
 def test_login_token_expires(client: TestClient, mocker: MockerFixture) -> None:
@@ -55,11 +55,11 @@ def test_login_token_expires(client: TestClient, mocker: MockerFixture) -> None:
     assert response.status_code == 200
     token = response.json()["access_token"]
     mocker.patch("time.time", lambda: 1e9)
-    response = client.get("/tasks", headers={"Authorization": f"Bearer {token}"})
+    response = client.get("/ping", headers={"Authorization": f"Bearer {token}"})
     assert response.status_code == 403
 
 
 def test_login_is_required(client: TestClient) -> None:
-    """Test POST /tasks"""
-    response = client.get("/tasks")
+    """Test GET /ping"""
+    response = client.get("/ping")
     assert response.status_code == 403

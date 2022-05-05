@@ -5,7 +5,7 @@ This module defines the FastAPI application server
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from mod.src.routers import debug, images, login, tasks, users, ping
+from mod.src.routers import debug, images, login, ping, tasks, users
 
 from .settings import SETTINGS
 

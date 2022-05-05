@@ -2,6 +2,7 @@
 
 
 from fastapi import APIRouter, Depends
+
 from mod.src.auth.auth_bearer import JWTBearer
 
 ROUTER = APIRouter(

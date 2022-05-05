@@ -72,6 +72,12 @@ export function intercept_login() {
   }).as("login");
 }
 
+export function intercept_ping() {
+  cy.intercept("GET", `${Cypress.env("API_URL")}/ping`, {
+    statusCode: 204
+  }).as("ping");
+}
+
 export function intercept_login_with_failure() {
   cy.intercept("POST", `${Cypress.env("API_URL")}/login`, {
     statusCode: 401,
@@ -80,6 +86,7 @@ export function intercept_login_with_failure() {
 
 export interface InterceptConfig {
   intercept_login?: () => void;
+  intercept_ping?: () => void;
   intercept_get_task?: () => void;
   intercept_next_image?: () => void;
   intercept_get_image?: () => void;
@@ -89,6 +96,7 @@ export interface InterceptConfig {
 // Make sure that every key of IntercepyConfig will be filled with a default in this object.
 const defaultInterceptConfig: InterceptConfig = {
   intercept_login: intercept_login,
+  intercept_ping: intercept_ping,
   intercept_get_task: intercept_get_task,
   intercept_next_image: intercept_next_image,
   intercept_get_image: intercept_get_image,

@@ -1,11 +1,9 @@
 import json
 from pathlib import Path
 
-from sqlalchemy import MetaData, create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import MetaData
 
 from mod.src.database import database, db_models
-from mod.src.settings import SETTINGS
 
 file_path = Path.cwd().joinpath("mod").joinpath("fixtures").joinpath("test_data.json")
 
@@ -34,24 +32,20 @@ class BytesDecoder(json.JSONDecoder):
         return dct
 
 
-engine = create_engine(SETTINGS.database_url, connect_args={"check_same_thread": False})
-
-SessionLocal = sessionmaker(bind=engine)
-session = SessionLocal()
-
 with open(file_path) as f:
     data = f.read()
     jsondata = json.loads(data, cls=BytesDecoder)
 
 meta = MetaData()
-meta.reflect(bind=engine)
-for table in meta.sorted_tables:
-    Table = get_class_by_tablename(table.name)
-    if not Table:
-        print(f"DB Model Class not found for table: {table.name}")
-        continue
-    for row in jsondata[table.name]:
-        obj = Table(**row)
-        session.add(obj)
+meta.reflect(bind=database.engine)
+with database.SessionLocal() as session:
+    for table in meta.sorted_tables:
+        Table = get_class_by_tablename(table.name)
+        if not Table:
+            print(f"DB Model Class not found for table: {table.name}")
+            continue
+        for row in jsondata[table.name]:
+            obj = Table(**row)
+            session.add(obj)
 
-session.commit()
+    session.commit()

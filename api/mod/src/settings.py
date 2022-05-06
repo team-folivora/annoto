@@ -34,3 +34,7 @@ class Settings(BaseSettings):
 
 
 SETTINGS = Settings()
+if SETTINGS.database_url.startswith("postgres://"):
+    SETTINGS.database_url = SETTINGS.database_url.replace(
+        "postgres://", "postgresql://"
+    )

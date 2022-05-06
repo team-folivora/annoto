@@ -1,2 +1,2 @@
-release: sh -c "alembic upgrade head && python -m scripts.load_test_data"
+release: alembic upgrade head
 web: uvicorn mod.src.app:APP --host=0.0.0.0 --port=${PORT:-5000}

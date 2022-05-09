@@ -10,24 +10,19 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 export default defineConfig({
   plugins: [
     vue(),
-    // AutoImport({
-    //   // include: [
-    //   //   // /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
-    //   //   /\.vue$/, /\.vue\?vue/, // .vue
-    //   //   // /\.md$/, // .md
-    //   // ],
-    //   resolvers: [ElementPlusResolver({importStyle: "sass"})],
-    // }),
-    Components({
-      extensions: ['vue', 'md'],
+    AutoImport({
       resolvers: [ElementPlusResolver({importStyle: "sass"})],
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      dts: 'src/auto-imports.d.ts',
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
       dts: 'src/components.d.ts',
     }),
   ],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "~": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
 });

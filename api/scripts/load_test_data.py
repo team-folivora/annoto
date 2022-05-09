@@ -1,11 +1,8 @@
 import json
-from pathlib import Path
-
-from sqlalchemy import MetaData, create_engine
-from sqlalchemy.orm import sessionmaker
 
 from mod.src.database import database, db_models
-from mod.src.settings import SETTINGS
+from scripts import file_path, meta, session
+from alembic import op
 
 
 def get_class_by_tablename(tablename):
@@ -30,34 +27,15 @@ class BytesDecoder(json.JSONDecoder):
 
 def load():
     """Loads all objects from 'test_data.json' into the database that have a corresponding defined model class"""
-    file_path = (
-        Path.cwd().joinpath("mod").joinpath("fixtures").joinpath("test_data.json")
-    )
-
-    if not file_path.exists():
-        print("File does not exist")
-        exit(1)
-
-    engine = create_engine(
-        SETTINGS.database_url, connect_args={"check_same_thread": False}
-    )
-
-    SessionLocal = sessionmaker(bind=engine)
-    session = SessionLocal()
-
     with open(file_path) as f:
         data = f.read()
         jsondata = json.loads(data, cls=BytesDecoder)
 
-    meta = MetaData()
-    meta.reflect(bind=engine)
     for table in meta.sorted_tables:
-        Table = get_class_by_tablename(table.name)
-        if not Table:
-            print(f"DB Model Class not found for table: {table.name}")
-            continue
-        for row in jsondata[table.name]:
-            obj = Table(**row)
-            session.add(obj)
+        if table.name != "alembic_version":
+            Table = get_class_by_tablename(table.name)
+            for row in jsondata[table.name]:
+                obj = Table(**row)
+                session.add(obj)
 
     session.commit()

@@ -21,6 +21,8 @@ def run_tests():
     if len(sys.argv) == 3:
         if sys.argv[2] == "--cov":
             os.system("pytest mod --cov")
+        elif sys.argv[2] == "--cov-xml":
+            os.system("pytest mod --cov --cov-report=xml")
         else:
             print("Wrong parameters")
     else:
@@ -34,7 +36,7 @@ def format():
 
 def build():
     """Builds API as specified from GitHub CI"""
-    os.system("mypy mod & pylint mod & pytest mod --cov")
+    os.system("mypy mod & pylint mod & pytest mod --cov --cov-report=xml")
 
 
 def clear_db():

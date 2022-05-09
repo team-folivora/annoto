@@ -38,9 +38,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-modal
+  <el-dialog
     id="proof-of-condition"
     v-model="visible"
+    title="Proof of Condition"
     size="lg"
     color="warning"
     :close-on-press-escape="false"
@@ -65,16 +66,16 @@ export default defineComponent({
     labeling task later.
     <template #footer>
       <div class="_display:flex _justify-content:space-between _flex-wrap:wrap">
-        <i-checkbox v-model="checked" class="_text:wrap _margin-y:1/2">
+        <el-checkbox v-model="checked" class="_text:wrap _margin-y:1/2">
           <span class="_color:dark _position:relative" style="top: -1px">
             I am attentive and capable of labeling the data and I have read the
             Manual.
           </span>
-        </i-checkbox>
-        <i-button color="success" :disabled="!checked" @click="onSubmit()">
+        </el-checkbox>
+        <el-button color="success" :disabled="!checked" @click="onSubmit()">
           Confirm
-        </i-button>
+        </el-button>
       </div>
     </template>
-  </i-modal>
+  </el-dialog>
 </template>

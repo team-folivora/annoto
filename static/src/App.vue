@@ -41,11 +41,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-layout>
-    <i-layout-header>
+  <el-container>
+    <el-header>
       <h1 class="_text-align:center">Annoto</h1>
-    </i-layout-header>
-    <i-layout-content>
+    </el-header>
+    <el-main>
       <LoginView
         v-if="page == 'login'"
         id="login-view"
@@ -57,6 +57,6 @@ export default defineComponent({
         task-id="ecg-qrs-classification-physiodb"
         competency="Prof. Dr. Med."
       ></TaskView>
-    </i-layout-content>
-  </i-layout>
+    </el-main>
+  </el-container>
 </template>

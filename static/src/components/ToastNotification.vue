@@ -71,12 +71,7 @@ export default defineComponent({
 <template>
   <Transition appear style="animationDuration" @after-leave="destroy">
     <div v-show="isActive" id="container" class="_position:fixed">
-      <i-alert :dismissible="dismissible" :color="type" size="md">
-        <template #icon>
-          <i-icon :name="icon" />
-        </template>
-        <p>{{ message }}</p>
-      </i-alert>
+      <el-alert :title="message" :dismissible="dismissible" :color="type" size="md"/>
     </div>
   </Transition>
 </template>

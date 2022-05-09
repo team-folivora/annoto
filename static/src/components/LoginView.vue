@@ -42,9 +42,9 @@ export default defineComponent({
 
 <template>
   <div class="_margin-x:auto _margin-top:8">
-    <i-input v-model="email" type="email" name="email" placeholder="E-Mail" />
+    <el-input v-model="email" type="email" name="email" placeholder="E-Mail" />
     <br />
-    <i-input
+    <el-input
       v-model="password"
       type="password"
       name="password"
@@ -52,7 +52,7 @@ export default defineComponent({
       @keyup.enter="loginUser"
     />
     <br />
-    <i-button id="submit" type="button" @click="loginUser">Login!</i-button>
+    <el-button id="submit" @click="loginUser">Login!</el-button>
   </div>
 </template>
 

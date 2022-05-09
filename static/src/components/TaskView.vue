@@ -65,31 +65,29 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-layout-content>
-    <ProofOfCondition
-      v-model:isAttentive="isAttentive"
-      v-model:isTrained="isTrained"
-    />
-    <UserInformationLabel :fullname="fullname" />
-    <div v-if="imageId">
-      <ImageDisplay id="image-display" :task-id="taskId" :image-id="imageId" />
-      <i-button-group block>
-        <AnnotationButton
-          v-for="label in labels"
-          :id="'annotation-button-' + paramCase(label)"
-          :key="label"
-          :label="label"
-          :is-attentive="isAttentive"
-          :is-trained="isTrained"
-          :competency="competency"
-          :task-id="taskId"
-          :image-id="imageId"
-          @annotation-saved="nextImage"
-        />
-      </i-button-group>
-    </div>
-    <i-card v-else id="no-more-images" class="margin-y:20px">
-      No more Images to label
-    </i-card>
-  </i-layout-content>
+  <ProofOfCondition
+    v-model:isAttentive="isAttentive"
+    v-model:isTrained="isTrained"
+  />
+  <UserInformationLabel :fullname="fullname" />
+  <div v-if="imageId">
+    <ImageDisplay id="image-display" :task-id="taskId" :image-id="imageId" />
+    <el-button-group block>
+      <AnnotationButton
+        v-for="label in labels"
+        :id="'annotation-button-' + paramCase(label)"
+        :key="label"
+        :label="label"
+        :is-attentive="isAttentive"
+        :is-trained="isTrained"
+        :competency="competency"
+        :task-id="taskId"
+        :image-id="imageId"
+        @annotation-saved="nextImage"
+      />
+    </el-button-group>
+  </div>
+  <el-card class="box-card margin-y:20px" v-else id="no-more-images">
+    No more Images to label
+  </el-card>
 </template>

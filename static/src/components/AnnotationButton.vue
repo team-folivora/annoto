@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
 import { TasksService as API } from "@/api/services/TasksService";
+
 /**
  * A Button for annotating a datafile
  */
@@ -60,7 +61,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-button :loading="isLoading" :disabled="isLoading" @click="saveAnnotation">
+  <el-button
+    :loading="isLoading"
+    :disabled="isLoading"
+    @click="saveAnnotation"
+    type="info"
+  >
     Label: {{ label }}
-  </i-button>
+  </el-button>
 </template>

@@ -1,17 +1,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import TaskView from "./components/TaskView.vue";
-import LoginView from "./components/LoginView.vue";
 import { OpenAPI, PingService } from "@/api";
 
 /**
  * The main App component for the website
  */
 export default defineComponent({
-  components: {
-    TaskView,
-    LoginView,
-  },
   data() {
     return {
       page: "login",

@@ -1,21 +1,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import ImageDisplay from "@/components/ImageDisplay.vue";
-import AnnotationButton from "@/components/AnnotationButton.vue";
-import ProofOfCondition from "@/components/ProofOfCondition.vue";
-import UserInformationLabel from "@/components/UserInformationLabel.vue";
 import { TasksService as API } from "@/api/services/TasksService";
 import { paramCase } from "change-case";
 import { OpenAPI } from "@/api";
 import { parseJwt } from "@/utils/helpers";
 export default defineComponent({
-  components: {
-    ImageDisplay,
-    AnnotationButton,
-    ProofOfCondition,
-    UserInformationLabel,
-  },
-
   props: {
     taskId: { type: String, required: true },
     competency: { type: String, required: true },

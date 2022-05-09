@@ -1,23 +1,7 @@
-// @forward "element-plus/theme-chalk/src/common/var.scss" with (
-//   $button-padding-horizontal: (
-//     "default": 50px,
-//   )
-// );
-:root {
-  --color--primary--h: 195deg;
-  --color--primary--s: 77%;
-  --color--primary--l: 39%;
-  --border-top-left-radius: 0.5rem;
-  --border-top-right-radius: 0.5rem;
-  --border-bottom-right-radius: 0.5rem;
-  --border-bottom-left-radius: 0.5rem;
-}
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $border-radius: (
+    "base": 8px,
+  )
+);
 
-.checkbox {
-  ----border-radius: 0.3rem;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-}
+@use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;

@@ -44,13 +44,10 @@ export default defineComponent({
     title="Proof of Condition"
     size="lg"
     color="warning"
+    :close-on-click-modal="false"
     :close-on-press-escape="false"
-    :hide-on-click-outside="false"
     :show-close="false"
   >
-    <template #header>
-      <p class="h4 _margin:0 _text:center _width:100%">Proof of Condition</p>
-    </template>
     Please read the
     <a
       href="https://github.com/team-folivora/annoto/blob/dev/MANUAL.md"
@@ -65,17 +62,15 @@ export default defineComponent({
     you experience tiredness or lack of concentration, you can continue the
     labeling task later.
     <template #footer>
-      <div class="_display:flex _justify-content:space-between _flex-wrap:wrap">
-        <el-checkbox v-model="checked" class="_text:wrap _margin-y:1/2">
-          <span class="_color:dark _position:relative" style="top: -1px">
+      <el-row justify="space-between">
+        <el-checkbox v-model="checked" class="">
             I am attentive and capable of labeling the data and I have read the
             Manual.
-          </span>
         </el-checkbox>
-        <el-button color="success" :disabled="!checked" @click="onSubmit()">
+        <el-button type="success" :disabled="!checked" @click="onSubmit()">
           Confirm
         </el-button>
-      </div>
+      </el-row>
     </template>
   </el-dialog>
 </template>

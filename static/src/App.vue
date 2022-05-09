@@ -43,7 +43,9 @@ export default defineComponent({
 <template>
   <el-container>
     <el-header>
-      <h1 class="_text-align:center">Annoto</h1>
+      <el-row justify="center">
+        <h1 class="">Annoto</h1>
+      </el-row>
     </el-header>
     <el-main>
       <LoginView

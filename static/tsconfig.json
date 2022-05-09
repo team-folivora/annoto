@@ -4,6 +4,7 @@
   "compilerOptions": {
     "lib": ["es2018"],
     "baseUrl": ".",
+    "types": ["element-plus/global"],
     "paths": {
       "@/*": ["./src/*"]
     }

@@ -71,23 +71,23 @@ export default defineComponent({
   />
   <UserInformationLabel :fullname="fullname" />
   <div v-if="imageId">
-    <ImageDisplay id="image-display" :task-id="taskId" :image-id="imageId" />
-    <el-button-group block>
-      <AnnotationButton
-        v-for="label in labels"
-        :id="'annotation-button-' + paramCase(label)"
-        :key="label"
-        :label="label"
-        :is-attentive="isAttentive"
-        :is-trained="isTrained"
-        :competency="competency"
-        :task-id="taskId"
-        :image-id="imageId"
-        @annotation-saved="nextImage"
-      />
-    </el-button-group>
+    <el-row justify="center">
+      <ImageDisplay id="image-display" :task-id="taskId" :image-id="imageId" />
+      <el-button-group>
+        <AnnotationButton
+          v-for="label in labels"
+          :id="'annotation-button-' + paramCase(label)"
+          :key="label"
+          :label="label"
+          :is-attentive="isAttentive"
+          :is-trained="isTrained"
+          :competency="competency"
+          :task-id="taskId"
+          :image-id="imageId"
+          @annotation-saved="nextImage"
+        />
+      </el-button-group>
+    </el-row>
   </div>
-  <el-card class="box-card margin-y:20px" v-else id="no-more-images">
-    No more Images to label
-  </el-card>
+  <el-empty v-else description="No more Images to label" id="no-more-images"/>
 </template>

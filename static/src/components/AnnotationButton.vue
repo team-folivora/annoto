@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 import { sha256 } from "js-sha256";
 import { TasksService as API } from "@/api/services/TasksService";
+import { ElMessage } from "element-plus";
 
 /**
  * A Button for annotating a datafile
@@ -48,9 +49,17 @@ export default defineComponent({
           is_attentive: this.isAttentive,
         });
         this.$emit("annotationSaved");
-        this.$toast?.success("Annotation successfully saved.");
+        ElMessage({
+          message: "Annotation successfully saved.",
+          type: "success",
+          showClose: true,
+        });
       } catch (e) {
-        this.$toast?.danger("Something went wrong. Annotation not saved.");
+        ElMessage({
+          message: "Something went wrong. Annotation not saved.",
+          type: "error",
+          showClose: true,
+        });
         throw e;
       } finally {
         this.isLoading = false;

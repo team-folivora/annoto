@@ -3,7 +3,6 @@ Module for integration tests
 """
 
 
-
 from mod.tests.integration.conftest import ManagedTestClient
 
 
@@ -19,9 +18,7 @@ def test_get_tasks(client: ManagedTestClient) -> None:
 def test_get_task(client: ManagedTestClient) -> None:
     """Test GET /tasks/ecg-qrs-classification-physiodb"""
     client.authorize()
-    response = client.get(
-        "/tasks/ecg-qrs-classification-physiodb"
-    )
+    response = client.get("/tasks/ecg-qrs-classification-physiodb")
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/json"
     task = response.json()

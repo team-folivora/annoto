@@ -4,9 +4,8 @@ Module for integration tests
 
 import json
 
-from mod.tests.integration.conftest import ManagedTestClient
-
 from mod.src.settings import SETTINGS
+from mod.tests.integration.conftest import ManagedTestClient
 
 
 def test_get_image(client: ManagedTestClient) -> None:

@@ -3,9 +3,9 @@ Module for integration tests
 """
 
 from bs4 import BeautifulSoup
-from mod.tests.integration.conftest import ManagedTestClient
 
 from mod.src.settings import SETTINGS
+from mod.tests.integration.conftest import ManagedTestClient
 
 
 def assert_heading(page: BeautifulSoup, index: str) -> None:

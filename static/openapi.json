@@ -25,7 +25,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
             }
         },
         "/tasks/{task_id}": {
@@ -72,7 +77,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
             }
         },
         "/tasks/{task_id}/next": {
@@ -120,7 +130,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
             }
         },
         "/tasks/{task_id}/{src}": {
@@ -178,7 +193,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -232,9 +252,6 @@
                     "428": {
                         "description": "Provided proofs are not valid!"
                     },
-                    "406": {
-                        "description": "Provided username is not valid!"
-                    },
                     "422": {
                         "description": "Validation Error",
                         "content": {
@@ -245,7 +262,15 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    },
+                    {
+                        "JWTBearer": []
+                    }
+                ]
             }
         },
         "/users/{user_id}": {
@@ -352,15 +377,22 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/LoginData"
+                                "$ref": "#/components/schemas/LoginRequest"
                             }
                         }
                     },
                     "required": true
                 },
                 "responses": {
-                    "204": {
-                        "description": "Successful Response"
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Failed to validate login"
@@ -377,6 +409,26 @@
                     }
                 }
             }
+        },
+        "/ping/": {
+            "get": {
+                "tags": [
+                    "ping"
+                ],
+                "summary": "Ping",
+                "description": "Validate API availability after authorization",
+                "operationId": "ping",
+                "responses": {
+                    "204": {
+                        "description": "Successful Response"
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -386,7 +438,6 @@
                 "required": [
                     "label",
                     "hash",
-                    "username",
                     "competency",
                     "is_trained",
                     "is_attentive"
@@ -404,12 +455,6 @@
                         "type": "string",
                         "description": "The hash of the file",
                         "example": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d"
-                    },
-                    "username": {
-                        "title": "Username",
-                        "type": "string",
-                        "description": "The full name of the current user",
-                        "example": "Prof. Dr. Folivora"
                     },
                     "competency": {
                         "title": "Competency",
@@ -475,8 +520,8 @@
                     }
                 }
             },
-            "LoginData": {
-                "title": "LoginData",
+            "LoginRequest": {
+                "title": "LoginRequest",
                 "required": [
                     "email",
                     "password"
@@ -493,10 +538,26 @@
                         "title": "Password",
                         "type": "string",
                         "description": "The password of the user to be logged in",
-                        "example": "test1234"
+                        "example": "password"
                     }
                 },
                 "description": "The basic Login Data"
+            },
+            "LoginResponse": {
+                "title": "LoginResponse",
+                "required": [
+                    "access_token"
+                ],
+                "type": "object",
+                "properties": {
+                    "access_token": {
+                        "title": "Access Token",
+                        "type": "string",
+                        "description": "The generated JWT access token",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJmdWxsbmFtZSI6IlByb2YuIERyLiBGb2xpdm9yYSIsImV4cGlyZXMiOjMyMjg1NzY2ODEuNjkxNjMxM30.feRiRVFJMpcrwjcVlh8A8QR7WribXOUdTxMh2crjRAQ"
+                    }
+                },
+                "description": "Login token (JWT)"
             },
             "Task": {
                 "title": "Task",
@@ -592,6 +653,12 @@
                         "type": "string"
                     }
                 }
+            }
+        },
+        "securitySchemes": {
+            "JWTBearer": {
+                "type": "http",
+                "scheme": "bearer"
             }
         }
     }

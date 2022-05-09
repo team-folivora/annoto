@@ -3,8 +3,9 @@
 import json
 from typing import List
 
-from fastapi import APIRouter, HTTPException, Path
+from fastapi import APIRouter, Depends, HTTPException, Path
 
+from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.models.task import Task
 from mod.src.settings import SETTINGS
 
@@ -24,6 +25,7 @@ ROUTER = APIRouter(
         }
     },
     operation_id="get_tasks",
+    dependencies=[Depends(JWTBearer())],
 )
 async def get_tasks() -> List[str]:
     """Get a list of the IDs of all available labelling tasks"""
@@ -39,6 +41,7 @@ async def get_tasks() -> List[str]:
         404: {"description": "Task not found!"},
     },
     operation_id="get_task",
+    dependencies=[Depends(JWTBearer())],
 )
 async def get_task(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),

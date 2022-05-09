@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 import TaskView from "./components/TaskView.vue";
 import LoginView from "./components/LoginView.vue";
+import { OpenAPI, PingService } from "@/api";
 
 /**
  * The main App component for the website
@@ -16,6 +17,26 @@ export default defineComponent({
       page: "login",
     };
   },
+
+  async mounted() {
+    const jwt = this.$cookies.get("jwt");
+    if (jwt) {
+      this.login(jwt);
+    }
+  },
+
+  methods: {
+    async login(token: string) {
+      try {
+        OpenAPI.TOKEN = token;
+        await PingService.ping();
+        this.page = "task";
+      } catch (_) {
+        OpenAPI.TOKEN = undefined;
+        this.$cookies.remove("jwt");
+      }
+    },
+  },
 });
 </script>
 
@@ -28,14 +49,13 @@ export default defineComponent({
       <LoginView
         v-if="page == 'login'"
         id="login-view"
-        @login="page = 'task'"
+        @login="login"
       ></LoginView>
       <TaskView
         v-else
         id="task-view"
         task-id="ecg-qrs-classification-physiodb"
         competency="Prof. Dr. Med."
-        user="Prof. Dr. Folivora"
       ></TaskView>
     </i-layout-content>
   </i-layout>

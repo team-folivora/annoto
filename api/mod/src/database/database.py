@@ -10,7 +10,7 @@ from mod.src.settings import SETTINGS
 
 Base = declarative_base()
 
-engine = create_engine(SETTINGS.database_url, connect_args={"check_same_thread": False})
+engine = create_engine(SETTINGS.database_url)
 SessionLocal = sessionmaker(bind=engine)
 
 

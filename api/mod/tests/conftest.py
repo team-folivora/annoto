@@ -66,6 +66,22 @@ def db(db_engine) -> scoped_session:  # type: ignore
         with connection.begin() as transaction:
             session = scoped_session(sessionmaker(bind=connection))
 
+            # FIXME load test data appropriately # pylint: disable=W0511
+
+            from mod.src.database.db_models import (  # pylint: disable=import-outside-toplevel
+                CreateUserRequest,
+                DBUser,
+            )
+
+            DBUser.create(
+                db=session,
+                user=CreateUserRequest(
+                    fullname="Prof. Dr. Folivora",
+                    password="password",
+                    email="team@folivora.online",
+                ),
+            )
+
             def override_get_db() -> scoped_session:
                 return session
 

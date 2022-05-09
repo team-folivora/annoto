@@ -22,16 +22,18 @@ export default defineComponent({
     async loginUser() {
       if (this.email != "" && this.password != "") {
         try {
-          await API.login({
+          let response = await API.login({
             email: this.email,
             password: this.password,
           });
-          this.$emit("login");
+          const jwt = response.access_token;
+          this.$cookies.set("jwt", jwt);
+          this.$emit("login", jwt);
         } catch {
-          this.$toast?.danger("Username or Password is not correct...");
+          this.$toast?.danger("E-Mail or Password is not correct...");
         }
       } else {
-        this.$toast?.warning("Username and Password need to be set...");
+        this.$toast?.warning("E-Mail and Password need to be set...");
       }
     },
   },

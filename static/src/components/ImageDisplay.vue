@@ -1,6 +1,8 @@
 <script lang="ts">
-import { getUrl } from "@/utils/helpers";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { TasksService as API } from "@/api/services/TasksService";
+import { computedAsync } from "@vueuse/core";
+
 /**
  * Displays an image specified by `src`
  */
@@ -16,16 +18,25 @@ export default defineComponent({
     imageId: { type: String, required: true },
   },
 
-  computed: {
-    src() {
-      return getUrl(`tasks/${this.taskId}/${this.imageId}`);
-    },
+  data() {
+    return {
+      src: [ref<string | undefined>(undefined)],
+    };
+  },
+
+  mounted() {
+    this.src = [
+      computedAsync(async () => {
+        let image = await API.getImage(this.taskId, this.imageId);
+        return image ? URL.createObjectURL(image) : undefined;
+      }, undefined),
+    ];
   },
 });
 </script>
 
 <template>
-  <img :src="src" />
+  <img :src="src[0].value" />
 </template>
 
 <style scoped>

@@ -2,7 +2,6 @@ import json
 
 from mod.src.database import database, db_models
 from scripts import file_path, meta, session
-from alembic import op
 
 
 def get_class_by_tablename(tablename):

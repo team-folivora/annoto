@@ -3,20 +3,16 @@ Module for integration tests
 """
 
 from fastapi.testclient import TestClient
-from sqlalchemy.orm import Session
-
-from mod.src.database.db_models import DBUser
-from mod.src.models.user import CreateUserRequest
+from pytest_mock import MockerFixture
 
 
-def test_login(client: TestClient, db: Session, user: CreateUserRequest) -> None:
+def test_login(client: TestClient) -> None:
     """Test POST /login"""
-    DBUser.create(db=db, user=user)
     response = client.post(
         "/login/",
         json={"email": "team@folivora.online", "password": "password"},
     )
-    assert response.status_code == 204
+    assert response.status_code == 200
 
 
 def test_unknown_user_returns_401(client: TestClient) -> None:
@@ -28,13 +24,42 @@ def test_unknown_user_returns_401(client: TestClient) -> None:
     assert response.status_code == 401
 
 
-def test_invalid_password_returns_401(
-    client: TestClient, db: Session, user: CreateUserRequest
-) -> None:
+def test_invalid_password_returns_401(client: TestClient) -> None:
     """Test POST /login raises HttpException 401"""
-    DBUser.create(db=db, user=user)
     response = client.post(
         "/login/",
         json={"email": "team@folivora.online", "password": "wrong_password"},
     )
     assert response.status_code == 401
+
+
+def test_login_token_is_usable(client: TestClient) -> None:
+    """Test POST /login"""
+    response = client.post(
+        "/login/",
+        json={"email": "team@folivora.online", "password": "password"},
+    )
+    assert response.status_code == 200
+    token = response.json()["access_token"]
+    response = client.get("/ping", headers={"Authorization": f"Bearer {token}"})
+    assert response.status_code == 204
+
+
+def test_login_token_expires(client: TestClient, mocker: MockerFixture) -> None:
+    """Test POST /login"""
+    mocker.patch("time.time", return_value=0)
+    response = client.post(
+        "/login/",
+        json={"email": "team@folivora.online", "password": "password"},
+    )
+    assert response.status_code == 200
+    token = response.json()["access_token"]
+    mocker.patch("time.time", returl_value=1e9)
+    response = client.get("/ping", headers={"Authorization": f"Bearer {token}"})
+    assert response.status_code == 403
+
+
+def test_login_is_required(client: TestClient) -> None:
+    """Test GET /ping"""
+    response = client.get("/ping")
+    assert response.status_code == 403

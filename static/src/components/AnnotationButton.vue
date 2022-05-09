@@ -18,7 +18,6 @@ export default defineComponent({
     competency: { type: String, required: true },
     isAttentive: { type: Boolean, required: true },
     isTrained: { type: Boolean, required: true },
-    username: { type: String, required: true },
   },
 
   emits: ["annotationSaved"],
@@ -43,7 +42,6 @@ export default defineComponent({
         await API.saveAnnotation(this.taskId, this.imageId, {
           label: this.label,
           hash: hash,
-          username: this.username,
           is_trained: this.isTrained,
           competency: this.competency,
           is_attentive: this.isAttentive,

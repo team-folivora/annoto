@@ -64,8 +64,8 @@ export default defineComponent({
     <template #footer>
       <el-row justify="space-between">
         <el-checkbox v-model="checked" class="">
-            I am attentive and capable of labeling the data and I have read the
-            Manual.
+          I am attentive and capable of labeling the data and I have read the
+          Manual.
         </el-checkbox>
         <el-button type="success" :disabled="!checked" @click="onSubmit()">
           Confirm

@@ -78,5 +78,5 @@ export default defineComponent({
       </el-button-group>
     </el-row>
   </div>
-  <el-empty v-else description="No more Images to label" id="no-more-images"/>
+  <el-empty v-else description="No more Images to label" id="no-more-images" />
 </template>

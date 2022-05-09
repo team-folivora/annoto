@@ -2,7 +2,7 @@ from sqlalchemy import MetaData
 from sqlalchemy.orm import sessionmaker
 
 from mod.src.settings import SETTINGS
-from scripts import file_path, meta, session
+from scripts.config import meta, session
 
 
 def empty_db():

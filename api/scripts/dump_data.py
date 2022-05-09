@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from mod.src.settings import SETTINGS
-from scripts import engine, file_path, meta
+from scripts.config import engine, file_path, meta
 
 
 class BytesEncoder(json.JSONEncoder):

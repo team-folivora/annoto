@@ -8,19 +8,12 @@ from typing import Generator
 import alembic
 import pytest
 from alembic.config import Config
-from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 from mod.src.app import APP
 from mod.src.database.database import get_db
 from mod.src.settings import SETTINGS
-
-
-@pytest.fixture()
-def client() -> TestClient:
-    """Get a client for testing the api"""
-    return TestClient(APP)
 
 
 @pytest.fixture(autouse=True)

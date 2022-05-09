@@ -2,22 +2,25 @@
 Module for integration tests
 """
 
-from fastapi.testclient import TestClient
 
 
-def test_get_tasks(client: TestClient, authorization: str) -> None:
+from mod.tests.integration.conftest import ManagedTestClient
+
+
+def test_get_tasks(client: ManagedTestClient) -> None:
     """Test GET /tasks"""
-    response = client.get("/tasks", headers={"Authorization": authorization})
+    client.authorize()
+    response = client.get("/tasks")
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/json"
     assert response.json() == ["ecg-qrs-classification-physiodb"]
 
 
-def test_get_task(client: TestClient, authorization: str) -> None:
+def test_get_task(client: ManagedTestClient) -> None:
     """Test GET /tasks/ecg-qrs-classification-physiodb"""
+    client.authorize()
     response = client.get(
-        "/tasks/ecg-qrs-classification-physiodb",
-        headers={"Authorization": authorization},
+        "/tasks/ecg-qrs-classification-physiodb"
     )
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/json"
@@ -27,7 +30,8 @@ def test_get_task(client: TestClient, authorization: str) -> None:
     assert "Noise" in task["labels"]
 
 
-def test_get_unknown_task_returns_404(client: TestClient, authorization: str) -> None:
+def test_get_unknown_task_returns_404(client: ManagedTestClient) -> None:
     """Test GET /tasks/unknown"""
-    response = client.get("/tasks/unknown", headers={"Authorization": authorization})
+    client.authorize()
+    response = client.get("/tasks/unknown")
     assert response.status_code == 404

@@ -1,12 +1,13 @@
 import { createApp } from "vue";
 import App from "@/App.vue";
 
-import { Inkline, components } from "@inkline/inkline";
-import "@inkline/inkline/inkline.scss";
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+// import "element-plus/theme-chalk/src/message.scss"
 
 import VueCookies from "vue-cookies";
 
-import "@/assets/base.scss";
+// import "@/assets/base.scss";
 
 import { OpenAPI } from "@/api/core/OpenAPI";
 import Toaster from "@/plugins/toaster";
@@ -16,9 +17,7 @@ OpenAPI.BASE =
 
 const app = createApp(App);
 
-app.use(Inkline, {
-  components,
-});
+app.use(ElementPlus)
 
 app.use(Toaster);
 

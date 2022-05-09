@@ -1,6 +1,8 @@
-@import "@inkline/inkline/css/variables";
-@import "@inkline/inkline/css/mixins";
-
+// @forward "element-plus/theme-chalk/src/common/var.scss" with (
+//   $button-padding-horizontal: (
+//     "default": 50px,
+//   )
+// );
 :root {
   --color--primary--h: 195deg;
   --color--primary--s: 77%;

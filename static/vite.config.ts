@@ -11,12 +11,12 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      resolvers: [ElementPlusResolver({importStyle: "sass"})],
-      dts: 'src/auto-imports.d.ts',
+      resolvers: [ElementPlusResolver({ importStyle: "sass" })],
+      dts: "src/auto-imports.d.ts",
     }),
     Components({
-      resolvers: [ElementPlusResolver({importStyle: "sass"})],
-      dts: 'src/components.d.ts',
+      resolvers: [ElementPlusResolver({ importStyle: "sass" })],
+      dts: "src/components.d.ts",
     }),
   ],
   css: {

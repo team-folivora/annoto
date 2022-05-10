@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     jwt_secret: str = "fd232ad1ff70a3a874dda48e857b1ef086e474194ce5d2f8"
     jwt_expiry: int = 60 * 60 * 24  # one day
-    engine_connect_args: dict = {"check_same_thread": False}
+    engine_connect_args: dict = {}
 
     class Config:
         """Reads the dotenv file"""

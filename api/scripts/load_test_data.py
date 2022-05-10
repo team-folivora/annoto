@@ -38,3 +38,7 @@ def load():
                 session.add(obj)
 
     session.commit()
+
+
+if __name__ == "__main__":
+    load()

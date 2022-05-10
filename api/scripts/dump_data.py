@@ -22,3 +22,7 @@ def dump():
             result[table.name] = [dict(row) for row in engine.execute(table.select())]
     with open(file_path, "w") as f:
         f.write(json.dumps(result, cls=BytesEncoder, indent=4))
+
+
+if __name__ == "__main__":
+    dump()

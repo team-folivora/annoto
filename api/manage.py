@@ -3,12 +3,20 @@
 import os
 import sys
 
-from scripts import dump_test_data, empty_db_tables, load_test_data
+from mod.src.settings import Path
 
 
 def install():
-    """Installs all python requirements"""
-    os.system("pip install -r requirements.txt & pip install -r requirements-dev.txt")
+    """Installs all python requirements. Also installs dev-requirements when argument 'dev' is provided."""
+    os.system("pip install -r requirements.txt")
+    if len(sys.argv) == 3:
+        if (sys.argv[2]) == "dev":
+            os.system("pip install -r requirements-dev.txt")
+
+
+def run():
+    """Starts the backend"""
+    os.system("python -m mod")
 
 
 def run_linter():
@@ -19,14 +27,19 @@ def run_linter():
 def run_tests():
     """Runs pytest and provides coverage information when '--cov' is provided"""
     if len(sys.argv) == 3:
-        if sys.argv[2] == "--cov":
-            os.system("pytest mod --cov")
-        elif sys.argv[2] == "--cov-xml":
-            os.system("pytest mod --cov --cov-report=xml")
-        else:
-            print("Wrong parameters")
+        os.system("pytest mod " + sys.argv[2])
     else:
         os.system("pytest mod")
+
+
+def run_typecheck():
+    """Runs typecheck"""
+    os.system("mypy mod")
+
+
+def run_linter():
+    """Runs linter"""
+    os.system("pylint mod")
 
 
 def format():
@@ -36,18 +49,43 @@ def format():
 
 def build():
     """Builds API as specified from GitHub CI"""
-    os.system("mypy mod & pylint mod & pytest mod --cov --cov-report=xml")
+    os.system("mypy mod & pylint mod & pytest mod --cov")
 
 
 def clear_db():
-    """Clears data rows in database"""
+    """Clears database entries but keeps tables"""
+    from scripts import empty_db_tables
+
     empty_db_tables.empty_db()
 
 
-def reset_db():
+def reload_db_data():
     """Clears database entries and loads test data"""
+    from scripts import load_test_data
+
     clear_db()
     load_test_data.load()
+
+
+def create_db():
+    """Creates a database file, applies all available migrations and loads the test data"""
+    from scripts import load_test_data
+
+    apply_migration()  # Since we are including migration files to the repository, we can just apply them here right away
+    load_test_data.load()
+
+
+def reset_db():
+    """Deletes and recreates database with test data"""
+    os.remove(Path.home().joinpath(".annoto").joinpath("db.sqlite3"))
+    create_db()
+
+
+def dump_db_data():
+    """Dumps all entries from the database into 'test_data.json'"""
+    from scripts import dump_data
+
+    dump_data.dump()
 
 
 def create_migration():
@@ -63,30 +101,38 @@ def apply_migration():
     os.system("alembic upgrade head")
 
 
+def dump_api():
+    """Dumps API"""
+    os.system("PYTHON_ENV=production python3 -m mod.__dumpapi__")
+
+
 def print_commands():
     """Prints available commands"""
     print("No command provided. Available commands: ")
     for key in commands.keys():
-        print(key)
+        print(key + ": " + commands[key].__doc__)
 
 
 commands = {
     "install": install,
-    "lint": run_linter,
+    "run": run,
     "test": run_tests,
+    "typecheck": run_typecheck,
+    "lint": run_linter,
     "format": format,
     "build": build,
-    "data-load": load_test_data.load,
-    "data-dump": dump_test_data.dump,
+    "db-dump": dump_db_data,
+    "db-create": create_db,
     "db-clear": clear_db,
+    "db-reload": reload_db_data,
     "db-reset": reset_db,
     "migration-create": create_migration,
     "migration-apply": apply_migration,
+    "dump-api": dump_api,
+    "--help": print_commands,
 }
 
 if len(sys.argv) == 1:
     print_commands()
-elif len(sys.argv) >= 3 and sys.argv[1] != "test":
-    print("Too many arguments provided")
 else:
     commands[sys.argv[1]]()

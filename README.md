@@ -22,15 +22,11 @@ Medical annotation tool
 
 * `cd static; nvm use; npm i; npm run lint`
 
-* `cd api; pip install -r requirements.txt`
-
-## For development
-
-* `cd api; pip install -r requirements-dev.txt`
+* `cd api; python3 manage.py install {dev}`
 
 # Run
 
-* `cd api; python -m mod`
+* `cd api; python3 manage.py run`
 
 * `cd static; npm run dev`
 
@@ -50,19 +46,15 @@ Medical annotation tool
 
 * Apply Migrations: `python3 manage.py migration-apply`
 
-* Load test data into database: `python3 manage.py data-load`
+* Load test data into database: `python3 manage.py db-reload`
 
 * Dump database content into JSON-file: `python3 manage.py data-dump`
 
 ## Database
 
-* Create Migrations: `alembic revision --autogenerate`
+* Create Migrations: `python3 manage.py migration-create`
 
-* Apply Migrations: `alembic upgrade head`
-
-* Load test data into database: `python3 scripts/load_test_data.py`
-
-* Dump database content into JSON-file: `python3 scripts/dump_data.py`
+* Apply Migrations: `python3 manage.py migration-apply`
 
 # Docker
 

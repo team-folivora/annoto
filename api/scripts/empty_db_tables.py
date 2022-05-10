@@ -12,3 +12,7 @@ def empty_db():
         if table.name != "alembic_version":
             session.execute(table.delete())
     session.commit()
+
+
+if __name__ == "__main__":
+    empty_db()

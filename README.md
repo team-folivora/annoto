@@ -20,41 +20,39 @@ Medical annotation tool
 
 * Install `python3`, `node`, `npm`, `nvm`
 
-* `cd static; nvm use; npm i; npm run lint`
+* Frontend: `cd static; nvm use; npm i; npm run lint`
 
-* `cd api; python3 manage.py install {dev}`
+* Backend: `cd api; python3 manage.py install {dev}`
 
 # Run
 
-* `cd api; python3 manage.py run`
+* Backend: `cd api; python3 manage.py run`
 
-* `cd static; npm run dev`
+* Frontend: `cd static; npm run dev`
 
 ## Testing, Linting and Formatting
 
-* Full build: `python3 manage.py build`
+* Backend Full build: `python3 manage.py build`
 
-* Only tests: `python3 manage.py test {--cov}`
+* Backend Only tests: `python3 manage.py test {--cov}`
 
-* Format: `python3 manage.py format`
+* Backend Format: `python3 manage.py format`
 
 * Frontend: `npm run lint`, `npm run test:e2e`, `npm run test:unit`
 
 ## Database
 
-* Create Migrations: `python3 manage.py migration-create`
-
-* Apply Migrations: `python3 manage.py migration-apply`
+* Create database: `python3 manage.py db-create`
 
 * Load test data into database: `python3 manage.py db-reload`
 
 * Dump database content into JSON-file: `python3 manage.py data-dump`
 
-## Database
+* Delete and recreate database: `python3 manage.py db-reset`
 
-* Create Migrations: `python3 manage.py migration-create`
+* Create new Migration: `python3 manage.py migration-create`
 
-* Apply Migrations: `python3 manage.py migration-apply`
+* Apply (new) Migrations: `python3 manage.py migration-apply`
 
 # Docker
 

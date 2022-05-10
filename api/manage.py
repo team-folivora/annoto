@@ -71,7 +71,7 @@ def create_db():
     """Creates a database file, applies all available migrations and loads the test data"""
     from scripts import load_test_data
 
-    apply_migration()  # Since we are including migration files to the repository, we can just apply them here right away
+    apply_migration()
     load_test_data.load()
 
 

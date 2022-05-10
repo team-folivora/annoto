@@ -1,10 +1,14 @@
 """Provides fixtures to the tests"""
 
-from pathlib import Path
+# isort:block
+
 import tempfile
-from mod.src.settings import SETTINGS
+from pathlib import Path
+
 import alembic
 from alembic.config import Config
+
+from mod.src.settings import SETTINGS
 
 temp_folder = Path(tempfile.mkdtemp(prefix="annoto"))
 SETTINGS.database_url = f"sqlite:///{temp_folder.joinpath('test_db.sqlite3')}"
@@ -19,7 +23,7 @@ from scripts.load_test_data import load as load_test_data
 
 load_test_data()
 
-from mod.src.database.database import engine, get_db
+# isort:block
 
 import shutil
 from typing import Generator
@@ -30,6 +34,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 from mod.src.app import APP
+from mod.src.database.database import engine, get_db
 
 
 @pytest.fixture()

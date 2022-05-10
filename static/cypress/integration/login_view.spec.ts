@@ -7,11 +7,15 @@ describe("LoginView", () => {
   });
 
   it("warns if no password or email provided", () => {
-    cy.visit("/").get("button#submit").click().get("div.alert.-warning");
+    cy.visit("/")
+      .get("button#submit")
+      .click()
+      .get("html")
+      .contains("E-Mail and Password need to be set...");
   });
 
   it("errors if invalid login data provided", () => {
     setup_intercepts({ intercept_login: intercept_login_with_failure });
-    login().get("div.alert.-danger");
+    login().get("html").contains("E-Mail or Password is not correct...");
   });
 });

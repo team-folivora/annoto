@@ -13,23 +13,23 @@ describe("TaskView", () => {
 
   it("shows the proof of condition popup on startup", () => {
     setup_intercepts();
-    login().get("#proof-of-condition").should("be.visible");
+    login().get("#proof-of-condition-footer").should("be.visible");
   });
 
   it("can close the proof of condition dialog when checkbox is checked", () => {
     setup_intercepts();
     login()
       .then(proof_condition)
-      .get("#proof-of-condition")
+      .get("#proof-of-condition-footer")
       .should("not.be.visible");
   });
 
   it("cannot close the proof of condition dialog when checkbox is not checked", () => {
     setup_intercepts();
     login()
-      .get("#proof-of-condition button")
+      .get("#proof-of-condition-footer button")
       .click({ force: true })
-      .get("#proof-of-condition")
+      .get("#proof-of-condition-footer")
       .should("be.visible");
   });
 

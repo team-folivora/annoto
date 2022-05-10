@@ -54,29 +54,39 @@ export default defineComponent({
 </script>
 
 <template>
-  <ProofOfCondition
-    v-model:isAttentive="isAttentive"
-    v-model:isTrained="isTrained"
-  />
-  <UserInformationLabel :fullname="fullname" />
-  <div v-if="imageId">
-    <el-row justify="center">
-      <ImageDisplay id="image-display" :task-id="taskId" :image-id="imageId" />
-      <el-button-group>
-        <AnnotationButton
-          v-for="label in labels"
-          :id="'annotation-button-' + paramCase(label)"
-          :key="label"
-          :label="label"
-          :is-attentive="isAttentive"
-          :is-trained="isTrained"
-          :competency="competency"
+  <div>
+    <ProofOfCondition
+      v-model:isAttentive="isAttentive"
+      v-model:isTrained="isTrained"
+    />
+    <UserInformationLabel :fullname="fullname" />
+    <div v-if="imageId">
+      <el-row justify="center">
+        <ImageDisplay
+          id="image-display"
           :task-id="taskId"
           :image-id="imageId"
-          @annotation-saved="nextImage"
         />
-      </el-button-group>
-    </el-row>
+        <el-button-group>
+          <AnnotationButton
+            v-for="label in labels"
+            :id="'annotation-button-' + paramCase(label)"
+            :key="label"
+            :label="label"
+            :is-attentive="isAttentive"
+            :is-trained="isTrained"
+            :competency="competency"
+            :task-id="taskId"
+            :image-id="imageId"
+            @annotation-saved="nextImage"
+          />
+        </el-button-group>
+      </el-row>
+    </div>
+    <el-empty
+      v-else
+      id="no-more-images"
+      description="No more Images to label"
+    />
   </div>
-  <el-empty v-else id="no-more-images" description="No more Images to label" />
 </template>

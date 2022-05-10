@@ -135,8 +135,8 @@ export function login() {
 
 export function proof_condition() {
   return cy
-    .get("#proof-of-condition .checkbox-label")
+    .get("#proof-of-condition-footer")
     .click()
-    .get("#proof-of-condition button")
+    .get("#proof-of-condition-footer button")
     .click();
 }

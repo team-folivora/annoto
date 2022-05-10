@@ -1,13 +1,8 @@
 import json
 from pathlib import Path
 
-from sqlalchemy import MetaData, create_engine
-
 from mod.src.settings import SETTINGS
-
-outfile_path = (
-    Path.cwd().joinpath("mod").joinpath("fixtures").joinpath("test_data.json")
-)
+from scripts.config import engine, file_path, meta
 
 
 class BytesEncoder(json.JSONEncoder):
@@ -19,11 +14,15 @@ class BytesEncoder(json.JSONEncoder):
         return super().default(z)
 
 
-engine = create_engine(SETTINGS.database_url, connect_args={"check_same_thread": False})
-meta = MetaData()
-meta.reflect(bind=engine)  # http://docs.sqlalchemy.org/en/rel_0_9/core/reflection.html
-result = {}
-for table in meta.sorted_tables:
-    result[table.name] = [dict(row) for row in engine.execute(table.select())]
-with open(outfile_path, "w") as f:
-    f.write(json.dumps(result, cls=BytesEncoder, indent=4))
+def dump():
+    """Dumps all entries from the database into 'test_data.json'"""
+    result = {}
+    for table in meta.sorted_tables:
+        if table.name != "alembic_version":
+            result[table.name] = [dict(row) for row in engine.execute(table.select())]
+    with open(file_path, "w") as f:
+        f.write(json.dumps(result, cls=BytesEncoder, indent=4))
+
+
+if __name__ == "__main__":
+    dump()

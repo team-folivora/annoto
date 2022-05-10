@@ -20,35 +20,39 @@ Medical annotation tool
 
 * Install `python3`, `node`, `npm`, `nvm`
 
-* `cd static; nvm use; npm i; npm run lint`
+* Frontend: `cd static; nvm use; npm i; npm run lint`
 
-* `cd api; pip install -r requirements.txt`
-
-## For development
-
-* `cd api; pip install -r requirements-dev.txt`
+* Backend: `cd api; python3 manage.py install {dev}`
 
 # Run
 
-* `cd api; python -m mod`
+* Backend: `cd api; python3 manage.py run`
 
-* `cd static; npm run dev`
+* Frontend: `cd static; npm run dev`
 
-## Testing and Linting
+## Testing, Linting and Formatting
 
-* `mypy mod`, `pylint mod`, `pytest mod`, `pytest mod --cov`
+* Backend Full build: `python3 manage.py build`
 
-* `npm run lint`, `npm run test:e2e`, `npm run test:unit`
+* Backend Only tests: `python3 manage.py test {--cov}`
+
+* Backend Format: `python3 manage.py format`
+
+* Frontend: `npm run lint`, `npm run test:e2e`, `npm run test:unit`
 
 ## Database
 
-* Create Migrations: `alembic revision --autogenerate`
+* Create database: `python3 manage.py db-create`
 
-* Apply Migrations: `alembic upgrade head`
+* Load test data into database: `python3 manage.py db-reload`
 
-* Load test data into database: `python3 scripts/load_test_data.py`
+* Dump database content into JSON-file: `python3 manage.py data-dump`
 
-* Dump database content into JSON-file: `python3 scripts/dump_data.py`
+* Delete and recreate database: `python3 manage.py db-reset`
+
+* Create new Migration: `python3 manage.py migration-create`
+
+* Apply (new) Migrations: `python3 manage.py migration-apply`
 
 # Docker
 

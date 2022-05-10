@@ -72,8 +72,8 @@ export default defineComponent({
   <el-button
     :loading="isLoading"
     :disabled="isLoading"
-    @click="saveAnnotation"
     type="info"
+    @click="saveAnnotation"
   >
     Label: {{ label }}
   </el-button>

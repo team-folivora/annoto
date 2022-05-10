@@ -3,7 +3,7 @@
 import os
 import sys
 
-from mod.src.settings import Path
+from pathlib import Path
 
 
 def install():

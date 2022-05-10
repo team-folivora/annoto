@@ -26,8 +26,7 @@ jobs:
       with:
         python-version: '3.x'
     - name: Install dependencies
-      run: |
-        python manage.py install dev
+      run: python manage.py install dev
     - name: Static type checking using mypy
       run: python manage.py typecheck
     - name: Lint using pylint

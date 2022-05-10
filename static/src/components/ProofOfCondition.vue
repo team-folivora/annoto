@@ -38,37 +38,37 @@ export default defineComponent({
 </script>
 
 <template>
-    <el-dialog
-      v-model="visible"
-      title="Proof of Condition"
-      size="lg"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :show-close="false"
+  <el-dialog
+    v-model="visible"
+    title="Proof of Condition"
+    size="lg"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    :show-close="false"
+  >
+    Please read the
+    <a
+      href="https://github.com/team-folivora/annoto/blob/dev/MANUAL.md"
+      target="_blank"
     >
-      Please read the
-      <a
-        href="https://github.com/team-folivora/annoto/blob/dev/MANUAL.md"
-        target="_blank"
-      >
-        Manual
-      </a>
-      before labeling the data.
-      <br />
-      <br />
-      Also, please make sure you feel well and concentrated to label the data.
-      If you experience tiredness or lack of concentration, you can continue the
-      labeling task later.
-      <template #footer>
-        <el-row justify="space-between" id="proof-of-condition-footer">
-          <el-checkbox v-model="checked">
-            I am attentive and capable of labeling the data and I have read the
-            Manual.
-          </el-checkbox>
-          <el-button type="success" :disabled="!checked" @click="onSubmit()">
-            Confirm
-          </el-button>
-        </el-row>
-      </template>
-    </el-dialog>
+      Manual
+    </a>
+    before labeling the data.
+    <br />
+    <br />
+    Also, please make sure you feel well and concentrated to label the data. If
+    you experience tiredness or lack of concentration, you can continue the
+    labeling task later.
+    <template #footer>
+      <el-row justify="space-between" id="proof-of-condition-footer">
+        <el-checkbox v-model="checked">
+          I am attentive and capable of labeling the data and I have read the
+          Manual.
+        </el-checkbox>
+        <el-button type="success" :disabled="!checked" @click="onSubmit()">
+          Confirm
+        </el-button>
+      </el-row>
+    </template>
+  </el-dialog>
 </template>

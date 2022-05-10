@@ -26,8 +26,8 @@ def run_linter():
 
 def run_tests():
     """Runs pytest and provides coverage information when '--cov' is provided"""
-    if len(sys.argv) == 3:
-        os.system("pytest mod " + sys.argv[2])
+    if len(sys.argv) >= 3:
+        os.system(f"pytest mod {' '.join(sys.argv[2:])}")
     else:
         os.system("pytest mod")
 
@@ -110,7 +110,7 @@ def print_commands():
     """Prints available commands"""
     print("No command provided. Available commands: ")
     for key in commands.keys():
-        print(key + ": " + commands[key].__doc__)
+        print(f"{key}: {commands[key].__doc__}")
 
 
 commands = {

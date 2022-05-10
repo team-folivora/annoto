@@ -8,10 +8,11 @@ from mod.src.settings import Path
 
 def install():
     """Installs all python requirements. Also installs dev-requirements when argument 'dev' is provided."""
-    os.system("pip install -r requirements.txt")
     if len(sys.argv) == 3:
         if (sys.argv[2]) == "dev":
             os.system("pip install -r requirements-dev.txt")
+        else:
+            os.system("pip install -r requirements.txt")
 
 
 def run():

@@ -66,6 +66,14 @@ export function intercept_get_image() {
   ).as("get_image");
 }
 
+export function intercept_get_image_with_failure() {
+  cy.intercept(
+    "GET",
+    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
+    { statusCode: 404 }
+  ).as("get_image");
+}
+
 export function intercept_login() {
   cy.intercept("POST", `${Cypress.env("API_URL")}/login`, {
     fixture: "login.json",

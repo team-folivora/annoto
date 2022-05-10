@@ -1,5 +1,20 @@
 import { mount } from "@cypress/vue";
 import AnnotationButton from "@/components/AnnotationButton.vue";
+import { OpenAPI } from "@/api/core/OpenAPI";
+import { ElMessage } from "element-plus";
+import {
+  intercept_get_image,
+  intercept_store_annotation,
+  intercept_get_image_with_failure,
+} from "../../../cypress/integration/utils";
+
+beforeEach(() => {
+  OpenAPI.BASE = "http://localhost:5000";
+});
+
+afterEach(() => {
+  ElMessage.closeAll();
+});
 
 describe("Button", () => {
   it("exists", () => {
@@ -26,7 +41,7 @@ describe("Button", () => {
         isTrained: true,
       },
     });
-    cy.get("i-button").should("be.visible");
+    cy.get("button").should("be.visible");
   });
 
   it("is not disabled", () => {
@@ -40,7 +55,7 @@ describe("Button", () => {
         isTrained: true,
       },
     });
-    cy.get("i-button").should("not.be.disabled");
+    cy.get("button").should("not.be.disabled");
   });
 
   it("shows specific label", () => {
@@ -55,6 +70,48 @@ describe("Button", () => {
         isTrained: true,
       },
     });
-    cy.get("i-button").contains(label);
+    cy.get("button").contains(label);
+  });
+
+  it("sends request when clicked and shows success message", () => {
+    intercept_get_image();
+    intercept_store_annotation();
+    mount(AnnotationButton, {
+      props: {
+        label: "Test",
+        taskId: "ecg-qrs-classification-physiodb",
+        imageId: "sloth.jpg",
+        competency: "Dr.",
+        isAttentive: true,
+        isTrained: true,
+      },
+    });
+    cy.get("button")
+      .click()
+      .wait("@get_image")
+      .wait("@store_annotation")
+      .get("@store_annotation_spy")
+      .should("be.called")
+      .get("html")
+      .contains("Annotation successfully saved");
+  });
+
+  it("shows failure message on saving failure", () => {
+    intercept_get_image_with_failure();
+    mount(AnnotationButton, {
+      props: {
+        label: "Test",
+        taskId: "ecg-qrs-classification-physiodb",
+        imageId: "sloth.jpg",
+        competency: "Dr.",
+        isAttentive: true,
+        isTrained: true,
+      },
+    });
+    cy.get("button")
+      .click()
+      .wait("@get_image")
+      .get("html")
+      .contains("Something went wrong");
   });
 });

@@ -60,7 +60,6 @@ export default defineComponent({
           type: "error",
           showClose: true,
         });
-        throw e;
       } finally {
         this.isLoading = false;
       }

@@ -7,20 +7,10 @@ function intercept_with_spy(
   response: object,
   name: string
 ) {
-  cy.intercept(
-    method,
-    url,
-    cy
-      .spy(
-        {
-          handle: (req: CyHttpMessages.IncomingHttpRequest) => {
-            req.reply(response);
-          },
-        },
-        "handle"
-      )
-      .as(`${name}_spy`)
-  ).as(name);
+  cy.intercept(method, url, (req) => {
+    cy.spy().as(`${name}_spy`)();
+    return req.reply(response);
+  }).as(name);
 }
 
 export function intercept_get_task() {

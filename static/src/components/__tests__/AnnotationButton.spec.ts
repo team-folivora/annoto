@@ -16,7 +16,7 @@ afterEach(() => {
   ElMessage.closeAll();
 });
 
-describe("Button", () => {
+describe("AnnotationButton", () => {
   it("exists", () => {
     mount(AnnotationButton, {
       props: {

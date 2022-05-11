@@ -1,8 +1,8 @@
 import json
+from typing import Any, Callable, List, Optional, Tuple
 
 from mod.src.database import database, db_models
 from scripts.config import file_path, meta, session
-from typing import Optional, Any, Callable, Tuple, List
 
 
 def get_class_by_tablename(tablename: str) -> Optional[type]:

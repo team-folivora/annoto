@@ -1,40 +1,37 @@
 """Provides fixtures to the tests"""
 
-# isort:block
-
-import tempfile
-from pathlib import Path
-
-import alembic
-from alembic.config import Config
-
-from mod.src.settings import SETTINGS
-
-temp_folder = Path(tempfile.mkdtemp(prefix="annoto"))
-SETTINGS.database_url = f"sqlite:///{temp_folder.joinpath('test_db.sqlite3')}"
-SETTINGS.engine_connect_args = {"check_same_thread": False}
-config = Config(str(Path.cwd().joinpath("alembic.ini")))
-config.set_main_option(
-    "script_location", str(Path.cwd().joinpath("mod").joinpath("alembic"))
-)
-config.set_main_option("sqlalchemy.url", SETTINGS.database_url)
-alembic.command.upgrade(config, "head")
-from scripts.load_test_data import load as load_test_data
-
-load_test_data()
-
-# isort:block
 
 import shutil
+import tempfile
+from pathlib import Path
 from typing import Generator
 
+import alembic
 import pytest
+from alembic.config import Config
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 from mod.src.app import APP
 from mod.src.database.database import engine, get_db
+from mod.src.settings import SETTINGS
+
+
+def setup_test_db() -> None:
+    """Apply migrations to test database and load test data"""
+    config = Config(str(Path.cwd().joinpath("alembic.ini")))
+    config.set_main_option(
+        "script_location", str(Path.cwd().joinpath("mod").joinpath("alembic"))
+    )
+    config.set_main_option("sqlalchemy.url", SETTINGS.database_url)
+    alembic.command.upgrade(config, "head")
+
+    import scripts.load_test_data  # pylint: disable=import-outside-toplevel
+
+    scripts.load_test_data.load()
+
+
+setup_test_db()
 
 
 @pytest.fixture()

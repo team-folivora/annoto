@@ -61,7 +61,7 @@ export default defineComponent({
     labeling task later.
     <template #footer>
       <el-row id="proof-of-condition-footer" justify="space-between">
-        <el-checkbox v-model="checked" id="checkbox">
+        <el-checkbox id="checkbox" v-model="checked">
           I am attentive and capable of labeling the data and I have read the
           Manual.
         </el-checkbox>

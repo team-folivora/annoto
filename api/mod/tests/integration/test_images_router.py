@@ -3,6 +3,7 @@ Module for integration tests
 """
 
 import json
+import time
 
 from mod.src.settings import SETTINGS
 from mod.tests.integration.conftest import ManagedTestClient
@@ -31,6 +32,7 @@ def test_get_unknown_image_returns_404(client: ManagedTestClient) -> None:
 def test_post_image(client: ManagedTestClient) -> None:
     """Test POST /tasks/ecg-qrs-classification-physiodb/sloth.jpg"""
     client.authorize()
+    current_time = int(time.time())
     response = client.post(
         "/tasks/ecg-qrs-classification-physiodb/sloth.jpg",
         json={
@@ -56,6 +58,7 @@ def test_post_image(client: ManagedTestClient) -> None:
             "is_attentive": True,
             "fullname": "Prof. Dr. Folivora",
             "is_trained": True,
+            "timestamp": current_time,
         }
 
 

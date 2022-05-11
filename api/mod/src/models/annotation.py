@@ -4,8 +4,9 @@ import hashlib
 import json
 from pathlib import Path
 
-from mod.src.settings import SETTINGS
 from pydantic import BaseModel, Field
+
+from mod.src.settings import SETTINGS
 
 
 class AnnotationData(BaseModel):

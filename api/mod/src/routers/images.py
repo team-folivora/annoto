@@ -8,6 +8,7 @@ import time
 from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.security.http import HTTPAuthorizationCredentials
+
 from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.auth.auth_handler import decodeJWT
 from mod.src.models.annotation import (

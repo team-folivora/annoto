@@ -7,11 +7,12 @@ import json
 import time
 from pathlib import Path
 
-import mod.src.app
 import pytest
+from pytest_mock import MockerFixture
+
+import mod.src.app
 from mod.src.models.annotation import Annotation
 from mod.src.settings import SETTINGS
-from pytest_mock import MockerFixture
 
 
 @pytest.fixture

@@ -3,11 +3,11 @@
 import os
 import random
 import re
+import time
 
 from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.security.http import HTTPAuthorizationCredentials
-
 from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.auth.auth_handler import decodeJWT
 from mod.src.models.annotation import (
@@ -99,7 +99,10 @@ async def save_annotation(
         raise HTTPException(status_code=500)
 
     annotation = Annotation.from_data(
-        annotation_data=annotation_data, src=f"{task_id}/{src}", fullname=jwt.fullname
+        annotation_data=annotation_data,
+        src=f"{task_id}/{src}",
+        fullname=jwt.fullname,
+        timestamp=int(time.time()),
     )
 
     try:

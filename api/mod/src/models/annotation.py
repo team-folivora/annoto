@@ -4,9 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
-from pydantic import BaseModel, Field
-
 from mod.src.settings import SETTINGS
+from pydantic import BaseModel, Field
 
 
 class AnnotationData(BaseModel):
@@ -50,14 +49,22 @@ class Annotation(AnnotationData):
         description="The full name of the annotator",
         example="Prof. Dr. Folivora",
     )
+    timestamp: int = Field(
+        ...,
+        description="The current timestamp when the annotation is saved",
+        example=420,
+    )
 
     @classmethod
     def from_data(
-        cls, annotation_data: AnnotationData, src: str, fullname: str
+        cls, annotation_data: AnnotationData, src: str, fullname: str, timestamp: int
     ) -> "Annotation":
         """Creates an Annotation from AnnotationData and additional attributes"""
         return Annotation(
-            **{**annotation_data.__dict__, **{"src": src, "fullname": fullname}}
+            **{
+                **annotation_data.__dict__,
+                **{"src": src, "fullname": fullname, "timestamp": timestamp},
+            }
         )
 
     @property

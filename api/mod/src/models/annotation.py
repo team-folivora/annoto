@@ -53,7 +53,7 @@ class Annotation(AnnotationData):
     timestamp: int = Field(
         ...,
         description="The current timestamp when the annotation is saved",
-        example=420,
+        example=1652263830,
     )
 
     @classmethod

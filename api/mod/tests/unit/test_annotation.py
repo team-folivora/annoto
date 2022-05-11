@@ -4,6 +4,7 @@ Module for unit tests
 
 
 import json
+import time
 from pathlib import Path
 
 import pytest
@@ -25,6 +26,7 @@ def annotation() -> Annotation:
         competency="Prof. Dr. Med.",
         is_attentive=True,
         is_trained=True,
+        timestamp=int(time.time()),
     )
 
 

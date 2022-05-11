@@ -137,6 +137,7 @@ export function proof_condition() {
   return cy
     .get("#proof-of-condition-footer")
     .click()
+    .wait(200)
     .get("#proof-of-condition-footer button")
     .click();
 }

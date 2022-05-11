@@ -2,10 +2,11 @@
 Module for integration tests
 """
 
-from fastapi.testclient import TestClient
+from mod.tests.integration.conftest import ManagedTestClient
 
 
-def test_ping(client: TestClient, authorization: str) -> None:
+def test_ping(client: ManagedTestClient) -> None:
     """Test GET /ping"""
-    response = client.get("/ping", headers={"Authorization": authorization})
+    client.authorize()
+    response = client.get("/ping")
     assert response.status_code == 204

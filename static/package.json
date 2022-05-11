@@ -12,7 +12,7 @@
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
     "format": "prettier . --write",
-    "generate-api": "(cd ../api; PYTHON_ENV=production python3 -m mod.__dumpapi__) > openapi.json && openapi --input ./openapi.json --output ./src/api"
+    "generate-api": "(cd ../api; python3 manage.py dump-api) > openapi.json && openapi --input ./openapi.json --output ./src/api"
   },
   "dependencies": {
     "@vueuse/core": "^8.4.1",

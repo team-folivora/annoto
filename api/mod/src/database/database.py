@@ -10,7 +10,7 @@ from mod.src.settings import SETTINGS
 
 Base = declarative_base()
 
-engine = create_engine(SETTINGS.database_url)
+engine = create_engine(SETTINGS.database_url, connect_args=SETTINGS.engine_connect_args)
 SessionLocal = sessionmaker(bind=engine)
 
 

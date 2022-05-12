@@ -28,7 +28,7 @@ ROUTER = APIRouter(
     dependencies=[Depends(JWTBearer())],
 )
 async def get_tasks() -> List[str]:
-    """Get a list of the IDs of all available labelling tasks"""
+    """Get a list of the IDs of all available labeling tasks"""
     tasks_file = SETTINGS.data_folder.joinpath("tasks.json")
     with open(tasks_file, "r", encoding="utf-8") as file:
         return json.load(file)

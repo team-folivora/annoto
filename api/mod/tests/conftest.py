@@ -18,7 +18,7 @@ from mod.src.settings import SETTINGS
 
 
 def setup_test_db() -> None:
-    """Apply migrations to test database and load test data"""
+    """Apply migrations to test database and load test data. Is executed exactly once before the tests are run. Needs no cleanup because the database lies in a temporary folder."""
     config = Config(str(Path.cwd().joinpath("alembic.ini")))
     config.set_main_option(
         "script_location", str(Path.cwd().joinpath("mod").joinpath("alembic"))

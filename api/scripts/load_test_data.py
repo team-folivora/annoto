@@ -1,22 +1,28 @@
 import json
+from typing import Any, Callable, List, Optional, Tuple
 
 from mod.src.database import database, db_models
 from scripts.config import file_path, meta, session
 
 
-def get_class_by_tablename(tablename):
+def get_class_by_tablename(tablename: str) -> Optional[type]:
     base = database.Base
 
     for mapper in base.registry.mappers:
         if mapper.class_.__tablename__ == tablename:
             return mapper.class_
+    return None
 
 
 class BytesDecoder(json.JSONDecoder):
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self,
+        *args: Any,
+        **kwargs: Any,
+    ):
         json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
-    def object_hook(self, dct):
+    def object_hook(self, dct: dict) -> dict:
         """ "Byte data is recognised from the JSON file and directly decoded as bytes-object"""
         for key in dct.keys():
             if isinstance(dct[key], str) and dct[key].startswith("0x"):
@@ -24,7 +30,7 @@ class BytesDecoder(json.JSONDecoder):
         return dct
 
 
-def load():
+def load() -> None:
     """Loads all objects from 'test_data.json' into the database that have a corresponding defined model class"""
     with open(file_path) as f:
         data = f.read()
@@ -34,6 +40,9 @@ def load():
         if table.name != "alembic_version":
             Table = get_class_by_tablename(table.name)
             for row in jsondata[table.name]:
+                if not Table:
+                    print(f"Warning: SQLAlchemy Model for table {table.name} not found")
+                    continue
                 obj = Table(**row)
                 session.add(obj)
 

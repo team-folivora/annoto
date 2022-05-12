@@ -3,6 +3,8 @@ This module contains the settings
 """
 
 import os
+import sys
+import tempfile
 from pathlib import Path
 
 from pydantic import BaseSettings
@@ -34,7 +36,18 @@ class Settings(BaseSettings):
         env_file = f".env.{PYTHON_ENV}"
 
 
-SETTINGS = Settings()
+def initial_settings() -> dict:
+    """Initial setting values"""
+    if "pytest" in sys.modules:  # Running in test mode
+        temp_folder = Path(tempfile.mkdtemp(prefix="annoto"))
+        return {
+            "database_url": f"sqlite:///{temp_folder.joinpath('test_db.sqlite3')}",
+            "engine_connect_args": {"check_same_thread": False},
+        }
+    return {}
+
+
+SETTINGS = Settings(**initial_settings())
 if SETTINGS.database_url.startswith("postgres://"):
     SETTINGS.database_url = SETTINGS.database_url.replace(
         "postgres://", "postgresql://"

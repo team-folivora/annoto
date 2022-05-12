@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 /**
- * A labelling task
+ * A labeling task
  */
 export type Task = {
     /**

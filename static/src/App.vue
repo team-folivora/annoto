@@ -15,6 +15,7 @@ export default defineComponent({
   data() {
     return {
       page: "login",
+      loggedIn: false,
     };
   },
 
@@ -31,10 +32,16 @@ export default defineComponent({
         OpenAPI.TOKEN = token;
         await PingService.ping();
         this.page = "task";
+        this.loggedIn = true;
       } catch (_) {
-        OpenAPI.TOKEN = undefined;
-        this.$cookies.remove("jwt");
+        this.logout();
       }
+    },
+    logout() {
+      OpenAPI.TOKEN = undefined;
+      this.$cookies.remove("jwt");
+      this.page = "login";
+      this.loggedIn = false;
     },
   },
 });
@@ -44,6 +51,9 @@ export default defineComponent({
   <i-layout>
     <i-layout-header>
       <h1 class="_text-align:center">Annoto</h1>
+      <i-button v-if="loggedIn" id="logout-button" @click="logout">
+        Logout
+      </i-button>
     </i-layout-header>
     <i-layout-content>
       <LoginView

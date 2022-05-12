@@ -41,7 +41,7 @@ def load() -> None:
             Table = get_class_by_tablename(table.name)
             for row in jsondata[table.name]:
                 if not Table:
-                    print(f"Warning: Alembic Model for table {table.name} not found")
+                    print(f"Warning: SQLAlchemy Model for table {table.name} not found")
                     continue
                 obj = Table(**row)
                 session.add(obj)

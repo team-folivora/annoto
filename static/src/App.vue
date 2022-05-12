@@ -50,10 +50,15 @@ export default defineComponent({
 <template>
   <i-layout>
     <i-layout-header>
-      <h1 class="_text-align:center">Annoto</h1>
-      <i-button v-if="loggedIn" id="logout-button" @click="logout">
-        Logout
-      </i-button>
+      <i-row center middle>
+        <i-column md="3"></i-column>
+        <i-column md="6"><h1 class="_text-align:center">Annoto</h1></i-column>
+        <i-column md="3">
+          <i-button v-if="loggedIn" id="logout-button" @click="logout">
+            Logout
+          </i-button>
+        </i-column>
+      </i-row>
     </i-layout-header>
     <i-layout-content>
       <LoginView

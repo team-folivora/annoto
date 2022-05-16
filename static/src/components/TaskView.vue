@@ -6,8 +6,7 @@ import ProofOfCondition from "@/components/ProofOfCondition.vue";
 import UserInformationLabel from "@/components/UserInformationLabel.vue";
 import { TasksService as API } from "@/api/services/TasksService";
 import { paramCase } from "change-case";
-import { OpenAPI } from "@/api";
-import { parseJwt } from "@/utils/helpers";
+import { fullname } from "@/utils/helpers";
 export default defineComponent({
   components: {
     ImageDisplay,
@@ -33,11 +32,7 @@ export default defineComponent({
 
   computed: {
     fullname() {
-      if (typeof OpenAPI.TOKEN === "string") {
-        return parseJwt(OpenAPI.TOKEN)["fullname"];
-      } else {
-        return undefined;
-      }
+      return fullname();
     },
   },
 

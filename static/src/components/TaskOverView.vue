@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { TasksService as API } from "@/api/services/TasksService";
-import { OpenAPI } from "@/api";
-import { parseJwt } from "@/utils/helpers";
+import UserInformationLabel from "@/components/UserInformationLabel.vue";
+import { fullname } from "@/utils/helpers";
 export default defineComponent({
   data() {
     return {
@@ -10,13 +10,12 @@ export default defineComponent({
     };
   },
 
+  components: {
+    UserInformationLabel
+},
   computed: {
     fullname() {
-      if (typeof OpenAPI.TOKEN === "string") {
-        return parseJwt(OpenAPI.TOKEN)["fullname"];
-      } else {
-        return undefined;
-      }
+      return fullname();
     },
   },
 

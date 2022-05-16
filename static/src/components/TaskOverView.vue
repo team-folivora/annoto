@@ -37,8 +37,7 @@ export default defineComponent({
 <template>
   <i-layout-content>
     <UserInformationLabel :fullname="fullname" />
-    <div v-if="tasks.length != 0">
-    </div>
+    <div v-if="tasks.length != 0"></div>
     <i-card v-else id="no-more-images" class="margin-y:20px">
       No more Tasks to accomplish.
     </i-card>

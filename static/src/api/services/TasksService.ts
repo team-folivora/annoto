@@ -12,11 +12,11 @@ export class TasksService {
 
     /**
      * Get Tasks
-     * Get a list of the IDs of all available labelling tasks
-     * @returns any Successful Response
+     * Get a list of the IDs of all available labeling tasks
+     * @returns Task Successful Response
      * @throws ApiError
      */
-    public static getTasks(): CancelablePromise<any> {
+    public static getTasks(): CancelablePromise<Array<Task>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/tasks/',

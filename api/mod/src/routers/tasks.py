@@ -27,20 +27,18 @@ async def get_tasks() -> List[Task]:
     tasks = []
     task_ids = []
     if not tasks_file.exists():
-        raise HTTPException(
-            status_code=500,
-            detail="Tasks integrity violated"
-        )
+        raise HTTPException(status_code=500, detail="Tasks integrity violated")
     with open(tasks_file, "r", encoding="utf-8") as file:
         task_ids = json.load(file)
     for task_id in task_ids:
         task_file = SETTINGS.data_folder.joinpath(task_id).joinpath("task.json")
         if not task_file.exists():
-            raise HTTPException(
-                status_code=500,
-                detail="Tasks integrity violated"
-            )
-        with open(SETTINGS.data_folder.joinpath(task_id).joinpath("task.json"), "r", encoding="utf-8") as file:
+            raise HTTPException(status_code=500, detail="Tasks integrity violated")
+        with open(
+            SETTINGS.data_folder.joinpath(task_id).joinpath("task.json"),
+            "r",
+            encoding="utf-8",
+        ) as file:
             tasks.append(Task(**json.load(file)))
     return tasks
 

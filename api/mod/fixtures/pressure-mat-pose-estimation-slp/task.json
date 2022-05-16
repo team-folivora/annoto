@@ -1,0 +1,9 @@
+{
+    "id": "pressure-mat-pose-estimation-slp",
+    "description": "Labeling Pose of Pressure Mat Data from SLP",
+    "labels": [
+        "Supine",
+        "Left",
+        "Right"
+    ]
+}

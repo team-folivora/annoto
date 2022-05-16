@@ -27,31 +27,32 @@ def test_get_datafolder(client: ManagedTestClient) -> None:
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
     assert_heading(page, "/")
-    assert_entry(page, "/debug/data/subfolder", "subfolder/")
-    assert_entry(page, "/debug/data/sloth.jpg", "sloth.jpg")
+    assert_entry(page, "/debug/data/ecg-qrs-classification-physiodb", "ecg-qrs-classification-physiodb/")
+    assert_entry(page, "/debug/data/tasks.json", "tasks.json")
 
 
 def test_get_datafolder_sloth(client: ManagedTestClient) -> None:
-    """Test GET /debug/data/sloth.jpg"""
+    """Test GET /debug/data/tasks.json"""
     response = client.get(
-        "/debug/data/sloth.jpg",
+        "/debug/data/tasks.json",
     )
     assert response.status_code == 200
-    assert response.headers["content-type"] == "image/jpeg"
+    print(response.headers["content-type"])
+    assert response.headers["content-type"] == "json"
 
 
 def test_get_datafolder_subfolder(client: ManagedTestClient) -> None:
-    """Test GET /debug/data/subfolder"""
+    """Test GET /debug/data/ecg-qrs-classification-physiodb"""
     response = client.get(
-        "/debug/data/subfolder",
+        "/debug/data/ecg-qrs-classification-physiodb",
     )
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     page = BeautifulSoup(response.text, features="html.parser")
-    assert_heading(page, "/subfolder/")
+    assert_heading(page, "/ecg-qrs-classification-physiodb/")
     assert_entry(page, "/debug/data", "..")
     assert_entry(page, "/debug/data/subfolder/subsubfolder", "subsubfolder/")
-    assert_entry(page, "/debug/data/subfolder/loremipsum.txt", "loremipsum.txt")
+    assert_entry(page, "/debug/data/ecg-qrs-classification-physiodb/task.json", "task.json")
 
 
 def test_get_datafolder_subfolder_loremipsum(client: ManagedTestClient) -> None:

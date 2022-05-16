@@ -30,11 +30,10 @@ export default defineComponent({
   methods: {
     async fetchTasks() {
       this.tasks = await API.getTasks();
-      console.log(this.tasks);
     },
 
     annotate(task: Task) {
-      // Route to TaskView passing this Task
+      this.$emit("annotate", task)
     },
   },
 });
@@ -50,10 +49,9 @@ export default defineComponent({
         :task="task"
         class="_margin:1"
         @annotate="annotate"
+        :id="`task-${task.id}`"
       />
     </div>
-    <i-card v-else id="no-more-images" class="margin-y:20px">
-      No more Tasks to accomplish.
-    </i-card>
+    <i-card v-else id="no-more-images" class="margin-y:20px">No more Tasks to accomplish.</i-card>
   </i-layout-content>
 </template>

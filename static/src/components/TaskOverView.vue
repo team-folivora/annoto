@@ -14,8 +14,8 @@ export default defineComponent({
 
   components: {
     TaskCard,
-    UserInformationLabel
-},
+    UserInformationLabel,
+  },
 
   computed: {
     fullname() {
@@ -44,7 +44,13 @@ export default defineComponent({
   <i-layout-content>
     <UserInformationLabel :fullname="fullname" />
     <div class="_display:flex" v-if="tasks.length != 0">
-      <TaskCard v-for="task in tasks" :key="task.id" :task="task" class="_margin:1" @annotate="annotate"/>
+      <TaskCard
+        v-for="task in tasks"
+        :key="task.id"
+        :task="task"
+        class="_margin:1"
+        @annotate="annotate"
+      />
     </div>
     <i-card v-else id="no-more-images" class="margin-y:20px">
       No more Tasks to accomplish.

@@ -46,13 +46,10 @@ describe("TaskView", () => {
     setup_intercepts({
       intercept_next_image: intercept_next_image_with_failure,
     });
-    login();
-    cy.screenshot();
-    cy.wait("@get_tasks");
-    cy.screenshot();
-    annotate("ecg-qrs-classification-physiodb");
-    cy.screenshot();
-    cy.wait("@get_next_image").get("#no-more-images").should("be.visible");
+    login()
+      .wait("@get_tasks")
+      .then(() => annotate("ecg-qrs-classification-physiodb"))
+      .wait("@get_next_image").get("#no-more-images").should("be.visible");
   });
 
   it("shows annotation buttons", () => {

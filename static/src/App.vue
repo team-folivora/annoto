@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import TaskView from "./components/TaskView.vue";
+import TaskOverView from "./components/TaskOverView.vue";
 import LoginView from "./components/LoginView.vue";
 import { OpenAPI, PingService } from "@/api";
 
@@ -9,7 +9,7 @@ import { OpenAPI, PingService } from "@/api";
  */
 export default defineComponent({
   components: {
-    TaskView,
+    TaskOverView,
     LoginView,
   },
   data() {
@@ -51,12 +51,7 @@ export default defineComponent({
         id="login-view"
         @login="login"
       ></LoginView>
-      <TaskView
-        v-else
-        id="task-view"
-        task-id="ecg-qrs-classification-physiodb"
-        competency="Prof. Dr. Med."
-      ></TaskView>
+      <TaskOverView v-else id="task-view"></TaskOverView>
     </i-layout-content>
   </i-layout>
 </template>

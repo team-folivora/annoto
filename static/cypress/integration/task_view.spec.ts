@@ -49,7 +49,9 @@ describe("TaskView", () => {
     login()
       .wait("@get_tasks")
       .then(() => annotate("ecg-qrs-classification-physiodb"))
-      .wait("@get_next_image").get("#no-more-images").should("be.visible");
+      .wait("@get_next_image")
+      .get("#no-more-images")
+      .should("be.visible");
   });
 
   it("shows annotation buttons", () => {

@@ -4,12 +4,6 @@ import { TasksService as API } from "@/api/services/TasksService";
 import { OpenAPI } from "@/api";
 import { parseJwt } from "@/utils/helpers";
 export default defineComponent({
-  components: {
-  },
-
-  props: {
-  },
-
   data() {
     return {
       tasks: [],
@@ -27,13 +21,14 @@ export default defineComponent({
   },
 
   mounted() {
-    this.fetchLabels();
+    this.fetchTasks();
   },
 
   methods: {
-    async fetchLabels() {
-      let task = await API.getTask(this.taskId);
-      this.labels = task.labels;
+    async fetchTasks() {
+      let task = await API.getTasks();
+      console.log(task);
+      this.tasks = task;
     },
   },
 });

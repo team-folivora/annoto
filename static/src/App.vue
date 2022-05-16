@@ -13,7 +13,7 @@ export default defineComponent({
   components: {
     TaskOverView,
     LoginView,
-    TaskView
+    TaskView,
   },
   data() {
     return {
@@ -55,13 +55,21 @@ export default defineComponent({
       <h1 class="_text-align:center">Annoto</h1>
     </i-layout-header>
     <i-layout-content>
-      <LoginView v-if="page == 'login'" id="login-view" @login="login"></LoginView>
-      <TaskOverView v-else-if="page == 'tasks'" id="tasks-overview" @annotate="annotate"></TaskOverView>
+      <LoginView
+        v-if="page == 'login'"
+        id="login-view"
+        @login="login"
+      ></LoginView>
+      <TaskOverView
+        v-else-if="page == 'tasks'"
+        id="tasks-overview"
+        @annotate="annotate"
+      ></TaskOverView>
       <TaskView
         v-else-if="page == 'task' && task"
+        id="task-view"
         :task="task"
         competency="Prof. Dr. med."
-        id="task-view"
       ></TaskView>
       <div v-else>Invalid Page</div>
     </i-layout-content>

@@ -5,7 +5,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    fullname: { type: String },
+    fullname: { type: String, required: true },
   },
 });
 </script>
@@ -13,7 +13,7 @@ export default defineComponent({
 <template>
   <div>
     Current logged in user:
-    <label id="userLabel">{{ fullname ?? "Unknown User" }}</label>
+    <label id="userLabel">{{ fullname }}</label>
   </div>
 </template>
 

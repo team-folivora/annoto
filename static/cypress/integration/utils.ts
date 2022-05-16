@@ -32,11 +32,9 @@ export function intercept_get_task() {
 }
 
 export function intercept_get_tasks() {
-  cy.intercept(
-    "GET",
-    `${Cypress.env("API_URL")}/tasks`,
-    { fixture: "tasks.json" }
-  ).as("get_tasks");
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, {
+    fixture: "tasks.json",
+  }).as("get_tasks");
 }
 
 export function intercept_next_image() {
@@ -136,10 +134,7 @@ export function login() {
 }
 
 export function annotate(task_id: string) {
-  return cy
-    .visit("/")
-    .get(`.card#task-${task_id} button`)
-    .click();
+  return cy.visit("/").get(`.card#task-${task_id} button`).click();
 }
 
 export function proof_condition() {

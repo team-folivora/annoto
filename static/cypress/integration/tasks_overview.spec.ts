@@ -1,7 +1,4 @@
-import {
-  login,
-  setup_intercepts,
-} from "./utils";
+import { login, setup_intercepts } from "./utils";
 
 describe("TasksOverView", () => {
   it("shows full name", () => {

@@ -11,14 +11,16 @@ describe("TaskView", () => {
     setup_intercepts();
     login()
       .then(() => annotate("ecg-qrs-classification-physiodb"))
-      .get("#userLabel").contains("Prof. Dr. Folivora");
+      .get("#userLabel")
+      .contains("Prof. Dr. Folivora");
   });
 
   it("shows the proof of condition popup on startup", () => {
     setup_intercepts();
     login()
       .then(() => annotate("ecg-qrs-classification-physiodb"))
-      .get("#proof-of-condition").should("be.visible");
+      .get("#proof-of-condition")
+      .should("be.visible");
   });
 
   it("can close the proof of condition dialog when checkbox is checked", () => {
@@ -44,16 +46,13 @@ describe("TaskView", () => {
     setup_intercepts({
       intercept_next_image: intercept_next_image_with_failure,
     });
-    login()
-    cy.screenshot()
-    cy.wait("@get_tasks")
-    cy.screenshot()
-    annotate("ecg-qrs-classification-physiodb")
-    cy.screenshot()
-    cy
-      .wait("@get_next_image")
-      .get("#no-more-images")
-      .should("be.visible");
+    login();
+    cy.screenshot();
+    cy.wait("@get_tasks");
+    cy.screenshot();
+    annotate("ecg-qrs-classification-physiodb");
+    cy.screenshot();
+    cy.wait("@get_next_image").get("#no-more-images").should("be.visible");
   });
 
   it("shows annotation buttons", () => {

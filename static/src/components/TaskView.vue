@@ -30,12 +30,6 @@ export default defineComponent({
     };
   },
 
-  computed: {
-    fullname() {
-      return fullname();
-    },
-  },
-
   mounted() {
     this.nextImage();
   },
@@ -48,6 +42,8 @@ export default defineComponent({
       });
     },
 
+    fullname,
+
     paramCase,
   },
 });
@@ -59,7 +55,7 @@ export default defineComponent({
       v-model:isAttentive="isAttentive"
       v-model:isTrained="isTrained"
     />
-    <UserInformationLabel :fullname="fullname" />
+    <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
     <div v-if="imageId">
       <ImageDisplay id="image-display" :task-id="task.id" :image-id="imageId" />
       <i-button-group block>

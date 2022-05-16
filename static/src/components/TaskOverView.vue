@@ -6,21 +6,17 @@ import UserInformationLabel from "@/components/UserInformationLabel.vue";
 import type { Task } from "@/api/models/Task";
 import { fullname } from "@/utils/helpers";
 export default defineComponent({
-  data() {
-    return {
-      tasks: [] as Task[],
-    };
-  },
-
   components: {
     TaskCard,
     UserInformationLabel,
   },
 
-  computed: {
-    fullname() {
-      return fullname();
-    },
+  emits: ["annotate"],
+
+  data() {
+    return {
+      tasks: [] as Task[],
+    };
   },
 
   mounted() {
@@ -32,8 +28,10 @@ export default defineComponent({
       this.tasks = await API.getTasks();
     },
 
+    fullname,
+
     annotate(task: Task) {
-      this.$emit("annotate", task)
+      this.$emit("annotate", task);
     },
   },
 });
@@ -41,17 +39,19 @@ export default defineComponent({
 
 <template>
   <i-layout-content>
-    <UserInformationLabel :fullname="fullname" />
-    <div class="_display:flex" v-if="tasks.length != 0">
+    <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
+    <div v-if="tasks.length != 0" class="_display:flex">
       <TaskCard
         v-for="task in tasks"
+        :id="`task-${task.id}`"
         :key="task.id"
         :task="task"
         class="_margin:1"
         @annotate="annotate"
-        :id="`task-${task.id}`"
       />
     </div>
-    <i-card v-else id="no-more-images" class="margin-y:20px">No more Tasks to accomplish.</i-card>
+    <i-card v-else id="no-more-images" class="margin-y:20px">
+      No more Tasks to accomplish.
+    </i-card>
   </i-layout-content>
 </template>

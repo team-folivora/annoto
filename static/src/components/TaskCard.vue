@@ -6,14 +6,7 @@ export default defineComponent({
     task: { type: Object as () => Task, required: true },
   },
 
-  mounted() {
-    // this.fetchTasks();
-  },
-
-  methods: {},
-  emits: {
-    annotate(payload: Task) {},
-  },
+  emits: ["annotate"],
 });
 </script>
 

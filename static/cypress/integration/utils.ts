@@ -31,6 +31,14 @@ export function intercept_get_task() {
   ).as("get_task");
 }
 
+export function intercept_get_tasks() {
+  cy.intercept(
+    "GET",
+    `${Cypress.env("API_URL")}/tasks`,
+    { fixture: "tasks.json" }
+  ).as("get_tasks");
+}
+
 export function intercept_next_image() {
   cy.intercept(
     "GET",
@@ -88,6 +96,7 @@ export interface InterceptConfig {
   intercept_login?: () => void;
   intercept_ping?: () => void;
   intercept_get_task?: () => void;
+  intercept_get_tasks?: () => void;
   intercept_next_image?: () => void;
   intercept_get_image?: () => void;
   intercept_store_annotation?: () => void;
@@ -98,6 +107,7 @@ const defaultInterceptConfig: InterceptConfig = {
   intercept_login: intercept_login,
   intercept_ping: intercept_ping,
   intercept_get_task: intercept_get_task,
+  intercept_get_tasks: intercept_get_tasks,
   intercept_next_image: intercept_next_image,
   intercept_get_image: intercept_get_image,
   intercept_store_annotation: intercept_store_annotation,
@@ -123,6 +133,13 @@ export function login() {
     .get("button#submit")
     .click()
     .wait("@login");
+}
+
+export function annotate(task_id: string) {
+  return cy
+    .visit("/")
+    .get(`.card#task-${task_id} button`)
+    .click();
 }
 
 export function proof_condition() {

@@ -65,7 +65,7 @@ def create_db():
     """Creates a database file, applies all available migrations and loads the test data"""
     from scripts import load_test_data
 
-    apply_migration()
+    apply_migrations()
     load_test_data.load()
 
 
@@ -91,9 +91,11 @@ def create_migration():
     exit(status)
 
 
-def apply_migration():
-    """Applies a database migration with alembic"""
-    exit(os.WEXITSTATUS(os.system("alembic upgrade head")))
+def apply_migrations():
+    """Applies database migrations with alembic"""
+    status = os.WEXITSTATUS(os.system("alembic upgrade head"))
+    if status != 0:
+        exit(status)
 
 
 def dump_api():
@@ -122,7 +124,7 @@ commands = {
     "db-reload": reload_db_data,
     "db-reset": reset_db,
     "migration-create": create_migration,
-    "migration-apply": apply_migration,
+    "migrations-apply": apply_migrations,
     "dump-api": dump_api,
     "--help": print_commands,
 }

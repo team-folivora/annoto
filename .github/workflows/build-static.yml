@@ -29,3 +29,9 @@ jobs:
       - run: npm run build -- development
       - run: npm run test:e2e:ci
       - run: npm run test:unit:ci
+      - name: Upload e2e tests videos
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: Cypress e2e Videos
+          path: /home/runner/work/annoto/annoto/static/cypress/videos/

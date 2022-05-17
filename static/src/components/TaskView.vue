@@ -8,6 +8,7 @@ import { TasksService as API } from "@/api/services/TasksService";
 import type { Task } from "@/api/models/Task";
 import { paramCase } from "change-case";
 import { fullname } from "@/utils/helpers";
+
 export default defineComponent({
   components: {
     ImageDisplay,
@@ -16,26 +17,31 @@ export default defineComponent({
     UserInformationLabel,
   },
 
-  props: {
-    task: { type: Object as () => Task, required: true },
-    competency: { type: String, required: true },
-  },
-
   data() {
     return {
       visible: true,
       isAttentive: false,
       isTrained: false,
       imageId: undefined as string | void,
+      task: undefined as Task | undefined,
     };
   },
 
-  mounted() {
-    this.nextImage();
+  async mounted() {
+    this.$watch(() => this.$route.params, this.fetchTask);
+    await this.fetchTask();
   },
 
   methods: {
+    async fetchTask() {
+      const id = this.$route.params["taskid"];
+      if (typeof id !== "string") return;
+      this.task = await API.getTask(id);
+      await this.nextImage();
+    },
+
     async nextImage() {
+      if (!this.task) return;
       this.imageId = await API.getNextImage(this.task.id).catch((e) => {
         console.log(e);
         this.imageId = undefined;
@@ -56,7 +62,7 @@ export default defineComponent({
       v-model:isTrained="isTrained"
     />
     <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
-    <div v-if="imageId">
+    <div v-if="imageId && task">
       <ImageDisplay id="image-display" :task-id="task.id" :image-id="imageId" />
       <i-button-group block>
         <AnnotationButton
@@ -66,9 +72,9 @@ export default defineComponent({
           :label="label"
           :is-attentive="isAttentive"
           :is-trained="isTrained"
-          :competency="competency"
-          :task-id="task.id"
-          :image-id="imageId"
+          :competency="'Prof. Dr. Med.'"
+          :task-id="task!.id"
+          :image-id="imageId!"
           @annotation-saved="nextImage"
         />
       </i-button-group>

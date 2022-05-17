@@ -20,7 +20,6 @@ export default defineComponent({
   data() {
     return {
       page: "login",
-      loggedIn: false,
       task: undefined as Task | undefined,
       ready: false,
       isLoggedIn,

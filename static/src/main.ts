@@ -13,6 +13,7 @@ import { OpenAPI } from "@/api/core/OpenAPI";
 import Toaster from "@/plugins/toaster";
 import LoginView from "./components/LoginView.vue";
 import TasksOverView from "./components/TasksOverView.vue";
+import TaskView from "./components/TaskView.vue";
 import RedirectView from "./components/RedirectView.vue";
 import { isLoggedIn } from "@/utils/store";
 
@@ -46,6 +47,18 @@ const routes = [
   {
     path: "/tasks",
     component: TasksOverView,
+    beforeEnter: () => {
+      if ((app as any).$cookies.isKey("jwt")) {
+        isLoggedIn.value = true;
+        return true;
+      }
+      isLoggedIn.value = false;
+      return "/login";
+    },
+  },
+  {
+    path: "/tasks/:taskid",
+    component: TaskView,
     beforeEnter: () => {
       if ((app as any).$cookies.isKey("jwt")) {
         isLoggedIn.value = true;

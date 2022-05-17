@@ -11,8 +11,6 @@ export default defineComponent({
     UserInformationLabel,
   },
 
-  emits: ["annotate"],
-
   data() {
     return {
       tasks: [] as Task[],
@@ -29,10 +27,6 @@ export default defineComponent({
     },
 
     fullname,
-
-    annotate(task: Task) {
-      this.$emit("annotate", task);
-    },
   },
 });
 </script>
@@ -47,7 +41,6 @@ export default defineComponent({
         :key="task.id"
         :task="task"
         class="_margin:1"
-        @annotate="annotate"
       />
     </div>
     <i-card v-else id="no-more-tasks" class="margin-y:20px">

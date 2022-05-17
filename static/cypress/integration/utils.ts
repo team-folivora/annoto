@@ -37,6 +37,12 @@ export function intercept_get_tasks() {
   }).as("get_tasks");
 }
 
+export function intercept_get_tasks_with_empty_list() {
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, {
+    fixture: "tasks_empty.json",
+  }).as("get_tasks");
+}
+
 export function intercept_next_image() {
   cy.intercept(
     "GET",

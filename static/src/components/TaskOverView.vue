@@ -50,7 +50,7 @@ export default defineComponent({
         @annotate="annotate"
       />
     </div>
-    <i-card v-else id="no-more-images" class="margin-y:20px">
+    <i-card v-else id="no-more-tasks" class="margin-y:20px">
       No more Tasks to accomplish.
     </i-card>
   </i-layout-content>

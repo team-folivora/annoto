@@ -43,7 +43,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="_margin-x:auto _margin-top:8">
+  <div class="_margin-x:auto _margin-top:8" id="login-view">
     <i-input v-model="email" type="email" name="email" placeholder="E-Mail" />
     <br />
     <i-input

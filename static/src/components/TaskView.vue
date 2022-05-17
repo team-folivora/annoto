@@ -56,7 +56,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-layout-content>
+  <div id="task-view">
     <ProofOfCondition
       v-model:isAttentive="isAttentive"
       v-model:isTrained="isTrained"
@@ -82,5 +82,5 @@ export default defineComponent({
     <i-card v-else id="no-more-images" class="margin-y:20px">
       No more Images to label
     </i-card>
-  </i-layout-content>
+  </div>
 </template>

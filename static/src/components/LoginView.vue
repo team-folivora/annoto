@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { LoginService as API } from "@/api/services/LoginService";
+import { OpenAPI } from "@/api";
 
 export default defineComponent({
   emits: ["login"],
@@ -28,7 +29,8 @@ export default defineComponent({
           });
           const jwt = response.access_token;
           this.$cookies.set("jwt", jwt);
-          this.$emit("login", jwt);
+          OpenAPI.TOKEN = jwt;
+          this.$router.push("/tasks");
         } catch {
           this.$toast?.danger("E-Mail or Password is not correct...");
         }

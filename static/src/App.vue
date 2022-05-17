@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import TaskOverView from "./components/TaskOverView.vue";
+import TaskOversView from "./components/TasksOverView.vue";
 import LoginView from "./components/LoginView.vue";
 import { OpenAPI, PingService } from "@/api";
 import TaskView from "./components/TaskView.vue";
@@ -11,7 +11,7 @@ import type { Task } from "@/api/models/Task";
  */
 export default defineComponent({
   components: {
-    TaskOverView,
+    TasksOverView,
     LoginView,
     TaskView,
   },
@@ -76,11 +76,11 @@ export default defineComponent({
         id="login-view"
         @login="login"
       ></LoginView>
-      <TaskOverView
+      <TasksOverView
         v-else-if="page == 'tasks'"
         id="tasks-overview"
         @annotate="annotate"
-      ></TaskOverView>
+      ></TasksOverView>
       <TaskView
         v-else-if="page == 'task' && task"
         id="task-view"

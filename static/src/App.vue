@@ -66,11 +66,7 @@ export default defineComponent({
           <h1 class="_text-align:center">Annoto</h1>
         </i-column>
         <i-column md="3">
-          <i-button
-            v-if="isLoggedIn"
-            id="logout-button"
-            @click="logout"
-          >
+          <i-button v-if="isLoggedIn" id="logout-button" @click="logout">
             Logout
           </i-button>
         </i-column>

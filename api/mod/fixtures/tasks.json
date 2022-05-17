@@ -1,3 +1,4 @@
 [
-    "ecg-qrs-classification-physiodb"
+    "ecg-qrs-classification-physiodb",
+    "pressure-mat-pose-estimation-slp"
 ]

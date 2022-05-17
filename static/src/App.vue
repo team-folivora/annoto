@@ -1,20 +1,24 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import TaskView from "./components/TaskView.vue";
+import TasksOverView from "./components/TasksOverView.vue";
 import LoginView from "./components/LoginView.vue";
 import { OpenAPI, PingService } from "@/api";
+import TaskView from "./components/TaskView.vue";
+import type { Task } from "@/api/models/Task";
 
 /**
  * The main App component for the website
  */
 export default defineComponent({
   components: {
-    TaskView,
+    TasksOverView,
     LoginView,
+    TaskView,
   },
   data() {
     return {
       page: "login",
+      task: undefined as Task | undefined,
       loggedIn: false,
     };
   },
@@ -31,12 +35,18 @@ export default defineComponent({
       try {
         OpenAPI.TOKEN = token;
         await PingService.ping();
-        this.page = "task";
+        this.page = "tasks";
         this.loggedIn = true;
       } catch (_) {
         this.logout();
       }
     },
+
+    annotate(task: Task) {
+      this.task = task;
+      this.page = "task";
+    },
+
     logout() {
       OpenAPI.TOKEN = undefined;
       this.$cookies.remove("jwt");
@@ -66,12 +76,18 @@ export default defineComponent({
         id="login-view"
         @login="login"
       ></LoginView>
+      <TasksOverView
+        v-else-if="page == 'tasks'"
+        id="tasks-overview"
+        @annotate="annotate"
+      ></TasksOverView>
       <TaskView
-        v-else
+        v-else-if="page == 'task' && task"
         id="task-view"
-        task-id="ecg-qrs-classification-physiodb"
-        competency="Prof. Dr. Med."
+        :task="task"
+        competency="Prof. Dr. med."
       ></TaskView>
+      <div v-else>Invalid Page</div>
     </i-layout-content>
   </i-layout>
 </template>

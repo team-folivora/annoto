@@ -15,7 +15,7 @@ import LoginView from "./components/LoginView.vue";
 import TasksOverView from "./components/TasksOverView.vue";
 import TaskView from "./components/TaskView.vue";
 import RedirectView from "./components/RedirectView.vue";
-import { isLoggedIn } from "@/utils/store";
+import { store } from "@/utils/store";
 
 OpenAPI.BASE =
   import.meta.env.VITE_API_URL?.toString().replace(/\/$/, "") || "";
@@ -36,36 +36,21 @@ const routes = [
     path: "/login",
     component: LoginView,
     beforeEnter: () => {
-      if ((app as any).$cookies.isKey("jwt")) {
-        isLoggedIn.value = true;
-        return "/tasks";
-      }
-      isLoggedIn.value = false;
-      return true;
+      return store.isLoggedIn ? "/tasks" : true;
     },
   },
   {
     path: "/tasks",
     component: TasksOverView,
     beforeEnter: () => {
-      if ((app as any).$cookies.isKey("jwt")) {
-        isLoggedIn.value = true;
-        return true;
-      }
-      isLoggedIn.value = false;
-      return "/login";
+      return store.isLoggedIn ? true : "/login";
     },
   },
   {
     path: "/tasks/:taskid",
     component: TaskView,
     beforeEnter: () => {
-      if ((app as any).$cookies.isKey("jwt")) {
-        isLoggedIn.value = true;
-        return true;
-      }
-      isLoggedIn.value = false;
-      return "/login";
+      return store.isLoggedIn ? true : "/login";
     },
   },
 ];

@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import type { Task } from "@/api/models/Task";
-import { OpenAPI, PingService } from "@/api";
-import { isLoggedIn } from "@/utils/store";
+import { PingService } from "@/api";
+import { store } from "@/utils/store";
 
 /**
  * The main App component for the website
@@ -12,30 +12,27 @@ export default defineComponent({
     return {
       task: undefined as Task | undefined,
       ready: false,
-      isLoggedIn,
+      store,
     };
   },
 
   async mounted() {
-    const jwt = this.$cookies.get("jwt");
-    if (jwt) {
+    store.initialize(this.$cookies);
+    if (store.jwt) {
       try {
-        OpenAPI.TOKEN = jwt;
         await PingService.ping();
       } catch (_) {
-        OpenAPI.TOKEN = undefined;
-        this.$cookies.remove("jwt");
+        store.jwt = undefined;
       }
     } else {
-      this.$cookies.remove("jwt");
+      store.jwt = undefined;
     }
     this.ready = true;
   },
 
   methods: {
     logout() {
-      OpenAPI.TOKEN = undefined;
-      this.$cookies.remove("jwt");
+      store.jwt = undefined;
       this.$router.push("/login");
     },
   },
@@ -51,7 +48,7 @@ export default defineComponent({
           <h1 class="_text-align:center">Annoto</h1>
         </i-column>
         <i-column md="3">
-          <i-button v-if="isLoggedIn" id="logout-button" @click="logout">
+          <i-button v-if="store.isLoggedIn" id="logout-button" @click="logout">
             Logout
           </i-button>
         </i-column>

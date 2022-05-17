@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { LoginService as API } from "@/api/services/LoginService";
-import { OpenAPI } from "@/api";
 import { store } from "@/utils/store";
 
 export default defineComponent({
@@ -42,7 +41,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="_margin-x:auto _margin-top:8" id="login-view">
+  <div id="login-view" class="_margin-x:auto _margin-top:8">
     <i-input v-model="email" type="email" name="email" placeholder="E-Mail" />
     <br />
     <i-input

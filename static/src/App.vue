@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import TaskOversView from "./components/TasksOverView.vue";
+import TasksOverView from "./components/TasksOverView.vue";
 import LoginView from "./components/LoginView.vue";
 import { OpenAPI, PingService } from "@/api";
 import TaskView from "./components/TaskView.vue";

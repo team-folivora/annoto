@@ -15,7 +15,8 @@ import LoginView from "./components/LoginView.vue";
 import TasksOverView from "./components/TasksOverView.vue";
 import TaskView from "./components/TaskView.vue";
 import RedirectView from "./components/RedirectView.vue";
-import { store } from "@/utils/store";
+import Store from "@/utils/store";
+import {store} from "@/utils/store";
 
 OpenAPI.BASE =
   import.meta.env.VITE_API_URL?.toString().replace(/\/$/, "") || "";
@@ -59,6 +60,8 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
+
+app.use(Store);
 
 app.use(router);
 

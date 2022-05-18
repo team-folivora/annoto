@@ -2,12 +2,6 @@ import { type App, h, render, type Plugin } from "vue";
 import type { ToastProps, ToastOptions, ToasterApi } from "@/plugins/types";
 import ToastNotification from "@/components/ToastNotification.vue";
 
-declare module "vue" {
-  interface ComponentCustomProperties {
-    $toast: ToasterApi;
-  }
-}
-
 function createToaster(app: App, globalOptions: ToastOptions): ToasterApi {
   return {
     show(message: string, options: ToastOptions = {}) {

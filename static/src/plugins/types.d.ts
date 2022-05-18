@@ -1,3 +1,10 @@
+declare module "vue" {
+  interface ComponentCustomProperties {
+    $toast: ToasterApi;
+    $store: StoreApi;
+  }
+}
+
 export interface ToastOptions {
   type?: "success" | "danger" | "warning" | "info";
   duration?: number;
@@ -43,4 +50,37 @@ export interface ToasterApi {
    * @param options The options that should be used to configure the ToastNotification.
    */
   info: (message: string, options?: ToastOptions) => void;
+}
+
+export interface StoreApi {
+  /**
+   * Internal jwt token.
+   */
+  _jwt: string | undefined;
+
+  /**
+   * VueCookies instance.
+   */
+  $cookies: VueCookies | undefined;
+
+    /**
+     * Indicates if the user is logged in.
+     */
+  isLoggedIn: boolean;
+
+  /**
+   * Initialize the store
+   * @param cookies VueCookies instance
+   */
+  initialize(cookies: VueCookies): void;
+
+  /**
+   * Returns the current jwt token.
+   */
+  get jwt(): string | undefined;
+
+  /**
+   * Sets the current jwt token.
+   */
+  set jwt(newJWT: string | undefined): void;
 }

@@ -2,7 +2,6 @@
 import { defineComponent } from "vue";
 import type { Task } from "@/api/models/Task";
 import { PingService } from "@/api";
-import { store } from "@/utils/store";
 
 /**
  * The main App component for the website
@@ -12,27 +11,26 @@ export default defineComponent({
     return {
       task: undefined as Task | undefined,
       ready: false,
-      store,
     };
   },
 
   async mounted() {
-    store.initialize(this.$cookies);
-    if (store.jwt) {
+    this.$store.initialize(this.$cookies);
+    if (this.$store.jwt) {
       try {
         await PingService.ping();
       } catch (_) {
-        store.jwt = undefined;
+        this.$store.jwt = undefined;
       }
     } else {
-      store.jwt = undefined;
+      this.$store.jwt = undefined;
     }
     this.ready = true;
   },
 
   methods: {
     logout() {
-      store.jwt = undefined;
+      this.$store.jwt = undefined;
       this.$router.push("/login");
     },
   },
@@ -48,7 +46,7 @@ export default defineComponent({
           <h1 class="_text-align:center">Annoto</h1>
         </i-column>
         <i-column md="3">
-          <i-button v-if="store.isLoggedIn" id="logout-button" @click="logout">
+          <i-button v-if="$store.isLoggedIn" id="logout-button" @click="logout">
             Logout
           </i-button>
         </i-column>

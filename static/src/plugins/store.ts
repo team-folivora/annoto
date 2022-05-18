@@ -15,7 +15,7 @@ export const store: StoreApi = reactive({
     this.jwt = cookies.get("jwt");
   },
 
-  get jwt(): string | undefined {
+  get jwt() {
     return this._jwt;
   },
 
@@ -39,10 +39,8 @@ function createStore(app: App): StoreApi {
   return store;
 }
 
-const Store: Plugin = {
+export const Store: Plugin = {
   install(app: App) {
     app.config.globalProperties.$store = createStore(app);
   },
 };
-
-export default Store;

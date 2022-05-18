@@ -1,3 +1,5 @@
+import { OpenAPI } from "@/api";
+
 export function getUrl(path: string): string {
   const apiUrl = import.meta.env.VITE_API_URL?.toString() || "";
   return `${apiUrl}/${path}?`;
@@ -17,4 +19,12 @@ export function parseJwt(token: string) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+export function fullname(): string | undefined {
+  if (typeof OpenAPI.TOKEN === "string") {
+    return parseJwt(OpenAPI.TOKEN)["fullname"];
+  } else {
+    return undefined;
+  }
 }

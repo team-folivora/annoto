@@ -12,7 +12,24 @@ def test_get_tasks(client: ManagedTestClient) -> None:
     response = client.get("/tasks")
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/json"
-    assert response.json() == ["ecg-qrs-classification-physiodb"]
+    assert response.json() == [
+        {
+            "id": "ecg-qrs-classification-physiodb",
+            "description": "Labeling the QRS complex of Physionet ECGs",
+            "labels": [
+                "Atrial fibrillation",  # pylint: disable=R0801
+                "Normal sinus rhythm",
+                "Ventricular tachycardia",
+                "Noise",
+                "Other",
+            ],
+        },
+        {
+            "description": "Labeling Pose of Pressure Mat Data from SLP",
+            "id": "pressure-mat-pose-estimation-slp",
+            "labels": ["Supine", "Left", "Right"],
+        },
+    ]
 
 
 def test_get_task(client: ManagedTestClient) -> None:

@@ -3,7 +3,7 @@ import { intercept_login_with_failure, login, setup_intercepts } from "./utils";
 describe("LoginView", () => {
   it("logs the user in when valid login data is provided", () => {
     setup_intercepts();
-    login().get("#task-view");
+    login().get("#tasks-overview");
   });
 
   it("warns if no password or email provided", () => {

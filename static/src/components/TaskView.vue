@@ -5,9 +5,10 @@ import AnnotationButton from "@/components/AnnotationButton.vue";
 import ProofOfCondition from "@/components/ProofOfCondition.vue";
 import UserInformationLabel from "@/components/UserInformationLabel.vue";
 import { TasksService as API } from "@/api/services/TasksService";
+import type { Task } from "@/api/models/Task";
 import { paramCase } from "change-case";
-import { OpenAPI } from "@/api";
-import { parseJwt } from "@/utils/helpers";
+import { fullname } from "@/utils/helpers";
+
 export default defineComponent({
   components: {
     ImageDisplay,
@@ -16,48 +17,38 @@ export default defineComponent({
     UserInformationLabel,
   },
 
-  props: {
-    taskId: { type: String, required: true },
-    competency: { type: String, required: true },
-  },
-
   data() {
     return {
-      labels: [] as string[],
       visible: true,
       isAttentive: false,
       isTrained: false,
       imageId: undefined as string | void,
+      task: undefined as Task | undefined,
     };
   },
 
-  computed: {
-    fullname() {
-      if (typeof OpenAPI.TOKEN === "string") {
-        return parseJwt(OpenAPI.TOKEN)["fullname"];
-      } else {
-        return undefined;
-      }
-    },
-  },
-
-  mounted() {
-    this.fetchLabels();
-    this.nextImage();
+  async mounted() {
+    this.$watch(() => this.$route.params, this.fetchTask);
+    await this.fetchTask();
   },
 
   methods: {
-    async fetchLabels() {
-      let task = await API.getTask(this.taskId);
-      this.labels = task.labels;
+    async fetchTask() {
+      const id = this.$route.params["taskid"];
+      if (typeof id !== "string") return;
+      this.task = await API.getTask(id);
+      await this.nextImage();
     },
 
     async nextImage() {
-      this.imageId = await API.getNextImage(this.taskId).catch((e) => {
+      if (!this.task) return;
+      this.imageId = await API.getNextImage(this.task.id).catch((e) => {
         console.log(e);
         this.imageId = undefined;
       });
     },
+
+    fullname,
 
     paramCase,
   },
@@ -65,25 +56,25 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-layout-content>
+  <div id="task-view">
     <ProofOfCondition
       v-model:isAttentive="isAttentive"
       v-model:isTrained="isTrained"
     />
-    <UserInformationLabel :fullname="fullname" />
-    <div v-if="imageId">
-      <ImageDisplay id="image-display" :task-id="taskId" :image-id="imageId" />
+    <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
+    <div v-if="imageId && task">
+      <ImageDisplay id="image-display" :task-id="task.id" :image-id="imageId" />
       <i-button-group block>
         <AnnotationButton
-          v-for="label in labels"
+          v-for="label in task.labels"
           :id="'annotation-button-' + paramCase(label)"
           :key="label"
           :label="label"
           :is-attentive="isAttentive"
           :is-trained="isTrained"
-          :competency="competency"
-          :task-id="taskId"
-          :image-id="imageId"
+          :competency="'Prof. Dr. Med.'"
+          :task-id="task!.id"
+          :image-id="imageId!"
           @annotation-saved="nextImage"
         />
       </i-button-group>
@@ -91,5 +82,5 @@ export default defineComponent({
     <i-card v-else id="no-more-images" class="margin-y:20px">
       No more Images to label
     </i-card>
-  </i-layout-content>
+  </div>
 </template>

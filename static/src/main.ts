@@ -16,7 +16,7 @@ import TasksOverView from "./components/TasksOverView.vue";
 import TaskView from "./components/TaskView.vue";
 import RedirectView from "./components/RedirectView.vue";
 import Store from "@/utils/store";
-import {store} from "@/utils/store";
+import { store } from "@/utils/store";
 
 OpenAPI.BASE =
   import.meta.env.VITE_API_URL?.toString().replace(/\/$/, "") || "";

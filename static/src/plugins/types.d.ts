@@ -63,9 +63,9 @@ export interface StoreApi {
    */
   $cookies: VueCookies | undefined;
 
-    /**
-     * Indicates if the user is logged in.
-     */
+  /**
+   * Indicates if the user is logged in.
+   */
   isLoggedIn: boolean;
 
   /**

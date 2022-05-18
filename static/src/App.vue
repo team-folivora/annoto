@@ -15,7 +15,6 @@ export default defineComponent({
   },
 
   async mounted() {
-    this.$store.initialize(this.$cookies);
     if (this.$store.jwt) {
       try {
         await PingService.ping();

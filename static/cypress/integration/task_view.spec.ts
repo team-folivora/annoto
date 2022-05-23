@@ -10,6 +10,7 @@ describe("TaskView", () => {
   it("shows full name", () => {
     setup_intercepts();
     login()
+      .wait("@get_tasks")
       .then(() => annotate("ecg-qrs-classification-physiodb"))
       .get("#userLabel")
       .contains("Prof. Dr. Folivora");
@@ -18,6 +19,7 @@ describe("TaskView", () => {
   it("shows the proof of condition popup on startup", () => {
     setup_intercepts();
     login()
+      .wait("@get_tasks")
       .then(() => annotate("ecg-qrs-classification-physiodb"))
       .get("#proof-of-condition")
       .should("be.visible");
@@ -26,6 +28,7 @@ describe("TaskView", () => {
   it("can close the proof of condition dialog when checkbox is checked", () => {
     setup_intercepts();
     login()
+      .wait("@get_tasks")
       .then(() => annotate("ecg-qrs-classification-physiodb"))
       .then(proof_condition)
       .get("#proof-of-condition")
@@ -35,6 +38,7 @@ describe("TaskView", () => {
   it("cannot close the proof of condition dialog when checkbox is not checked", () => {
     setup_intercepts();
     login()
+      .wait("@get_tasks")
       .then(() => annotate("ecg-qrs-classification-physiodb"))
       .get("#proof-of-condition button")
       .click({ force: true })

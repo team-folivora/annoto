@@ -16,14 +16,14 @@ describe("TasksOverView", () => {
     login().get(".card#task-ecg-qrs-classification-physiodb");
   });
 
-  it("Informs the user when there are no tasks", () => {
+  it("informs the user when there are no tasks", () => {
     setup_intercepts({
       intercept_get_tasks: intercept_get_tasks_with_empty_list,
     });
     login().get("#no-more-tasks");
   });
 
-  it("Shows the task view when a task was selected", () => {
+  it("shows the task view when a task was selected", () => {
     setup_intercepts();
     login()
       .then(() => annotate("ecg-qrs-classification-physiodb"))

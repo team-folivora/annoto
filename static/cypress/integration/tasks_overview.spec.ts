@@ -1,5 +1,5 @@
 import {
-  annotate,
+  openTask,
   intercept_get_tasks_with_empty_list,
   login,
   setup_intercepts,
@@ -26,7 +26,7 @@ describe("TasksOverView", () => {
   it("shows the task view when a task was selected", () => {
     setup_intercepts();
     login()
-      .then(() => annotate("ecg-qrs-classification-physiodb"))
+      .then(() => openTask("ecg-qrs-classification-physiodb"))
       .get("#task-view");
   });
 });

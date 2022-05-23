@@ -6,7 +6,7 @@ export default defineComponent({
     task: { type: Object as () => Task, required: true },
   },
 
-  emits: ["annotate"],
+  emits: ["openTask"],
 });
 </script>
 
@@ -17,7 +17,7 @@ export default defineComponent({
     </template>
     {{ task.description }}
     <template #footer>
-      <i-button color="primary" @click="$emit('annotate', task)">
+      <i-button color="primary" @click="$emit('openTask', task)">
         Start Annotating
       </i-button>
     </template>

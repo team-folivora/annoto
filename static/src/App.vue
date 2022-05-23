@@ -42,7 +42,7 @@ export default defineComponent({
       }
     },
 
-    annotate(task: Task) {
+    openTask(task: Task) {
       this.task = task;
       this.page = "task";
     },
@@ -79,7 +79,7 @@ export default defineComponent({
       <TasksOverView
         v-else-if="page == 'tasks'"
         id="tasks-overview"
-        @annotate="annotate"
+        @open-task="openTask"
       ></TasksOverView>
       <TaskView
         v-else-if="page == 'task' && task"

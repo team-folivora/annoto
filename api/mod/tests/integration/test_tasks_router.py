@@ -35,7 +35,9 @@ def test_multiple_tasks_exist_returns_all(client: ManagedTestClient) -> None:
 def test_no_tasks_exist_returns_empty_list(client: ManagedTestClient) -> None:
     """Tests whether an empty list is returned when no tasks are available"""
     client.authorize()
-    with open(SETTINGS.data_folder.joinpath("tasks.json"), "w", encoding="utf-8") as file:
+    with open(
+        SETTINGS.data_folder.joinpath("tasks.json"), "w", encoding="utf-8"
+    ) as file:
         file.write("[]")
     response = client.get("/tasks")
     assert response.status_code == 200

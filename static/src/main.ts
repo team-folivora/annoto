@@ -31,7 +31,10 @@ app.use(Toaster);
 app.use(VueCookies, { expire: "1d" });
 
 const routes = [
-  { path: "/", component: RedirectView },
+  {
+    path: "/",
+    component: RedirectView,
+  },
   {
     path: "/login",
     component: LoginView,

@@ -1,14 +1,14 @@
 import {
   openTask,
-  intercept_next_image_with_failure,
+  interceptNextImageWithFailure,
   login,
-  proof_condition,
-  setup_intercepts,
+  proofCondition,
+  setupIntercepts,
 } from "./utils";
 
 describe("TaskView", () => {
   it("shows full name", () => {
-    setup_intercepts();
+    setupIntercepts();
     login()
       .wait("@get_tasks")
       .then(() => openTask("ecg-qrs-classification-physiodb"))
@@ -17,7 +17,7 @@ describe("TaskView", () => {
   });
 
   it("shows the proof of condition popup on startup", () => {
-    setup_intercepts();
+    setupIntercepts();
     login()
       .wait("@get_tasks")
       .then(() => openTask("ecg-qrs-classification-physiodb"))
@@ -26,17 +26,17 @@ describe("TaskView", () => {
   });
 
   it("can close the proof of condition dialog when checkbox is checked", () => {
-    setup_intercepts();
+    setupIntercepts();
     login()
       .wait("@get_tasks")
       .then(() => openTask("ecg-qrs-classification-physiodb"))
-      .then(proof_condition)
+      .then(proofCondition)
       .get("#proof-of-condition")
       .should("not.be.visible");
   });
 
   it("cannot close the proof of condition dialog when checkbox is not checked", () => {
-    setup_intercepts();
+    setupIntercepts();
     login()
       .wait("@get_tasks")
       .then(() => openTask("ecg-qrs-classification-physiodb"))
@@ -47,8 +47,8 @@ describe("TaskView", () => {
   });
 
   it("informs the user when no more images are available for annotation", () => {
-    setup_intercepts({
-      intercept_next_image: intercept_next_image_with_failure,
+    setupIntercepts({
+      interceptNextImage: interceptNextImageWithFailure,
     });
     login()
       .wait("@get_tasks")
@@ -59,7 +59,7 @@ describe("TaskView", () => {
   });
 
   it("shows annotation buttons", () => {
-    setup_intercepts();
+    setupIntercepts();
     login()
       .wait("@get_tasks")
       .then(() => openTask("ecg-qrs-classification-physiodb"))
@@ -71,7 +71,7 @@ describe("TaskView", () => {
   });
 
   it("shows image display", () => {
-    setup_intercepts();
+    setupIntercepts();
     login()
       .wait("@get_tasks")
       .then(() => openTask("ecg-qrs-classification-physiodb"))
@@ -81,11 +81,11 @@ describe("TaskView", () => {
   });
 
   it("annotation button stores annotation", () => {
-    setup_intercepts();
+    setupIntercepts();
     login()
       .wait("@get_tasks")
       .then(() => openTask("ecg-qrs-classification-physiodb"))
-      .then(proof_condition)
+      .then(proofCondition)
       .wait("@get_next_image")
       .get("#annotation-button-atrial-fibrillation")
       .click()
@@ -97,7 +97,7 @@ describe("TaskView", () => {
 
   it("annotation request includes condition from popup", () => {
     cy.on("uncaught:exception", () => false);
-    setup_intercepts();
+    setupIntercepts();
     login()
       .wait("@get_tasks")
       .then(() => openTask("ecg-qrs-classification-physiodb"))
@@ -111,11 +111,11 @@ describe("TaskView", () => {
   });
 
   it("shows next image once annotation has been made", () => {
-    setup_intercepts();
+    setupIntercepts();
     login()
       .wait("@get_tasks")
       .then(() => openTask("ecg-qrs-classification-physiodb"))
-      .then(proof_condition)
+      .then(proofCondition)
       .wait("@get_next_image")
       .get("#annotation-button-atrial-fibrillation")
       .click()

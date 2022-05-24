@@ -1,8 +1,8 @@
-import { intercept_login_with_failure, login, setup_intercepts } from "./utils";
+import { interceptLoginWithFailure, login, setupIntercepts } from "./utils";
 
 describe("LoginView", () => {
   it("logs the user in when valid login data is provided", () => {
-    setup_intercepts();
+    setupIntercepts();
     login().get("#tasks-overview");
   });
 
@@ -11,7 +11,7 @@ describe("LoginView", () => {
   });
 
   it("errors if invalid login data provided", () => {
-    setup_intercepts({ intercept_login: intercept_login_with_failure });
+    setupIntercepts({ interceptLogin: interceptLoginWithFailure });
     login().get("div.alert.-danger");
   });
 });

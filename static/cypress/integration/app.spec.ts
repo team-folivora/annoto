@@ -1,4 +1,4 @@
-import { login, setup_intercepts } from "./utils";
+import { login, setupIntercepts } from "./utils";
 
 describe("Application", () => {
   it("visits the app root url", () => {
@@ -8,11 +8,11 @@ describe("Application", () => {
     cy.visit("/").get("#logout-button").should("not.exist");
   });
   it("shows a logout button when the user is logged in", () => {
-    setup_intercepts();
+    setupIntercepts();
     login().get("#logout-button");
   });
   it("Logout button redirects to login page", () => {
-    setup_intercepts();
+    setupIntercepts();
     login().get("#logout-button").click({ force: true }).get("#login-view");
   });
 });

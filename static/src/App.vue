@@ -36,10 +36,6 @@ export default defineComponent({
       store.jwt = undefined;
       this.$router.push("/login");
     },
-
-    openTask(task: Task) {
-      this.task = task;
-    },
   },
 });
 </script>

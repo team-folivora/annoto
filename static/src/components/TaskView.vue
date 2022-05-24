@@ -8,6 +8,7 @@ import { TasksService as API } from "@/api/services/TasksService";
 import type { Task } from "@/api/models/Task";
 import { paramCase } from "change-case";
 import { fullname } from "@/utils/helpers";
+
 export default defineComponent({
   components: {
     ImageDisplay,

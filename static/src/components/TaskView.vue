@@ -41,7 +41,6 @@ export default defineComponent({
         const id = this.$route.params["taskId"];
         if (typeof id !== "string") throw Error();
         this.task = await API.getTask(id);
-        if (!this.task) throw Error();
         await this.nextImage();
       } catch {
         this.isError = true;
@@ -53,10 +52,9 @@ export default defineComponent({
     async nextImage() {
       try {
         this.isLoading = true;
+        this.imageId = undefined;
         if (!this.task) throw Error();
-        this.imageId = await API.getNextImage(this.task.id).catch((e) => {
-          this.imageId = undefined;
-        });
+        this.imageId = await API.getNextImage(this.task.id).catch(console.log);
       } catch {
         this.isError = true;
       } finally {
@@ -78,11 +76,11 @@ export default defineComponent({
       v-model:isTrained="isTrained"
     />
     <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
-    <div v-if="isLoading">
-      <i-loader />
-    </div>
-    <div v-else-if="isError">
+    <div v-if="isError">
       <i-card class="margin-y:20px">An Error occured</i-card>
+    </div>
+    <div v-else-if="isLoading">
+      <i-loader />
     </div>
     <i-card
       v-else-if="imageId === undefined"

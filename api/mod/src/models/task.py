@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 class Task(BaseModel):
     """
-    A labelling task
+    A labeling task
     """
 
     id: str = Field(

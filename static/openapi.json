@@ -11,17 +11,20 @@
                     "tasks"
                 ],
                 "summary": "Get Tasks",
-                "description": "Get a list of the IDs of all available labelling tasks",
+                "description": "Get a list of all available labeling tasks",
                 "operationId": "get_tasks",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": [
-                                    "ecg-qrs-classification-physiodb"
-                                ]
+                                "schema": {
+                                    "title": "Response Get Tasks",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
                             }
                         }
                     }
@@ -596,7 +599,7 @@
                         ]
                     }
                 },
-                "description": "A labelling task"
+                "description": "A labeling task"
             },
             "UserResponse": {
                 "title": "UserResponse",

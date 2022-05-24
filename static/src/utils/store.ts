@@ -19,13 +19,20 @@ export const store = reactive({
   },
 
   set jwt(newJWT) {
-    this._jwt = newJWT;
-    this.isLoggedIn = !!newJWT;
-    OpenAPI.TOKEN = newJWT;
     if (newJWT) {
+      this._jwt = newJWT;
+      this.isLoggedIn = true;
+      OpenAPI.TOKEN = newJWT;
       this.$cookies?.set("jwt", newJWT);
     } else {
-      this.$cookies?.remove("jwt");
+      this.removeJwt();
     }
+  },
+
+  removeJwt() {
+    this._jwt = undefined;
+    this.isLoggedIn = false;
+    OpenAPI.TOKEN = undefined;
+    this.$cookies?.remove("jwt");
   },
 });

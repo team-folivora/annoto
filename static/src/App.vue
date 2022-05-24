@@ -22,17 +22,17 @@ export default defineComponent({
       try {
         await PingService.ping();
       } catch (_) {
-        store.jwt = undefined;
+        store.removeJwt();
       }
     } else {
-      store.jwt = undefined;
+      store.removeJwt();
     }
     this.ready = true;
   },
 
   methods: {
     logout() {
-      store.jwt = undefined;
+      store.removeJwt();
       this.$router.push("/login");
     },
   },

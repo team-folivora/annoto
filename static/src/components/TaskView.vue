@@ -22,8 +22,10 @@ export default defineComponent({
       visible: true,
       isAttentive: false,
       isTrained: false,
+      isLoading: false,
+      isError: false,
       imageId: undefined as string | void,
-      task: undefined as Task | undefined,
+      task: undefined as Task | void,
     };
   },
 
@@ -34,18 +36,33 @@ export default defineComponent({
 
   methods: {
     async fetchTask() {
-      const id = this.$route.params["taskId"];
-      if (typeof id !== "string") return;
-      this.task = await API.getTask(id);
-      await this.nextImage();
+      try {
+        this.isLoading = true;
+        const id = this.$route.params["taskId"];
+        if (typeof id !== "string") throw Error();
+        this.task = await API.getTask(id);
+        if (!this.task) throw Error();
+        await this.nextImage();
+      } catch {
+        this.isError = true;
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     async nextImage() {
-      if (!this.task) return;
-      this.imageId = await API.getNextImage(this.task.id).catch((e) => {
-        console.log(e);
-        this.imageId = undefined;
-      });
+      try {
+        this.isLoading = true;
+        if (!this.task) throw Error();
+        this.imageId = await API.getNextImage(this.task.id).catch((e) => {
+          console.log(e);
+          this.imageId = undefined;
+        });
+      } catch {
+        this.isError = true;
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     fullname,
@@ -62,11 +79,28 @@ export default defineComponent({
       v-model:isTrained="isTrained"
     />
     <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
-    <div v-if="imageId && task">
-      <ImageDisplay id="image-display" :task-id="task.id" :image-id="imageId" />
+    <div v-if="isLoading">
+      <i-loader />
+    </div>
+    <div v-else-if="isError">
+      <i-card class="margin-y:20px">An Error occured</i-card>
+    </div>
+    <i-card
+      v-else-if="imageId === undefined"
+      id="no-more-images"
+      class="margin-y:20px"
+    >
+      No more Images to label
+    </i-card>
+    <div v-else>
+      <ImageDisplay
+        id="image-display"
+        :task-id="task!.id"
+        :image-id="imageId"
+      />
       <i-button-group block>
         <AnnotationButton
-          v-for="label in task.labels"
+          v-for="label in task!.labels"
           :id="'annotation-button-' + paramCase(label)"
           :key="label"
           :label="label"
@@ -79,8 +113,5 @@ export default defineComponent({
         />
       </i-button-group>
     </div>
-    <i-card v-else id="no-more-images" class="margin-y:20px">
-      No more Images to label
-    </i-card>
   </div>
 </template>

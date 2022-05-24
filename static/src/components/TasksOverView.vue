@@ -38,7 +38,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <i-layout-content>
+  <div id="tasks-overview">
     <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
     <div v-if="tasks.length != 0" class="_display:flex">
       <TaskCard
@@ -53,5 +53,5 @@ export default defineComponent({
     <i-card v-else id="no-more-tasks" class="margin-y:20px">
       No more Tasks to accomplish.
     </i-card>
-  </i-layout-content>
+  </div>
 </template>

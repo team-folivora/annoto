@@ -1,10 +1,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { LoginService as API } from "@/api/services/LoginService";
+import { store } from "@/utils/store";
 
 export default defineComponent({
-  emits: ["login"],
-
   data() {
     return {
       /**
@@ -26,9 +25,8 @@ export default defineComponent({
             email: this.email,
             password: this.password,
           });
-          const jwt = response.access_token;
-          this.$cookies.set("jwt", jwt);
-          this.$emit("login", jwt);
+          store.jwt = response.access_token;
+          this.$router.push({ name: "Home" });
         } catch {
           this.$toast?.danger("E-Mail or Password is not correct...");
         }
@@ -41,7 +39,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="_margin-x:auto _margin-top:8">
+  <div id="login-view" class="_margin-x:auto _margin-top:8">
     <i-input v-model="email" type="email" name="email" placeholder="E-Mail" />
     <br />
     <i-input

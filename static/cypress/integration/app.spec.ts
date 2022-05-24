@@ -14,7 +14,7 @@ describe("Application", () => {
     login().get("#logout-button");
   });
 
-  it("Logout button redirects to login page", () => {
+  it("logout button redirects to login page", () => {
     setupIntercepts();
     login().get("#logout-button").click({ force: true }).get("#login-view");
   });

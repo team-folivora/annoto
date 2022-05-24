@@ -5,8 +5,6 @@ export default defineComponent({
   props: {
     task: { type: Object as () => Task, required: true },
   },
-
-  emits: ["openTask"],
 });
 </script>
 
@@ -17,7 +15,10 @@ export default defineComponent({
     </template>
     {{ task.description }}
     <template #footer>
-      <i-button color="primary" @click="$emit('openTask', task)">
+      <i-button
+        color="primary"
+        @click="$router.push({ name: 'Task', params: { taskId: task.id } })"
+      >
         Start Annotating
       </i-button>
     </template>

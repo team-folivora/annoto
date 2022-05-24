@@ -1,5 +1,11 @@
 import type { Method } from "axios";
 import type { CyHttpMessages, RouteMatcher } from "cypress/types/net-stubbing";
+import {
+  task,
+  accessToken,
+  nextImage,
+  allTasks,
+} from "../fixtures/fixture_objects";
 
 function interceptWithSpy(
   method: Method,
@@ -24,63 +30,53 @@ function interceptWithSpy(
 }
 
 export function interceptGetTask() {
-  cy.intercept(
-    "GET",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb`,
-    { fixture: "task.json" }
-  ).as("get_task");
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks/${task.id}`, task).as(
+    "get_task"
+  );
 }
 
 export function interceptGetTasks() {
-  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, {
-    fixture: "tasks.json",
-  }).as("get_tasks");
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, allTasks).as(
+    "get_tasks"
+  );
 }
 
 export function interceptGetTasksWithEmptyList() {
-  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, {
-    fixture: "tasks_empty.json",
-  }).as("get_tasks");
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, []).as("get_tasks");
 }
 
 export function interceptNextImage() {
   cy.intercept(
     "GET",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/next`,
-    {
-      fixture: "nextImage.txt",
-    }
+    `${Cypress.env("API_URL")}/tasks/${task.id}/next`,
+    nextImage
   ).as("get_next_image");
 }
 
 export function interceptNextImageWithFailure() {
-  cy.intercept(
-    "GET",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/next`,
-    { statusCode: 404 }
-  ).as("get_next_image");
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks/${task.id}/next`, {
+    statusCode: 404,
+  }).as("get_next_image");
 }
 
 export function interceptStoreAnnotation() {
   interceptWithSpy(
     "POST",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
+    `${Cypress.env("API_URL")}/tasks/${task.id}/sloth.jpg`,
     { statusCode: 204 },
     "store_annotation"
   );
 }
 
 export function interceptGetImage() {
-  cy.intercept(
-    "GET",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
-    { fixture: "sloth.jpg" }
-  ).as("get_image");
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks/${task.id}/sloth.jpg`, {
+    fixture: "sloth.jpg",
+  }).as("get_image");
 }
 
 export function interceptLogin() {
   cy.intercept("POST", `${Cypress.env("API_URL")}/login`, {
-    fixture: "login.json",
+    access_token: accessToken,
   }).as("login");
 }
 
@@ -106,7 +102,7 @@ export interface InterceptConfig {
   interceptStoreAnnotation?: () => void;
 }
 
-// Make sure that every key of IntercepyConfig will be filled with a default in this object.
+// Make sure that every key of InterceptConfig will be filled with a default in this object.
 const defaultInterceptConfig: InterceptConfig = {
   interceptLogin: interceptLogin,
   interceptPing: interceptPing,

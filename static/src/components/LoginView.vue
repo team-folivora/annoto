@@ -26,7 +26,7 @@ export default defineComponent({
             password: this.password,
           });
           store.jwt = response.access_token;
-          this.$router.push("/tasks");
+          this.$router.push({ name: "Home" });
         } catch {
           this.$toast?.danger("E-Mail or Password is not correct...");
         }

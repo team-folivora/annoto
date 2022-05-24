@@ -34,7 +34,7 @@ export default defineComponent({
 
   methods: {
     async fetchTask() {
-      const id = this.$route.params["taskid"];
+      const id = this.$route.params["taskId"];
       if (typeof id !== "string") return;
       this.task = await API.getTask(id);
       await this.nextImage();

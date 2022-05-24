@@ -33,7 +33,7 @@ export default defineComponent({
   methods: {
     logout() {
       store.removeJwt();
-      this.$router.push("/login");
+      this.$router.push({ name: "Login" });
     },
   },
 });

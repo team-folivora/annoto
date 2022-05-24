@@ -5,7 +5,11 @@ import { Inkline, components } from "@inkline/inkline";
 import "@inkline/inkline/inkline.scss";
 
 import VueCookies from "vue-cookies";
-import { createRouter, createWebHashHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  type RouteLocationRaw,
+} from "vue-router";
 
 import "@/assets/base.scss";
 
@@ -14,7 +18,6 @@ import Toaster from "@/plugins/toaster";
 import LoginView from "./components/LoginView.vue";
 import TasksOverView from "./components/TasksOverView.vue";
 import TaskView from "./components/TaskView.vue";
-import RedirectView from "./components/RedirectView.vue";
 import { store } from "@/utils/store";
 
 OpenAPI.BASE =
@@ -30,36 +33,40 @@ app.use(Toaster);
 
 app.use(VueCookies, { expire: "1d" });
 
+function checkLogin(): boolean | RouteLocationRaw {
+  return store.isLoggedIn ? true : { name: "Login" };
+}
+
 const routes = [
   {
     path: "/",
-    component: RedirectView,
+    name: "Home",
+    redirect: { name: "Tasks" },
   },
   {
     path: "/login",
+    name: "Login",
     component: LoginView,
     beforeEnter: () => {
-      return store.isLoggedIn ? "/tasks" : true;
+      return store.isLoggedIn ? { name: "Home" } : true;
     },
   },
   {
     path: "/tasks",
+    name: "Tasks",
     component: TasksOverView,
-    beforeEnter: () => {
-      return store.isLoggedIn ? true : "/login";
-    },
+    beforeEnter: checkLogin,
   },
   {
-    path: "/tasks/:taskid",
+    path: "/tasks/:taskId",
+    name: "Task",
     component: TaskView,
-    beforeEnter: () => {
-      return store.isLoggedIn ? true : "/login";
-    },
+    beforeEnter: checkLogin,
   },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 

@@ -1,9 +1,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import type { Task } from "@/api/models/Task";
+import type { BaseTask } from "@/api/models/BaseTask";
 export default defineComponent({
   props: {
-    task: { type: Object as () => Task, required: true },
+    task: { type: Object as () => BaseTask, required: true },
   },
 });
 </script>
@@ -14,6 +14,8 @@ export default defineComponent({
       {{ task.id }}
     </template>
     {{ task.description }}
+    <br />
+    Type: {{ task.type_id }}
     <template #footer>
       <i-button
         color="primary"

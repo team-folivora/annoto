@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 import { TasksService as API } from "@/api/services/TasksService";
 import TaskCard from "@/components/TaskCard.vue";
 import UserInformationLabel from "@/components/UserInformationLabel.vue";
-import type { Task } from "@/api/models/Task";
+import type { BaseTask } from "@/api/models/BaseTask";
 import { fullname } from "@/utils/helpers";
 export default defineComponent({
   components: {
@@ -11,11 +11,9 @@ export default defineComponent({
     UserInformationLabel,
   },
 
-  emits: ["openTask"],
-
   data() {
     return {
-      tasks: [] as Task[],
+      tasks: [] as BaseTask[],
     };
   },
 
@@ -29,10 +27,6 @@ export default defineComponent({
     },
 
     fullname,
-
-    openTask(task: Task) {
-      this.$emit("openTask", task);
-    },
   },
 });
 </script>
@@ -47,7 +41,6 @@ export default defineComponent({
         :key="task.id"
         :task="task"
         class="_margin:1"
-        @open-task="openTask"
       />
     </div>
     <i-card v-else id="no-more-tasks" class="margin-y:20px">

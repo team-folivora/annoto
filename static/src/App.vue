@@ -13,7 +13,6 @@ export default defineComponent({
       task: undefined as Task | undefined,
       ready: false,
       store,
-      loggedIn: false,
     };
   },
 

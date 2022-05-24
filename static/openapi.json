@@ -22,7 +22,7 @@
                                     "title": "Response Get Tasks",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Task"
+                                        "$ref": "#/components/schemas/BaseTask"
                                     }
                                 }
                             }
@@ -62,7 +62,15 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Task"
+                                    "title": "Response Get Task",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/ImageTask"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FHIRECGTask"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -480,6 +488,39 @@
                 },
                 "description": "The basic Annotation Data for a data file"
             },
+            "BaseTask": {
+                "title": "BaseTask",
+                "required": [
+                    "type_id",
+                    "id",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "type_id": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskType"
+                            }
+                        ],
+                        "description": "The type of the task",
+                        "example": "fhir_ecg_annotation"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "description": "The identifier of this labelling task",
+                        "example": "ecg-qrs-classification-physiodb"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "description": "A brief description of this labelling task",
+                        "example": "Classifying the QRS complex of some ECGs"
+                    }
+                },
+                "description": "A labeling task"
+            },
             "CreateUserRequest": {
                 "title": "CreateUserRequest",
                 "required": [
@@ -510,6 +551,39 @@
                 },
                 "description": "The fields required to create a new user"
             },
+            "FHIRECGTask": {
+                "title": "FHIRECGTask",
+                "required": [
+                    "type_id",
+                    "id",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "type_id": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskType"
+                            }
+                        ],
+                        "description": "The type of the task",
+                        "example": "fhir_ecg_annotation"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "description": "The identifier of this labelling task",
+                        "example": "ecg-qrs-classification-physiodb"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "description": "A brief description of this labelling task",
+                        "example": "Classifying the QRS complex of some ECGs"
+                    }
+                },
+                "description": "A labeling task"
+            },
             "HTTPValidationError": {
                 "title": "HTTPValidationError",
                 "type": "object",
@@ -522,6 +596,55 @@
                         }
                     }
                 }
+            },
+            "ImageTask": {
+                "title": "ImageTask",
+                "required": [
+                    "type_id",
+                    "id",
+                    "description",
+                    "labels"
+                ],
+                "type": "object",
+                "properties": {
+                    "type_id": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskType"
+                            }
+                        ],
+                        "description": "The type of the task",
+                        "example": "fhir_ecg_annotation"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "description": "The identifier of this labelling task",
+                        "example": "ecg-qrs-classification-physiodb"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "description": "A brief description of this labelling task",
+                        "example": "Classifying the QRS complex of some ECGs"
+                    },
+                    "labels": {
+                        "title": "Labels",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of labels",
+                        "example": [
+                            "Atrial fibrillation",
+                            "Normal sinus rhythm",
+                            "Ventricular tachycardia",
+                            "Noise",
+                            "Other"
+                        ]
+                    }
+                },
+                "description": "A labeling task"
             },
             "LoginRequest": {
                 "title": "LoginRequest",
@@ -562,44 +685,14 @@
                 },
                 "description": "Login token (JWT)"
             },
-            "Task": {
-                "title": "Task",
-                "required": [
-                    "id",
-                    "description",
-                    "labels"
+            "TaskType": {
+                "title": "TaskType",
+                "enum": [
+                    "unknown",
+                    "image_classification",
+                    "fhir_ecg_annotation"
                 ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "title": "Id",
-                        "type": "string",
-                        "description": "The identifier of this labelling task",
-                        "example": "ecg-qrs-classification-physiodb"
-                    },
-                    "description": {
-                        "title": "Description",
-                        "type": "string",
-                        "description": "A brief description of this labelling task",
-                        "example": "Classifying the QRS complex of some ECGs"
-                    },
-                    "labels": {
-                        "title": "Labels",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "List of labels",
-                        "example": [
-                            "Atrial fibrillation",
-                            "Normal sinus rhythm",
-                            "Ventricular tachycardia",
-                            "Noise",
-                            "Other"
-                        ]
-                    }
-                },
-                "description": "A labeling task"
+                "description": "An enumeration."
             },
             "UserResponse": {
                 "title": "UserResponse",

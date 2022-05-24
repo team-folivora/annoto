@@ -1,6 +1,11 @@
 import type { Method } from "axios";
 import type { CyHttpMessages, RouteMatcher } from "cypress/types/net-stubbing";
-import { task, accessToken } from "../fixtures/fixture_objects";
+import {
+  task,
+  accessToken,
+  nextImage,
+  allTasks,
+} from "../fixtures/fixture_objects";
 
 function interceptWithSpy(
   method: Method,
@@ -31,22 +36,21 @@ export function interceptGetTask() {
 }
 
 export function interceptGetTasks() {
-  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, [task]).as(
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, allTasks).as(
     "get_tasks"
   );
 }
 
-export function interceptTetTasksWithEmptyList() {
+export function interceptGetTasksWithEmptyList() {
   cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, []).as("get_tasks");
 }
 
 export function interceptNextImage() {
-  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks/${task.id}/next`, {
-    body: "sloth.jpg",
-    headers: {
-      "Content-Type": "text/plain",
-    },
-  }).as("get_next_image");
+  cy.intercept(
+    "GET",
+    `${Cypress.env("API_URL")}/tasks/${task.id}/next`,
+    nextImage
+  ).as("get_next_image");
 }
 
 export function interceptNextImageWithFailure() {

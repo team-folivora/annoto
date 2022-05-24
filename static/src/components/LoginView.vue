@@ -4,7 +4,6 @@ import { LoginService as API } from "@/api/services/LoginService";
 import { store } from "@/utils/store";
 
 export default defineComponent({
-
   data() {
     return {
       /**

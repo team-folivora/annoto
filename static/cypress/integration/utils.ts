@@ -139,7 +139,7 @@ export function login() {
     .wait("@login");
 }
 
-export function annotate(task_id: string) {
+export function openTask(task_id: string) {
   return cy.visit("/").get(`.card#task-${task_id} button`).click();
 }
 

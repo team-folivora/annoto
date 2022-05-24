@@ -13,6 +13,7 @@ export default defineComponent({
       task: undefined as Task | undefined,
       ready: false,
       store,
+      loggedIn: false,
     };
   },
 
@@ -34,6 +35,10 @@ export default defineComponent({
     logout() {
       store.jwt = undefined;
       this.$router.push("/login");
+    },
+
+    openTask(task: Task) {
+      this.task = task;
     },
   },
 });

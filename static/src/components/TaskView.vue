@@ -43,7 +43,6 @@ export default defineComponent({
     async nextImage() {
       if (!this.task) return;
       this.imageId = await API.getNextImage(this.task.id).catch((e) => {
-        console.log(e);
         this.imageId = undefined;
       });
     },

@@ -55,7 +55,6 @@ export default defineComponent({
         this.isLoading = true;
         if (!this.task) throw Error();
         this.imageId = await API.getNextImage(this.task.id).catch((e) => {
-          console.log(e);
           this.imageId = undefined;
         });
       } catch {

@@ -5,7 +5,7 @@ import {
   proofCondition,
   setupIntercepts,
 } from "./utils";
-import {task} from "../fixtures/fixture_objects";
+import { task } from "../fixtures/fixture_objects";
 
 describe("TaskView", () => {
   it("shows full name", () => {

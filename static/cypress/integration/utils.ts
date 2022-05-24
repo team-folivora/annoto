@@ -102,7 +102,7 @@ export interface InterceptConfig {
   interceptStoreAnnotation?: () => void;
 }
 
-// Make sure that every key of IntercepyConfig will be filled with a default in this object.
+// Make sure that every key of InterceptConfig will be filled with a default in this object.
 const defaultInterceptConfig: InterceptConfig = {
   interceptLogin: interceptLogin,
   interceptPing: interceptPing,

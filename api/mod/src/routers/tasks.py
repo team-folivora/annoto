@@ -4,11 +4,9 @@ import json
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, Path
-from mod.src.models.task import TaskNotFoundException
-from mod.src.models.task import SpecificTask
 
 from mod.src.auth.auth_bearer import JWTBearer
-from mod.src.models.task import BaseTask
+from mod.src.models.task import BaseTask, SpecificTask, TaskNotFoundException
 from mod.src.settings import SETTINGS
 
 ROUTER = APIRouter(

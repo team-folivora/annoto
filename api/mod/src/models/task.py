@@ -1,11 +1,11 @@
 """Provides classes for Tasks"""
 
 import json
+from enum import Enum
 from pathlib import Path
 from typing import List, Union
 
 from pydantic import BaseModel, Field
-from enum import Enum
 
 
 class TaskType(Enum):

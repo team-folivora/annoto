@@ -12,10 +12,10 @@ export default defineComponent({
   <i-card>
     <template #header>
       {{ task.id }}
+      <br />
+      <i-badge>{{ task.type_id }}</i-badge>
     </template>
     {{ task.description }}
-    <br />
-    Type: {{ task.type_id }}
     <template #footer>
       <i-button
         color="primary"

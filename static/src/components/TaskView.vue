@@ -6,6 +6,7 @@ import ImageClassificationTaskView from "@/components/ImageClassificationTaskVie
 import FHIRECGAnnotationTaskView from "@/components/FHIRECGAnnotationTaskView.vue";
 import { TasksService as API } from "@/api/services/TasksService";
 import type { BaseTask } from "@/api/models/BaseTask";
+import { TaskType } from "@/api/models/TaskType";
 import type { ImageTask } from "@/api/models/ImageTask";
 import { paramCase } from "change-case";
 import { fullname } from "@/utils/helpers";
@@ -34,6 +35,24 @@ export default defineComponent({
     await this.fetchTask();
   },
 
+  computed: {
+    taskView() {
+      if (this.task) {
+        console.log(this.task);
+        console.log(this.task.type_id);
+        console.log(this.task.type_id == TaskType.IMAGE_CLASSIFICATION);
+        //return "Hallo"
+        if (this.task.type_id == TaskType.IMAGE_CLASSIFICATION) {
+          console.log("Test");
+          //return "<div>ImageClassification</div>";
+          return '<div><ImageClassificationTaskView :isAttentive="isAttentive" :isTrained="isTrained" :task="(task as ImageTask)"/><div>';
+        } else if (this.task.type_id == TaskType.FHIR_ECG_ANNOTATION) {
+          return "<div>FIREECG</div>";
+        }
+      }
+    },
+  },
+
   methods: {
     async fetchTask() {
       try {
@@ -41,7 +60,6 @@ export default defineComponent({
         const id = this.$route.params["taskId"];
         if (typeof id !== "string") throw Error();
         this.task = await API.getTask(id);
-        console.log(this.task);
       } catch {
         this.isError = true;
       } finally {
@@ -66,14 +84,17 @@ export default defineComponent({
     <div v-if="isError">
       <i-card class="margin-y:20px">An Error occured</i-card>
     </div>
-    <div v-else-if="isLoading">
-      <i-loader />
+    <div v-else-if="isLoading"><i-loader /></div>
+
+    <div v-else-if="task.type_id == 'image_classification'">
+      <ImageClassificationTaskView
+        :isAttentive="isAttentive"
+        :isTrained="isTrained"
+        :task="(task as ImageTask)"
+      />
     </div>
-    <ImageClassificationTaskView
-      v-else
-      :isAttentive="isAttentive"
-      :isTrained="isTrained"
-      :task="(task as any)"
-    />
+    <div v-else-if="task.type_id == 'fhir_ecg_annotation'">
+      <FHIRECGAnnotationTaskView />
+    </div>
   </div>
 </template>

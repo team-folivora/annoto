@@ -5,15 +5,7 @@
 /**
  * The basic Annotation Data for a data file
  */
-export type AnnotationData = {
-    /**
-     * The label the file should be annotated with
-     */
-    label: string;
-    /**
-     * The hash of the file
-     */
-    hash: string;
+export type FHIRECGAnnotationData = {
     /**
      * The competencies the annotator has
      */

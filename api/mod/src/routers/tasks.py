@@ -4,16 +4,16 @@ import json
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, Path, Request
-from mod.src.models.task import TaskType
 
 from mod.src.auth.auth_bearer import JWTBearer
-from mod.src.models.task import BaseTask, SpecificTask, TaskNotFoundException
+from mod.src.models.task import BaseTask, SpecificTask, TaskNotFoundException, TaskType
 from mod.src.settings import SETTINGS
 
 ROUTER = APIRouter(
     prefix="/tasks",
     tags=["tasks"],
 )
+
 
 class TaskTypeGuard:
     """Guard for task types"""
@@ -28,6 +28,7 @@ class TaskTypeGuard:
         task = BaseTask.load_from_file(task_file)
         if task.type_id != self.task_type:
             raise HTTPException(status_code=403, detail="Invalid task type")
+
 
 @ROUTER.get(
     "/",

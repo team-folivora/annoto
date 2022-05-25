@@ -1,23 +1,25 @@
 """Provides classes for Tasks"""
 
-from abc import abstractmethod
 import json
-from enum import Enum
 import os
-from pathlib import Path
 import random
 import re
 import time
+from abc import abstractmethod
+from enum import Enum
+from pathlib import Path
 from typing import List, Union
 
 from pydantic import BaseModel, Field
+
 from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.auth.auth_handler import JWTPayload
-from mod.src.models.annotation import ImageAnnotation
-from mod.src.models.annotation import BaseAnnotationData
-from mod.src.models.annotation import FHIRECGAnnotationData
-from mod.src.models.annotation import ImageAnnotationData
-
+from mod.src.models.annotation import (
+    BaseAnnotationData,
+    FHIRECGAnnotationData,
+    ImageAnnotation,
+    ImageAnnotationData,
+)
 from mod.src.settings import SETTINGS
 
 
@@ -70,7 +72,9 @@ class BaseTask(BaseModel):
     def next_sample(self):
         raise NotImplementedError
 
-    def save_annotation(self, sample_id: str, annotation_data: BaseAnnotationData, jwt: JWTPayload):
+    def save_annotation(
+        self, sample_id: str, annotation_data: BaseAnnotationData, jwt: JWTPayload
+    ):
         raise NotImplementedError
 
 
@@ -90,16 +94,21 @@ class ImageTask(BaseTask):
     def next_sample(self) -> Union[str, None]:
         task_folder = SETTINGS.data_folder.joinpath(self.id)
         images = list(
-            filter(lambda f: re.match(".*\\.(png|jpg|jpeg)$", f), os.listdir(task_folder))
+            filter(
+                lambda f: re.match(".*\\.(png|jpg|jpeg)$", f), os.listdir(task_folder)
+            )
         )
         images = list(
             filter(
-                lambda f: not task_folder.joinpath(f"{f}.annotation.json").exists(), images
+                lambda f: not task_folder.joinpath(f"{f}.annotation.json").exists(),
+                images,
             )
         )
         return random.choice(images) if images else None
 
-    def save_annotation(self, sample_id: str, annotation_data: ImageAnnotationData, jwt: JWTPayload):
+    def save_annotation(
+        self, sample_id: str, annotation_data: ImageAnnotationData, jwt: JWTPayload
+    ):
         annotation = ImageAnnotation.from_data(
             annotation_data=annotation_data,
             src=f"{self.id}/{sample_id}",
@@ -113,7 +122,9 @@ class FHIRECGTask(BaseTask):
     def next_sample(self):
         return "da576f2e-7529-4790-8991-c8300a16ae67"
 
-    def save_annotation(self, sample_id: str, annotation_data: FHIRECGAnnotationData, jwt: JWTPayload):
+    def save_annotation(
+        self, sample_id: str, annotation_data: FHIRECGAnnotationData, jwt: JWTPayload
+    ):
         pass
 
 

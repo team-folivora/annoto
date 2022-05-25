@@ -3,17 +3,12 @@
 from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.security.http import HTTPAuthorizationCredentials
-from mod.src.models.task import TaskType
-from mod.src.routers.tasks import TaskTypeGuard
 
 from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.auth.auth_handler import decodeJWT
-from mod.src.models.annotation import (
-    HashMismatch,
-    InvalidProof,
-    SpecificAnnotationData,
-)
-from mod.src.models.task import BaseTask
+from mod.src.models.annotation import HashMismatch, InvalidProof, SpecificAnnotationData
+from mod.src.models.task import BaseTask, TaskType
+from mod.src.routers.tasks import TaskTypeGuard
 from mod.src.settings import SETTINGS
 
 ROUTER = APIRouter(
@@ -58,7 +53,10 @@ async def get_next_sample(
         404: {"description": "File not found"},
     },
     operation_id="get_image",
-    dependencies=[Depends(JWTBearer()), Depends(TaskTypeGuard(TaskType.IMAGE_CLASSIFICATION))],
+    dependencies=[
+        Depends(JWTBearer()),
+        Depends(TaskTypeGuard(TaskType.IMAGE_CLASSIFICATION)),
+    ],
 )
 async def get_image(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),

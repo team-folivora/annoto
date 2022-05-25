@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 
 from mod.src.settings import SETTINGS
 
+
 class BaseAnnotationData(BaseModel):
     competency: str = Field(
         ..., description="The competencies the annotator has", example="Prof. Dr. Med"
@@ -26,6 +27,7 @@ class BaseAnnotationData(BaseModel):
         """Checks whether the proofs of the annotator are all valid"""
         return self.is_attentive and self.competency != "" and self.is_trained
 
+
 class ImageAnnotationData(BaseAnnotationData):
     """
     The basic Annotation Data for a data file
@@ -39,6 +41,7 @@ class ImageAnnotationData(BaseAnnotationData):
         description="The hash of the file",
         example="e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
     )
+
 
 class FHIRECGAnnotationData(BaseAnnotationData):
     """
@@ -69,7 +72,11 @@ class ImageAnnotation(ImageAnnotationData):
 
     @classmethod
     def from_data(
-        cls, annotation_data: ImageAnnotationData, src: str, fullname: str, timestamp: int
+        cls,
+        annotation_data: ImageAnnotationData,
+        src: str,
+        fullname: str,
+        timestamp: int,
     ) -> "ImageAnnotation":
         """Creates an Annotation from AnnotationData and additional attributes"""
         return ImageAnnotation(
@@ -115,6 +122,7 @@ class ImageAnnotation(ImageAnnotationData):
         with open(annotation_file, "w", encoding="utf-8") as file:
             file.write(json.dumps(self.__dict__, indent=4))
 
+
 class HashMismatch(Exception):
     """
     Raised when the given hash of the annotation data
@@ -124,5 +132,6 @@ class HashMismatch(Exception):
 
 class InvalidProof(Exception):
     """Raised when proofs are invalid"""
+
 
 SpecificAnnotationData = Union[ImageAnnotationData, FHIRECGAnnotationData]

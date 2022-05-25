@@ -24,7 +24,6 @@ class TaskTypeGuard:
     async def __call__(self, request: Request) -> None:
         """Check if the task type is correct"""
         task_id = request.path_params["task_id"]
-        print(task_id)
         task_file = SETTINGS.data_folder.joinpath(task_id).joinpath("task.json")
         task = BaseTask.load_from_file(task_file)
         if task.type_id != self.task_type:

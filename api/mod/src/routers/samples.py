@@ -3,6 +3,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.security.http import HTTPAuthorizationCredentials
+from mod.src.models.task import TaskType
+from mod.src.routers.tasks import TaskTypeGuard
 
 from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.auth.auth_handler import decodeJWT
@@ -56,7 +58,7 @@ async def get_next_sample(
         404: {"description": "File not found"},
     },
     operation_id="get_image",
-    dependencies=[Depends(JWTBearer())],
+    dependencies=[Depends(JWTBearer()), Depends(TaskTypeGuard(TaskType.IMAGE_CLASSIFICATION))],
 )
 async def get_image(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
@@ -93,7 +95,7 @@ async def save_annotation(
     jwt = decodeJWT(jwt.credentials)
     if not jwt:
         raise HTTPException(status_code=500)
-    
+
     if not annotation_data.proofs_are_valid():
         raise HTTPException(
             status_code=428,

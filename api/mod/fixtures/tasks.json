@@ -1,4 +1,5 @@
 [
     "ecg-qrs-classification-physiodb",
-    "pressure-mat-pose-estimation-slp"
+    "pressure-mat-pose-estimation-slp",
+    "heartx-ecg-annotation"
 ]

@@ -3,25 +3,13 @@
 import hashlib
 import json
 from pathlib import Path
+from typing import Union
 
 from pydantic import BaseModel, Field
 
 from mod.src.settings import SETTINGS
 
-
-class AnnotationData(BaseModel):
-    """
-    The basic Annotation Data for a data file
-    """
-
-    label: str = Field(
-        ..., description="The label the file should be annotated with", example="Sloth"
-    )
-    hash: str = Field(
-        ...,
-        description="The hash of the file",
-        example="e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
-    )
+class BaseAnnotationData(BaseModel):
     competency: str = Field(
         ..., description="The competencies the annotator has", example="Prof. Dr. Med"
     )
@@ -34,8 +22,31 @@ class AnnotationData(BaseModel):
         ..., description="Whether the annotator said that he is attentive", example=True
     )
 
+    def proofs_are_valid(self) -> bool:
+        """Checks whether the proofs of the annotator are all valid"""
+        return self.is_attentive and self.competency != "" and self.is_trained
 
-class Annotation(AnnotationData):
+class ImageAnnotationData(BaseAnnotationData):
+    """
+    The basic Annotation Data for a data file
+    """
+
+    label: str = Field(
+        ..., description="The label the file should be annotated with", example="Sloth"
+    )
+    hash: str = Field(
+        ...,
+        description="The hash of the file",
+        example="e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d",
+    )
+
+class FHIRECGAnnotationData(BaseAnnotationData):
+    """
+    The basic Annotation Data for a data file
+    """
+
+
+class ImageAnnotation(ImageAnnotationData):
     """
     The Annotation of a data file
     """
@@ -58,10 +69,10 @@ class Annotation(AnnotationData):
 
     @classmethod
     def from_data(
-        cls, annotation_data: AnnotationData, src: str, fullname: str, timestamp: int
-    ) -> "Annotation":
+        cls, annotation_data: ImageAnnotationData, src: str, fullname: str, timestamp: int
+    ) -> "ImageAnnotation":
         """Creates an Annotation from AnnotationData and additional attributes"""
-        return Annotation(
+        return ImageAnnotation(
             **{
                 **annotation_data.__dict__,
                 **{"src": src, "fullname": fullname, "timestamp": timestamp},
@@ -83,10 +94,6 @@ class Annotation(AnnotationData):
             local_hash = hashlib.sha256(file.read()).hexdigest()
         return local_hash == self.hash
 
-    def proofs_are_valid(self) -> bool:
-        """Checks whether the proofs of the annotator are all valid"""
-        return self.is_attentive and self.competency != "" and self.is_trained
-
     def save(self) -> None:
         """
         Annotates the data file.
@@ -94,8 +101,6 @@ class Annotation(AnnotationData):
         """
         if not self.file_exists():
             raise FileNotFoundError()
-        if not self.proofs_are_valid():
-            raise InvalidProof()
         if not self.hash_is_valid():
             raise HashMismatch()
         annotation_file = SETTINGS.data_folder.joinpath(f"{self.src}.annotation.json")
@@ -110,7 +115,6 @@ class Annotation(AnnotationData):
         with open(annotation_file, "w", encoding="utf-8") as file:
             file.write(json.dumps(self.__dict__, indent=4))
 
-
 class HashMismatch(Exception):
     """
     Raised when the given hash of the annotation data
@@ -120,3 +124,5 @@ class HashMismatch(Exception):
 
 class InvalidProof(Exception):
     """Raised when proofs are invalid"""
+
+SpecificAnnotationData = Union[ImageAnnotationData, FHIRECGAnnotationData]

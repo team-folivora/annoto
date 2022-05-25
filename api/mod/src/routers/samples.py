@@ -1,10 +1,5 @@
 """Routes for images and annotations"""
 
-import os
-import random
-import re
-import time
-
 from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.security.http import HTTPAuthorizationCredentials
@@ -12,11 +7,11 @@ from fastapi.security.http import HTTPAuthorizationCredentials
 from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.auth.auth_handler import decodeJWT
 from mod.src.models.annotation import (
-    Annotation,
-    AnnotationData,
     HashMismatch,
     InvalidProof,
+    SpecificAnnotationData,
 )
+from mod.src.models.task import BaseTask
 from mod.src.settings import SETTINGS
 
 ROUTER = APIRouter(
@@ -29,28 +24,28 @@ ROUTER = APIRouter(
     "/next",
     response_class=PlainTextResponse,
     responses={
-        200: {"content": {"text/plain": {"example": "ecg_1.png"}}},
-        404: {"description": "No more images to annotate"},
+        200: {
+            "content": {
+                "text/plain": {
+                    "example": "ecg_1.png",
+                }
+            }
+        },
+        404: {"description": "No more samples to annotate"},
     },
-    operation_id="get_next_image",
+    operation_id="get_next_sample",
     dependencies=[Depends(JWTBearer())],
 )
-async def get_next_image(
+async def get_next_sample(
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
 ) -> PlainTextResponse:
-    """Get the image that should be annotated"""
-    task_folder = SETTINGS.data_folder.joinpath(task_id)
-    images = list(
-        filter(lambda f: re.match(".*\\.(png|jpg|jpeg)$", f), os.listdir(task_folder))
-    )
-    images = list(
-        filter(
-            lambda f: not task_folder.joinpath(f"{f}.annotation.json").exists(), images
-        )
-    )
-    if not images:
-        raise HTTPException(status_code=404, detail="No more images to annotate")
-    return PlainTextResponse(random.choice(images))
+    """Get the sample that should be annotated"""
+    task_file = SETTINGS.data_folder.joinpath(task_id).joinpath("task.json")
+    task = BaseTask.load_from_file(task_file)
+    sample = task.next_sample()
+    if not sample:
+        raise HTTPException(status_code=404, detail="No more samples to annotate")
+    return PlainTextResponse(sample)
 
 
 @ROUTER.get(
@@ -75,7 +70,7 @@ async def get_image(
 
 
 @ROUTER.post(
-    "/{src}",
+    "/{sample_id}",
     status_code=204,
     responses={
         404: {"description": "File not found!"},
@@ -88,35 +83,32 @@ async def get_image(
     dependencies=[Depends(JWTBearer())],
 )
 async def save_annotation(
-    annotation_data: AnnotationData,
+    annotation_data: SpecificAnnotationData,
     task_id: str = Path(..., example="ecg-qrs-classification-physiodb"),
-    src: str = Path(..., example="sloth.jpg"),
+    sample_id: str = Path(..., example="sloth.jpg"),
     jwt: HTTPAuthorizationCredentials = Depends(JWTBearer()),
 ) -> None:
-    """Saves the annotation for the specified image"""
+    """Saves the annotation for the specified sample"""
 
     jwt = decodeJWT(jwt.credentials)
     if not jwt:
         raise HTTPException(status_code=500)
+    
+    if not annotation_data.proofs_are_valid():
+        raise HTTPException(
+            status_code=428,
+            detail="Provided proofs are not valid!",
+        ) from None
 
-    annotation = Annotation.from_data(
-        annotation_data=annotation_data,
-        src=f"{task_id}/{src}",
-        fullname=jwt.fullname,
-        timestamp=int(time.time()),
-    )
+    task_file = SETTINGS.data_folder.joinpath(task_id).joinpath("task.json")
+    task = BaseTask.load_from_file(task_file)
 
     try:
-        annotation.save()
+        task.save_annotation(sample_id, annotation_data, jwt)
     except HashMismatch:
         raise HTTPException(
             status_code=400,
             detail="Hash values of the provided annotation and the local source do not match!",
-        ) from None
-    except InvalidProof:
-        raise HTTPException(
-            status_code=428,
-            detail="Provided proofs are not valid!",
         ) from None
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="File Not Found!") from None

@@ -1,0 +1,5 @@
+{
+    "id": "heartx-ecg-annotation",
+    "type_id": "fhir_ecg_annotation",
+    "description": "Labeling the QRS complex of ECGs"
+}

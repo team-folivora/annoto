@@ -17,7 +17,11 @@ describe("Application", () => {
 
   it("logout button redirects to login page", () => {
     setupIntercepts();
-    login().get("#logout-button").click({ force: true }).url().should("include", "/login");
+    login()
+      .get("#logout-button")
+      .click({ force: true })
+      .url()
+      .should("include", "/login");
   });
 
   it("redirects to login if trying to access tasks and not logged in", () => {

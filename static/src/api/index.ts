@@ -6,12 +6,16 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
-export type { AnnotationData } from './models/AnnotationData';
+export type { BaseTask } from './models/BaseTask';
 export type { CreateUserRequest } from './models/CreateUserRequest';
+export type { FHIRECGAnnotationData } from './models/FHIRECGAnnotationData';
+export type { FHIRECGTask } from './models/FHIRECGTask';
 export type { HTTPValidationError } from './models/HTTPValidationError';
+export type { ImageAnnotationData } from './models/ImageAnnotationData';
+export type { ImageTask } from './models/ImageTask';
 export type { LoginRequest } from './models/LoginRequest';
 export type { LoginResponse } from './models/LoginResponse';
-export type { Task } from './models/Task';
+export { TaskType } from './models/TaskType';
 export type { UserResponse } from './models/UserResponse';
 export type { ValidationError } from './models/ValidationError';
 

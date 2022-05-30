@@ -1,8 +1,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AnnotationData } from '../models/AnnotationData';
-import type { Task } from '../models/Task';
+import type { BaseTask } from '../models/BaseTask';
+import type { FHIRECGAnnotationData } from '../models/FHIRECGAnnotationData';
+import type { FHIRECGTask } from '../models/FHIRECGTask';
+import type { ImageAnnotationData } from '../models/ImageAnnotationData';
+import type { ImageTask } from '../models/ImageTask';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -13,10 +16,10 @@ export class TasksService {
     /**
      * Get Tasks
      * Get a list of all available labeling tasks
-     * @returns Task Successful Response
+     * @returns BaseTask Successful Response
      * @throws ApiError
      */
-    public static getTasks(): CancelablePromise<Array<Task>> {
+    public static getTasks(): CancelablePromise<Array<BaseTask>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/tasks/',
@@ -27,12 +30,12 @@ export class TasksService {
      * Get Task
      * Get all information about a labelling task
      * @param taskId
-     * @returns Task Successful Response
+     * @returns any Successful Response
      * @throws ApiError
      */
     public static getTask(
         taskId: string,
-    ): CancelablePromise<Task> {
+    ): CancelablePromise<(ImageTask | FHIRECGTask)> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/tasks/{task_id}',
@@ -47,13 +50,13 @@ export class TasksService {
     }
 
     /**
-     * Get Next Image
-     * Get the image that should be annotated
+     * Get Next Sample
+     * Get the sample that should be annotated
      * @param taskId
      * @returns string Successful Response
      * @throws ApiError
      */
-    public static getNextImage(
+    public static getNextSample(
         taskId: string,
     ): CancelablePromise<string> {
         return __request(OpenAPI, {
@@ -63,7 +66,7 @@ export class TasksService {
                 'task_id': taskId,
             },
             errors: {
-                404: `No more images to annotate`,
+                404: `No more samples to annotate`,
                 422: `Validation Error`,
             },
         });
@@ -98,24 +101,24 @@ export class TasksService {
 
     /**
      * Save Annotation
-     * Saves the annotation for the specified image
+     * Saves the annotation for the specified sample
      * @param taskId
-     * @param src
+     * @param sampleId
      * @param requestBody
      * @returns void
      * @throws ApiError
      */
     public static saveAnnotation(
         taskId: string,
-        src: string,
-        requestBody: AnnotationData,
+        sampleId: string,
+        requestBody: (ImageAnnotationData | FHIRECGAnnotationData),
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/tasks/{task_id}/{src}',
+            url: '/tasks/{task_id}/{sample_id}',
             path: {
                 'task_id': taskId,
-                'src': src,
+                'sample_id': sampleId,
             },
             body: requestBody,
             mediaType: 'application/json',

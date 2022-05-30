@@ -1,5 +1,6 @@
 {
     "id": "ecg-qrs-classification-physiodb",
+    "type_id": "image_classification",
     "description": "Labeling the QRS complex of Physionet ECGs",
     "labels": [
         "Atrial fibrillation",

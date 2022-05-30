@@ -1,5 +1,6 @@
 {
     "id": "pressure-mat-pose-estimation-slp",
+    "type_id": "image_classification",
     "description": "Labeling Pose of Pressure Mat Data from SLP",
     "labels": [
         "Supine",

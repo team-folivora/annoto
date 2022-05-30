@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 import { TasksService as API } from "@/api/services/TasksService";
 import TaskCard from "@/components/TaskCard.vue";
 import UserInformationLabel from "@/components/UserInformationLabel.vue";
-import type { Task } from "@/api/models/Task";
+import type { BaseTask } from "@/api/models/BaseTask";
 import { fullname } from "@/utils/helpers";
 export default defineComponent({
   components: {
@@ -11,11 +11,9 @@ export default defineComponent({
     UserInformationLabel,
   },
 
-  emits: ["openTask"],
-
   data() {
     return {
-      tasks: [] as Task[],
+      tasks: [] as BaseTask[],
     };
   },
 
@@ -29,10 +27,6 @@ export default defineComponent({
     },
 
     fullname,
-
-    openTask(task: Task) {
-      this.$emit("openTask", task);
-    },
   },
 });
 </script>
@@ -40,17 +34,22 @@ export default defineComponent({
 <template>
   <div id="tasks-overview">
     <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
-    <div v-if="tasks.length != 0" class="_display:flex">
+    <div v-if="tasks.length != 0" class="_display:flex _flex-wrap:wrap">
       <TaskCard
         v-for="task in tasks"
         :id="`task-${task.id}`"
         :key="task.id"
         :task="task"
-        class="_margin:1"
-        @open-task="openTask"
+        class="_margin:1 _width:25% _flex-grow:1"
       />
     </div>
-    <i-card v-else id="no-more-tasks" class="margin-y:20px">
+    <i-card
+      v-else
+      id="no-more-tasks"
+      color="success"
+      class="_margin-x:auto _margin-y:4 _width:25%"
+    >
+      <template #header>Done!</template>
       No more Tasks to accomplish.
     </i-card>
   </div>

@@ -2,10 +2,16 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { TaskType } from './TaskType';
+
 /**
  * A labeling task
  */
-export type Task = {
+export type FHIRECGTask = {
+    /**
+     * The type of the task
+     */
+    type_id: TaskType;
     /**
      * The identifier of this labelling task
      */
@@ -14,8 +20,4 @@ export type Task = {
      * A brief description of this labelling task
      */
     description: string;
-    /**
-     * List of labels
-     */
-    labels: Array<string>;
 };

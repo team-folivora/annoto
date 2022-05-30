@@ -1,9 +1,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import type { Task } from "@/api/models/Task";
+import type { BaseTask } from "@/api/models/BaseTask";
 export default defineComponent({
   props: {
-    task: { type: Object as () => Task, required: true },
+    task: { type: Object as () => BaseTask, required: true },
   },
 });
 </script>
@@ -12,6 +12,8 @@ export default defineComponent({
   <i-card>
     <template #header>
       {{ task.id }}
+      <br />
+      <i-badge class="_margin-top:1/4">{{ task.type_id }}</i-badge>
     </template>
     {{ task.description }}
     <template #footer>

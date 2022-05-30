@@ -22,7 +22,7 @@
                                     "title": "Response Get Tasks",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Task"
+                                        "$ref": "#/components/schemas/BaseTask"
                                     }
                                 }
                             }
@@ -62,7 +62,15 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Task"
+                                    "title": "Response Get Task",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/ImageTask"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FHIRECGTask"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -93,9 +101,9 @@
                 "tags": [
                     "tasks"
                 ],
-                "summary": "Get Next Image",
-                "description": "Get the image that should be annotated",
-                "operationId": "get_next_image",
+                "summary": "Get Next Sample",
+                "description": "Get the sample that should be annotated",
+                "operationId": "get_next_sample",
                 "parameters": [
                     {
                         "required": true,
@@ -121,7 +129,7 @@
                         }
                     },
                     "404": {
-                        "description": "No more images to annotate"
+                        "description": "No more samples to annotate"
                     },
                     "422": {
                         "description": "Validation Error",
@@ -202,13 +210,15 @@
                         "JWTBearer": []
                     }
                 ]
-            },
+            }
+        },
+        "/tasks/{task_id}/{sample_id}": {
             "post": {
                 "tags": [
                     "tasks"
                 ],
                 "summary": "Save Annotation",
-                "description": "Saves the annotation for the specified image",
+                "description": "Saves the annotation for the specified sample",
                 "operationId": "save_annotation",
                 "parameters": [
                     {
@@ -224,11 +234,11 @@
                     {
                         "required": true,
                         "schema": {
-                            "title": "Src",
+                            "title": "Sample Id",
                             "type": "string"
                         },
                         "example": "sloth.jpg",
-                        "name": "src",
+                        "name": "sample_id",
                         "in": "path"
                     }
                 ],
@@ -236,7 +246,15 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/AnnotationData"
+                                "title": "Annotation Data",
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/components/schemas/ImageAnnotationData"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/FHIRECGAnnotationData"
+                                    }
+                                ]
                             }
                         }
                     },
@@ -436,49 +454,38 @@
     },
     "components": {
         "schemas": {
-            "AnnotationData": {
-                "title": "AnnotationData",
+            "BaseTask": {
+                "title": "BaseTask",
                 "required": [
-                    "label",
-                    "hash",
-                    "competency",
-                    "is_trained",
-                    "is_attentive"
+                    "type_id",
+                    "id",
+                    "description"
                 ],
                 "type": "object",
                 "properties": {
-                    "label": {
-                        "title": "Label",
+                    "type_id": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskType"
+                            }
+                        ],
+                        "description": "The type of the task",
+                        "example": "fhir_ecg_annotation"
+                    },
+                    "id": {
+                        "title": "Id",
                         "type": "string",
-                        "description": "The label the file should be annotated with",
-                        "example": "Sloth"
+                        "description": "The identifier of this labelling task",
+                        "example": "ecg-qrs-classification-physiodb"
                     },
-                    "hash": {
-                        "title": "Hash",
+                    "description": {
+                        "title": "Description",
                         "type": "string",
-                        "description": "The hash of the file",
-                        "example": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d"
-                    },
-                    "competency": {
-                        "title": "Competency",
-                        "type": "string",
-                        "description": "The competencies the annotator has",
-                        "example": "Prof. Dr. Med"
-                    },
-                    "is_trained": {
-                        "title": "Is Trained",
-                        "type": "boolean",
-                        "description": "Whether the annotator said he finished the training",
-                        "example": true
-                    },
-                    "is_attentive": {
-                        "title": "Is Attentive",
-                        "type": "boolean",
-                        "description": "Whether the annotator said that he is attentive",
-                        "example": true
+                        "description": "A brief description of this labelling task",
+                        "example": "Classifying the QRS complex of some ECGs"
                     }
                 },
-                "description": "The basic Annotation Data for a data file"
+                "description": "A labeling task"
             },
             "CreateUserRequest": {
                 "title": "CreateUserRequest",
@@ -510,6 +517,69 @@
                 },
                 "description": "The fields required to create a new user"
             },
+            "FHIRECGAnnotationData": {
+                "title": "FHIRECGAnnotationData",
+                "required": [
+                    "competency",
+                    "is_trained",
+                    "is_attentive"
+                ],
+                "type": "object",
+                "properties": {
+                    "competency": {
+                        "title": "Competency",
+                        "type": "string",
+                        "description": "The competencies the annotator has",
+                        "example": "Prof. Dr. Med"
+                    },
+                    "is_trained": {
+                        "title": "Is Trained",
+                        "type": "boolean",
+                        "description": "Whether the annotator said he finished the training",
+                        "example": true
+                    },
+                    "is_attentive": {
+                        "title": "Is Attentive",
+                        "type": "boolean",
+                        "description": "Whether the annotator said that he is attentive",
+                        "example": true
+                    }
+                },
+                "description": "The basic Annotation Data for a data file"
+            },
+            "FHIRECGTask": {
+                "title": "FHIRECGTask",
+                "required": [
+                    "type_id",
+                    "id",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "type_id": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskType"
+                            }
+                        ],
+                        "description": "The type of the task",
+                        "example": "fhir_ecg_annotation"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "description": "The identifier of this labelling task",
+                        "example": "ecg-qrs-classification-physiodb"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "description": "A brief description of this labelling task",
+                        "example": "Classifying the QRS complex of some ECGs"
+                    }
+                },
+                "description": "A labeling task"
+            },
             "HTTPValidationError": {
                 "title": "HTTPValidationError",
                 "type": "object",
@@ -522,6 +592,99 @@
                         }
                     }
                 }
+            },
+            "ImageAnnotationData": {
+                "title": "ImageAnnotationData",
+                "required": [
+                    "competency",
+                    "is_trained",
+                    "is_attentive",
+                    "label",
+                    "hash"
+                ],
+                "type": "object",
+                "properties": {
+                    "competency": {
+                        "title": "Competency",
+                        "type": "string",
+                        "description": "The competencies the annotator has",
+                        "example": "Prof. Dr. Med"
+                    },
+                    "is_trained": {
+                        "title": "Is Trained",
+                        "type": "boolean",
+                        "description": "Whether the annotator said he finished the training",
+                        "example": true
+                    },
+                    "is_attentive": {
+                        "title": "Is Attentive",
+                        "type": "boolean",
+                        "description": "Whether the annotator said that he is attentive",
+                        "example": true
+                    },
+                    "label": {
+                        "title": "Label",
+                        "type": "string",
+                        "description": "The label the file should be annotated with",
+                        "example": "Sloth"
+                    },
+                    "hash": {
+                        "title": "Hash",
+                        "type": "string",
+                        "description": "The hash of the file",
+                        "example": "e922903b4d5431a8f9def3c89ffcb0b18472f3da304f28a2dbef9028b6cd205d"
+                    }
+                },
+                "description": "The basic Annotation Data for a data file"
+            },
+            "ImageTask": {
+                "title": "ImageTask",
+                "required": [
+                    "type_id",
+                    "id",
+                    "description",
+                    "labels"
+                ],
+                "type": "object",
+                "properties": {
+                    "type_id": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskType"
+                            }
+                        ],
+                        "description": "The type of the task",
+                        "example": "fhir_ecg_annotation"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "description": "The identifier of this labelling task",
+                        "example": "ecg-qrs-classification-physiodb"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "description": "A brief description of this labelling task",
+                        "example": "Classifying the QRS complex of some ECGs"
+                    },
+                    "labels": {
+                        "title": "Labels",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of labels",
+                        "example": [
+                            "Atrial fibrillation",
+                            "Normal sinus rhythm",
+                            "Ventricular tachycardia",
+                            "Noise",
+                            "Other"
+                        ]
+                    }
+                },
+                "description": "A labeling task"
             },
             "LoginRequest": {
                 "title": "LoginRequest",
@@ -562,44 +725,14 @@
                 },
                 "description": "Login token (JWT)"
             },
-            "Task": {
-                "title": "Task",
-                "required": [
-                    "id",
-                    "description",
-                    "labels"
+            "TaskType": {
+                "title": "TaskType",
+                "enum": [
+                    "unknown",
+                    "image_classification",
+                    "fhir_ecg_annotation"
                 ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "title": "Id",
-                        "type": "string",
-                        "description": "The identifier of this labelling task",
-                        "example": "ecg-qrs-classification-physiodb"
-                    },
-                    "description": {
-                        "title": "Description",
-                        "type": "string",
-                        "description": "A brief description of this labelling task",
-                        "example": "Classifying the QRS complex of some ECGs"
-                    },
-                    "labels": {
-                        "title": "Labels",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "List of labels",
-                        "example": [
-                            "Atrial fibrillation",
-                            "Normal sinus rhythm",
-                            "Ventricular tachycardia",
-                            "Noise",
-                            "Other"
-                        ]
-                    }
-                },
-                "description": "A labeling task"
+                "description": "An enumeration."
             },
             "UserResponse": {
                 "title": "UserResponse",

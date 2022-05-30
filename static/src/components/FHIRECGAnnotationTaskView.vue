@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { FHIRECGTask } from "@/api";
+import type { FHIRECGAnnotationData, FHIRECGTask } from "@/api";
 import { defineComponent } from "vue";
 import { TasksService as API } from "@/api/services/TasksService";
 
@@ -21,6 +21,21 @@ export default defineComponent({
   },
 
   methods: {
+    async saveAndNext() {
+      try {
+        await API.saveAnnotation(this.task.id, this.observationId!, {
+          is_trained: true,
+          competency: "Prof. Dr. Folivora",
+          is_attentive: true,
+        } as FHIRECGAnnotationData);
+        this.$toast?.success("Annotation successfully saved.");
+        await this.nextObservation();
+      } catch (e) {
+        this.$toast?.danger("Don't forget to save your annotation!");
+        console.error(e);
+      }
+    },
+
     async nextObservation() {
       try {
         this.isLoading = true;
@@ -66,9 +81,7 @@ export default defineComponent({
       frameborder="0"
     ></iframe>
   </div>
-  <i-button @click="nextObservation" class="_float:right _margin-top:1">
-    Next ➤
-  </i-button>
+  <i-button @click="saveAndNext" class="_float:right _margin-top:1">Next ➤</i-button>
 </template>
 
 <style scoped>

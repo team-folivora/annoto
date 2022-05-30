@@ -134,4 +134,64 @@ class InvalidProof(Exception):
     """Raised when proofs are invalid"""
 
 
+class FHIRECGAnnotation(FHIRECGAnnotationData):
+    """
+    The Annotation of a FHIR ECG
+    """
+
+    observationId: str = Field(
+        ...,
+        description="ID of the FHIR observation",
+        example="285c6909-7ded-4dd8-92a7-a02501676ddb",
+    )
+
+    references: object = Field(
+        ...,
+        description="Reference to the generated annotated FHIR observations",
+        example=[
+            {"reference": "Observation/3c1b00db-41cd-4927-aa31-ffcd43e11677"},
+            {"reference": "Observation/ac390dbe-6976-40e0-bfa8-4533dacb4647"},
+        ],
+    )
+
+    @classmethod
+    def from_data(
+        cls,
+        annotation_data: FHIRECGAnnotationData,
+        observationId: str,
+        references: object,
+    ) -> "FHIRECGAnnotation":
+        """Creates an Annotation from AnnotationData and additional attributes"""
+        return FHIRECGAnnotation(
+            **{
+                **annotation_data.__dict__,
+                **{"observationId": observationId, "references": references},
+            }
+        )
+
+    def save(self) -> None:
+        """
+        Annotates the data file.
+        Saves the result to the filesystem
+        """
+        annotation_file = SETTINGS.data_folder.joinpath(
+            f"{self.observationId}.annotation.json"
+        )
+
+        trial = 2
+        while annotation_file.exists():
+            annotation_file = SETTINGS.data_folder.joinpath(
+                f"{self.observationId}.annotation.{trial}.json"
+            )
+            trial += 1
+
+        with open(annotation_file, "w", encoding="utf-8") as file:
+            file.write(json.dumps(self.todict(), indent=4))
+
+    def todict(self):  # FIXME
+        d = self.__dict__
+        del d["observationId"]
+        return d
+
+
 SpecificAnnotationData = Union[ImageAnnotationData, FHIRECGAnnotationData]

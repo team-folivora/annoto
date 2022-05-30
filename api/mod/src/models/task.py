@@ -9,6 +9,7 @@ from abc import abstractmethod
 from enum import Enum
 from pathlib import Path
 from typing import List, Union
+import requests
 
 from pydantic import BaseModel, Field
 
@@ -16,6 +17,7 @@ from mod.src.auth.auth_bearer import JWTBearer
 from mod.src.auth.auth_handler import JWTPayload
 from mod.src.models.annotation import (
     BaseAnnotationData,
+    FHIRECGAnnotation,
     FHIRECGAnnotationData,
     ImageAnnotation,
     ImageAnnotationData,
@@ -118,19 +120,42 @@ class ImageTask(BaseTask):
         annotation.save()
 
 
+FHIRECG_IDS = [
+    "285c6909-7ded-4dd8-92a7-a02501676ddb",
+    "439689f3-ac9b-4bfa-ae19-e2bb27a4d75d",
+]
+
+
 class FHIRECGTask(BaseTask):
     def next_sample(self):
-        return random.choice(
-            [
-                "285c6909-7ded-4dd8-92a7-a02501676ddb",
-                "439689f3-ac9b-4bfa-ae19-e2bb27a4d75d",
-            ]
+        task_folder = SETTINGS.data_folder.joinpath(self.id)
+        unannotated = list(
+            filter(
+                lambda f: not task_folder.joinpath(f"{f}.annotation.json").exists(),
+                FHIRECG_IDS,
+            )
         )
+        return random.choice(unannotated) if unannotated else None
 
     def save_annotation(
         self, sample_id: str, annotation_data: FHIRECGAnnotationData, jwt: JWTPayload
     ):
-        pass
+        result = requests.get(
+            f"https://telemed.intern.synios.eu/fhir/Observation/{sample_id}",
+            auth=("hpi", "*****"),
+        ).json()
+        print(
+            f"https://telemed.intern.synios.eu/fhir/Observation/{sample_id}",
+        )
+        if "hasMember" in result:
+            annotation = FHIRECGAnnotation.from_data(
+                annotation_data=annotation_data,
+                references=result["hasMember"],
+                observationId=f"{self.id}/{sample_id}",
+            )
+            annotation.save()
+        else:
+            raise FileNotFoundError()
 
 
 task_types = {

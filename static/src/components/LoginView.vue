@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { LoginService as API } from "@/api/services/LoginService";
-import { store } from "@/utils/store";
 
 export default defineComponent({
   data() {
@@ -25,7 +24,7 @@ export default defineComponent({
             email: this.email,
             password: this.password,
           });
-          store.jwt = response.access_token;
+          this.$store.jwt = response.access_token;
           this.$router.push({ name: "Home" });
         } catch {
           this.$toast?.danger("E-Mail or Password is not correct...");

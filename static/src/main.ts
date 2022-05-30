@@ -18,7 +18,7 @@ import Toaster from "@/plugins/toaster";
 import LoginView from "./components/LoginView.vue";
 import TasksOverView from "./components/TasksOverView.vue";
 import TaskView from "./components/TaskView.vue";
-import { store } from "@/utils/store";
+import { store, Store } from "@/plugins/store";
 
 OpenAPI.BASE =
   import.meta.env.VITE_API_URL?.toString().replace(/\/$/, "") || "";
@@ -32,6 +32,8 @@ app.use(Inkline, {
 app.use(Toaster);
 
 app.use(VueCookies, { expire: "1d" });
+
+app.use(Store);
 
 function checkLogin(): boolean | RouteLocationRaw {
   return store.isLoggedIn ? true : { name: "Login" };

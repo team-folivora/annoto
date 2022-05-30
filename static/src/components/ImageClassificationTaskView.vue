@@ -53,11 +53,22 @@ export default defineComponent({
 </script>
 
 <template>
+  <div v-if="isError">
+    <i-card color="danger" class="_margin-x:auto _margin-y:4 _width:25%">
+      <template #header>Error</template>
+      An error occured while loading the task.
+    </i-card>
+  </div>
+  <div v-else-if="isLoading">
+    <i-loader class="_display:block _margin-x:auto _margin-y:4" />
+  </div>
   <i-card
-    v-if="imageId === undefined"
+    v-else-if="imageId === undefined"
     id="no-more-images"
-    class="margin-y:20px"
+    color="success"
+    class="_margin-x:auto _margin-y:4 _width:25%"
   >
+    <template #header>Done!</template>
     No more Images to label
   </i-card>
   <div v-else>

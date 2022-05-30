@@ -40,7 +40,25 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="iframe-container">
+  <div v-if="isError">
+    <i-card color="danger" class="_margin-x:auto _margin-y:4 _width:25%">
+      <template #header>Error</template>
+      An error occured while loading the task.
+    </i-card>
+  </div>
+  <div v-else-if="isLoading">
+    <i-loader class="_display:block _margin-x:auto _margin-y:4" />
+  </div>
+  <i-card
+    v-else-if="observationId === undefined"
+    id="no-more-images"
+    color="success"
+    class="_margin-x:auto _margin-y:4 _width:25%"
+  >
+    <template #header>Done!</template>
+    No more ECGs to label
+  </i-card>
+  <div v-else class="iframe-container">
     <iframe
       :src="`https://telemed.intern.synios.eu/ecgviewer/?observationId=${observationId}`"
       width="150%"

@@ -43,7 +43,13 @@ export default defineComponent({
         class="_margin:1 _width:25% _flex-grow:1"
       />
     </div>
-    <i-card v-else id="no-more-tasks" class="margin-y:20px">
+    <i-card
+      v-else
+      id="no-more-tasks"
+      color="success"
+      class="_margin-x:auto _margin-y:4 _width:25%"
+    >
+      <template #header>Done!</template>
       No more Tasks to accomplish.
     </i-card>
   </div>

@@ -89,13 +89,27 @@ export default defineComponent({
     />
     <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
     <div v-if="isError">
-      <i-card class="margin-y:20px">An Error occured</i-card>
+      <i-card
+        color="danger"
+        class="_margin-x:auto _margin-y:4 _width:25%"
+      >
+        <template #header>Error</template>
+        An error occured while loading the task.
+      </i-card>
+    </div>
+    <div v-else-if="isLoading">
+      <i-loader class="_display:block _margin-x:auto _margin-y:4"/>
     </div>
     <div v-else-if="taskView !== undefined">
       <component :is="taskView.name" v-bind="taskView.props"></component>
     </div>
-    <div v-else>
-      <i-card class="margin-y:20px">Unsupported task type</i-card>
-    </div>
+    <i-card
+      v-else
+      color="warning"
+      class="_margin-x:auto _margin-y:4 _width:25%"
+    >
+      <template #header>Warning</template>
+      Unsupported task type
+    </i-card>
   </div>
 </template>

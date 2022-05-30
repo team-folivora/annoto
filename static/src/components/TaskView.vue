@@ -91,8 +91,7 @@ export default defineComponent({
     <div v-if="isError">
       <i-card class="margin-y:20px">An Error occured</i-card>
     </div>
-    <div v-else-if="isLoading"><i-loader /></div>
-    <div v-else-if="task !== undefined">
+    <div v-else-if="taskView !== undefined">
       <component :is="taskView.name" v-bind="taskView.props"></component>
     </div>
     <div v-else>

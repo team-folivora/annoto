@@ -18,7 +18,6 @@ export default defineComponent({
 
   methods: {
     async nextObservation() {
-      // get next observation stuff
       try {
         this.isLoading = true;
         this.observationId = undefined;
@@ -38,8 +37,8 @@ export default defineComponent({
   <div class="iframe-container">
     <iframe
       src="https://telemed.intern.synios.eu/ecgviewer/?observationId=285c6909-7ded-4dd8-92a7-a02501676ddb"
-      width="100%"
-      height="100%"
+      width="150%"
+      height="150%"
       frameborder="0"
     ></iframe>
   </div>
@@ -48,5 +47,12 @@ export default defineComponent({
 <style scoped>
 div {
   height: 80vh;
+  overflow: hidden;
+}
+iframe {
+  -webkit-transform: scale(calc(1 / 1.5));
+  transform: scale(calc(1 / 1.5));
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
 }
 </style>

@@ -71,7 +71,7 @@ export default defineComponent({
 
 <style scoped>
 .iframe-container {
-  height: 80vh;
+  height: 75mvh;
   overflow: hidden;
 }
 iframe {

@@ -19,18 +19,18 @@ export default defineComponent({
       try {
         await PingService.ping();
       } catch (_) {
-        this.$store.jwt = undefined;
+        this.$store.removeJwt();
       }
     } else {
-      this.$store.jwt = undefined;
+      this.$store.removeJwt();
     }
     this.ready = true;
   },
 
   methods: {
     logout() {
-      this.$store.jwt = undefined;
-      this.$router.push("/login");
+      this.$store.removeJwt();
+      this.$router.push({ name: "Login" });
     },
   },
 });

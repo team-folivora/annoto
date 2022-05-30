@@ -15,7 +15,10 @@ export default defineComponent({
     </template>
     {{ task.description }}
     <template #footer>
-      <i-button color="primary" @click="$router.push(`/tasks/${task.id}`)">
+      <i-button
+        color="primary"
+        @click="$router.push({ name: 'Task', params: { taskId: task.id } })"
+      >
         Start Annotating
       </i-button>
     </template>

@@ -36,13 +36,22 @@ export default defineComponent({
 </script>
 
 <template>
-  <img :src="src[0].value" />
+  <div>
+    <img :src="src[0].value" />
+  </div>
 </template>
 
 <style scoped>
-img {
-  width: 90vmin;
+div {
+  height: 70vmin;
+  width: 100%;
   margin: 20px auto;
+}
+
+img {
   display: block;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
 }
 </style>

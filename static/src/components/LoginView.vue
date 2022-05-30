@@ -3,8 +3,6 @@ import { defineComponent } from "vue";
 import { LoginService as API } from "@/api/services/LoginService";
 
 export default defineComponent({
-  emits: ["login"],
-
   data() {
     return {
       /**
@@ -27,7 +25,7 @@ export default defineComponent({
             password: this.password,
           });
           this.$store.jwt = response.access_token;
-          this.$router.push("/tasks");
+          this.$router.push({ name: "Home" });
         } catch {
           this.$toast?.danger("E-Mail or Password is not correct...");
         }

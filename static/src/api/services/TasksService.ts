@@ -12,7 +12,7 @@ export class TasksService {
 
     /**
      * Get Tasks
-     * Get a list of the IDs of all available labeling tasks
+     * Get a list of all available labeling tasks
      * @returns Task Successful Response
      * @throws ApiError
      */

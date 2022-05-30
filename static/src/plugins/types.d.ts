@@ -83,4 +83,9 @@ export interface StoreApi {
    * Sets the current jwt token.
    */
   set jwt(newJWT: string | undefined): void;
+
+  /**
+   * Removes the current jwt token.
+   */
+  removeJwt(): void;
 }

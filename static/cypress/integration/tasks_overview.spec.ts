@@ -1,32 +1,32 @@
 import {
-  annotate,
-  intercept_get_tasks_with_empty_list,
+  openTask,
+  interceptGetTasksWithEmptyList,
   login,
-  setup_intercepts,
+  setupIntercepts,
 } from "./utils";
 
 describe("TasksOverView", () => {
   it("shows full name", () => {
-    setup_intercepts();
+    setupIntercepts();
     login().get("#userLabel").contains("Prof. Dr. Folivora");
   });
 
   it("shows cards for tasks", () => {
-    setup_intercepts();
+    setupIntercepts();
     login().get(".card#task-ecg-qrs-classification-physiodb");
   });
 
-  it("Informs the user when there are no tasks", () => {
-    setup_intercepts({
-      intercept_get_tasks: intercept_get_tasks_with_empty_list,
+  it("informs the user when there are no tasks", () => {
+    setupIntercepts({
+      interceptGetTasks: interceptGetTasksWithEmptyList,
     });
     login().get("#no-more-tasks");
   });
 
-  it("Shows the task view when a task was selected", () => {
-    setup_intercepts();
+  it("shows the task view when a task was selected", () => {
+    setupIntercepts();
     login()
-      .then(() => annotate("ecg-qrs-classification-physiodb"))
+      .then(() => openTask("ecg-qrs-classification-physiodb"))
       .get("#task-view");
   });
 });

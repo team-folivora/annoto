@@ -1,7 +1,13 @@
 import type { Method } from "axios";
 import type { CyHttpMessages, RouteMatcher } from "cypress/types/net-stubbing";
+import {
+  task,
+  accessToken,
+  nextImage,
+  allTasks,
+} from "../fixtures/fixture_objects";
 
-function intercept_with_spy(
+function interceptWithSpy(
   method: Method,
   url: RouteMatcher,
   response: object,
@@ -23,101 +29,91 @@ function intercept_with_spy(
   ).as(name);
 }
 
-export function intercept_get_task() {
+export function interceptGetTask() {
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks/${task.id}`, task).as(
+    "get_task"
+  );
+}
+
+export function interceptGetTasks() {
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, allTasks).as(
+    "get_tasks"
+  );
+}
+
+export function interceptGetTasksWithEmptyList() {
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, []).as("get_tasks");
+}
+
+export function interceptNextImage() {
   cy.intercept(
     "GET",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb`,
-    { fixture: "task.json" }
-  ).as("get_task");
-}
-
-export function intercept_get_tasks() {
-  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, {
-    fixture: "tasks.json",
-  }).as("get_tasks");
-}
-
-export function intercept_get_tasks_with_empty_list() {
-  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks`, {
-    fixture: "tasks_empty.json",
-  }).as("get_tasks");
-}
-
-export function intercept_next_image() {
-  cy.intercept(
-    "GET",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/next`,
-    {
-      fixture: "nextImage.txt",
-    }
+    `${Cypress.env("API_URL")}/tasks/${task.id}/next`,
+    nextImage
   ).as("get_next_image");
 }
 
-export function intercept_next_image_with_failure() {
-  cy.intercept(
-    "GET",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/next`,
-    { statusCode: 404 }
-  ).as("get_next_image");
+export function interceptNextImageWithFailure() {
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks/${task.id}/next`, {
+    statusCode: 404,
+  }).as("get_next_image");
 }
 
-export function intercept_store_annotation() {
-  intercept_with_spy(
+export function interceptStoreAnnotation() {
+  interceptWithSpy(
     "POST",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
+    `${Cypress.env("API_URL")}/tasks/${task.id}/sloth.jpg`,
     { statusCode: 204 },
     "store_annotation"
   );
 }
 
-export function intercept_get_image() {
-  cy.intercept(
-    "GET",
-    `${Cypress.env("API_URL")}/tasks/ecg-qrs-classification-physiodb/sloth.jpg`,
-    { fixture: "sloth.jpg" }
-  ).as("get_image");
+export function interceptGetImage() {
+  cy.intercept("GET", `${Cypress.env("API_URL")}/tasks/${task.id}/sloth.jpg`, {
+    fixture: "sloth.jpg",
+  }).as("get_image");
 }
 
-export function intercept_login() {
+export function interceptLogin() {
   cy.intercept("POST", `${Cypress.env("API_URL")}/login`, {
-    fixture: "login.json",
+    access_token: accessToken,
   }).as("login");
 }
 
-export function intercept_ping() {
+export function interceptPing() {
   cy.intercept("GET", `${Cypress.env("API_URL")}/ping`, {
     statusCode: 204,
   }).as("ping");
 }
 
-export function intercept_login_with_failure() {
+export function interceptLoginWithFailure() {
   cy.intercept("POST", `${Cypress.env("API_URL")}/login`, {
     statusCode: 401,
   }).as("login");
 }
 
 export interface InterceptConfig {
-  intercept_login?: () => void;
-  intercept_ping?: () => void;
-  intercept_get_task?: () => void;
-  intercept_get_tasks?: () => void;
-  intercept_next_image?: () => void;
-  intercept_get_image?: () => void;
-  intercept_store_annotation?: () => void;
+  interceptLogin?: () => void;
+  interceptPing?: () => void;
+  interceptGetTask?: () => void;
+  interceptGetTasks?: () => void;
+  interceptNextImage?: () => void;
+  interceptGetImage?: () => void;
+  interceptStoreAnnotation?: () => void;
 }
 
-// Make sure that every key of IntercepyConfig will be filled with a default in this object.
+// Make sure that every key of InterceptConfig will be filled with a default in this object.
 const defaultInterceptConfig: InterceptConfig = {
-  intercept_login: intercept_login,
-  intercept_ping: intercept_ping,
-  intercept_get_task: intercept_get_task,
-  intercept_get_tasks: intercept_get_tasks,
-  intercept_next_image: intercept_next_image,
-  intercept_get_image: intercept_get_image,
-  intercept_store_annotation: intercept_store_annotation,
+  interceptLogin: interceptLogin,
+  interceptPing: interceptPing,
+  interceptGetTask: interceptGetTask,
+  interceptGetTasks: interceptGetTasks,
+  interceptNextImage: interceptNextImage,
+  interceptGetImage: interceptGetImage,
+  interceptStoreAnnotation: interceptStoreAnnotation,
 };
 
-export function setup_intercepts(config: InterceptConfig = {}) {
+export function setupIntercepts(config: InterceptConfig = {}) {
   const interceptConfig: { [key: string]: () => void } = {
     ...defaultInterceptConfig,
     ...config,
@@ -139,11 +135,11 @@ export function login() {
     .wait("@login");
 }
 
-export function annotate(task_id: string) {
+export function openTask(task_id: string) {
   return cy.visit("/").get(`.card#task-${task_id} button`).click();
 }
 
-export function proof_condition() {
+export function proofCondition() {
   return cy
     .get("#proof-of-condition .checkbox-label")
     .click()

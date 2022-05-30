@@ -4,6 +4,7 @@ import {
   login,
   setupIntercepts,
 } from "./utils";
+import { task } from "../fixtures/fixture_objects";
 
 describe("TasksOverView", () => {
   it("shows full name", () => {
@@ -13,7 +14,7 @@ describe("TasksOverView", () => {
 
   it("shows cards for tasks", () => {
     setupIntercepts();
-    login().get(".card#task-ecg-qrs-classification-physiodb");
+    login().get(`.card#task-${task.id}`);
   });
 
   it("informs the user when there are no tasks", () => {
@@ -26,7 +27,8 @@ describe("TasksOverView", () => {
   it("shows the task view when a task was selected", () => {
     setupIntercepts();
     login()
-      .then(() => openTask("ecg-qrs-classification-physiodb"))
-      .get("#task-view");
+      .then(() => openTask(task.id))
+      .url()
+      .should("include", `/tasks/${task.id}`);
   });
 });

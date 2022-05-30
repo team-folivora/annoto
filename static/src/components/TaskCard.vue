@@ -13,7 +13,7 @@ export default defineComponent({
     <template #header>
       {{ task.id }}
       <br />
-      <i-badge>{{ task.type_id }}</i-badge>
+      <i-badge class="_margin-top:1/4">{{ task.type_id }}</i-badge>
     </template>
     {{ task.description }}
     <template #footer>

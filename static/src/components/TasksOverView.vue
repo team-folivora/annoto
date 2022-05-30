@@ -34,13 +34,13 @@ export default defineComponent({
 <template>
   <div id="tasks-overview">
     <UserInformationLabel :fullname="fullname() ?? 'Unknown user'" />
-    <div v-if="tasks.length != 0" class="_display:flex">
+    <div v-if="tasks.length != 0" class="_display:flex _flex-wrap:wrap">
       <TaskCard
         v-for="task in tasks"
         :id="`task-${task.id}`"
         :key="task.id"
         :task="task"
-        class="_margin:1"
+        class="_margin:1 _width:25% _flex-grow:1"
       />
     </div>
     <i-card v-else id="no-more-tasks" class="margin-y:20px">

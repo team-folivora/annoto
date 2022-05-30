@@ -10,6 +10,7 @@ import { TaskType } from "@/api/models/TaskType";
 import type { ImageTask } from "@/api/models/ImageTask";
 import { paramCase } from "change-case";
 import { fullname } from "@/utils/helpers";
+import type { FHIRECGTask } from "@/api";
 
 export default defineComponent({
   components: {
@@ -36,18 +37,24 @@ export default defineComponent({
   },
 
   computed: {
-    taskView() {
+    taskView(): any {
       if (this.task) {
-        console.log(this.task);
-        console.log(this.task.type_id);
-        console.log(this.task.type_id == TaskType.IMAGE_CLASSIFICATION);
-        //return "Hallo"
         if (this.task.type_id == TaskType.IMAGE_CLASSIFICATION) {
-          console.log("Test");
-          //return "<div>ImageClassification</div>";
-          return '<div><ImageClassificationTaskView :isAttentive="isAttentive" :isTrained="isTrained" :task="(task as ImageTask)"/><div>';
+          return {
+            name: "ImageClassificationTaskView",
+            props: {
+              isAttentive: true,
+              isTrained: true,
+              task: this.task as ImageTask,
+            },
+          };
         } else if (this.task.type_id == TaskType.FHIR_ECG_ANNOTATION) {
-          return "<div>FIREECG</div>";
+          return {
+            name: "FHIRECGAnnotationTaskView",
+            props: {
+              task: this.task as FHIRECGTask,
+            },
+          };
         }
       }
     },
@@ -85,16 +92,11 @@ export default defineComponent({
       <i-card class="margin-y:20px">An Error occured</i-card>
     </div>
     <div v-else-if="isLoading"><i-loader /></div>
-
-    <div v-else-if="task.type_id == 'image_classification'">
-      <ImageClassificationTaskView
-        :isAttentive="isAttentive"
-        :isTrained="isTrained"
-        :task="(task as ImageTask)"
-      />
+    <div v-else-if="task !== undefined">
+      <component :is="taskView.name" v-bind="taskView.props"></component>
     </div>
-    <div v-else-if="task.type_id == 'fhir_ecg_annotation'">
-      <FHIRECGAnnotationTaskView />
+    <div v-else>
+      <i-card class="margin-y:20px">Unsupported task type</i-card>
     </div>
   </div>
 </template>

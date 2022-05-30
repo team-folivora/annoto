@@ -39,7 +39,7 @@ export default defineComponent({
         this.isLoading = true;
         this.imageId = undefined;
         if (!this.task) throw Error();
-        this.imageId = await API.getNextImage(this.task.id).catch(console.log);
+        this.imageId = await API.getNextSample(this.task.id).catch(console.log);
       } catch {
         this.isError = true;
       } finally {

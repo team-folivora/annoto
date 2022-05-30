@@ -28,6 +28,7 @@ describe("TasksOverView", () => {
     setupIntercepts();
     login()
       .then(() => openTask(task.id))
-      .get("#task-view");
+      .url()
+      .should("include", `/tasks/${task.id}`);
   });
 });

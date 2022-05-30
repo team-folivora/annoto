@@ -66,7 +66,9 @@ export default defineComponent({
       frameborder="0"
     ></iframe>
   </div>
-  <i-button @click="nextObservation" class="_float:right _margin-top:1">Next ➤</i-button>
+  <i-button @click="nextObservation" class="_float:right _margin-top:1">
+    Next ➤
+  </i-button>
 </template>
 
 <style scoped>

@@ -16,6 +16,10 @@ export default defineComponent({
     };
   },
 
+  async mounted() {
+    await this.nextObservation();
+  },
+
   methods: {
     async nextObservation() {
       try {
@@ -27,6 +31,8 @@ export default defineComponent({
         );
       } catch {
         this.isError == true;
+      } finally {
+        this.isLoading = false;
       }
     },
   },
@@ -36,16 +42,17 @@ export default defineComponent({
 <template>
   <div class="iframe-container">
     <iframe
-      src="https://telemed.intern.synios.eu/ecgviewer/?observationId=285c6909-7ded-4dd8-92a7-a02501676ddb"
+      :src="`https://telemed.intern.synios.eu/ecgviewer/?observationId=${observationId}`"
       width="150%"
       height="150%"
       frameborder="0"
     ></iframe>
   </div>
+  <i-button @click="nextObservation" class="_float:right _margin-top:1">Next ➤</i-button>
 </template>
 
 <style scoped>
-div {
+.iframe-container {
   height: 80vh;
   overflow: hidden;
 }

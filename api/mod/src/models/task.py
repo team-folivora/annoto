@@ -120,7 +120,12 @@ class ImageTask(BaseTask):
 
 class FHIRECGTask(BaseTask):
     def next_sample(self):
-        return random.choice(["285c6909-7ded-4dd8-92a7-a02501676ddb", "439689f3-ac9b-4bfa-ae19-e2bb27a4d75d"])
+        return random.choice(
+            [
+                "285c6909-7ded-4dd8-92a7-a02501676ddb",
+                "439689f3-ac9b-4bfa-ae19-e2bb27a4d75d",
+            ]
+        )
 
     def save_annotation(
         self, sample_id: str, annotation_data: FHIRECGAnnotationData, jwt: JWTPayload

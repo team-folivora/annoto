@@ -18,7 +18,6 @@ import Toaster from "@/plugins/toaster";
 import LoginView from "./components/LoginView.vue";
 import TasksOverView from "./components/TasksOverView.vue";
 import TaskView from "./components/TaskView.vue";
-import RedirectView from "./components/RedirectView.vue";
 import { store, Store } from "@/plugins/store";
 
 OpenAPI.BASE =
